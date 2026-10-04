@@ -1,2 +1,5 @@
 renders/
 .debug/
+.cache/
+media/*.mp4
+media/*.wav
