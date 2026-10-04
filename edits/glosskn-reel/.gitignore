@@ -3,3 +3,4 @@ renders/
 .cache/
 media/*.mp4
 media/*.wav
+__pycache__/
