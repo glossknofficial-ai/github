@@ -75,7 +75,7 @@ for si in range(1, len(SHOTS)):
     tl.append(f'tl.fromTo("#flash{si} .flash",{{opacity:0.0}},{{opacity:0.38,duration:0.05,ease:"none"}},{t - 0.02:.3f}).to("#flash{si} .flash",{{opacity:0,duration:0.17,ease:"power2.out"}},{t + 0.03:.3f});')
     cue("whoosh", t - 0.3, 0.45)
 for ba, bb, n, off in BROLL:
-    cue("swish" if ba not in (34.29,) else "whoosh_fast", o(ba) - 0.12, 0.4)
+    cue("swish" if ba not in (34.29,) else "whoosh_fast", o(ba) - 0.12, 0.4)  # filtered below
 
 # Name card: turnaround -> "Hi, I am Jaspreet" + role chips popping as she says them
 a, b = o(5.66), o(9.62)
@@ -193,5 +193,22 @@ page = f"""<!doctype html>
 </html>
 """
 open(os.path.join(PROJECT, "index.html"), "w").write(page)
+# Keep the sound design sparse, like the references: transition whooshes, one pop for the name, one ding for
+# the product title. Everything else stays visual only.
+TRANSITIONS = set([round(SHOT_STARTS[i] - 0.3, 3) for i in range(1, len(SHOTS))] + [round(TOTAL - 0.25, 3)])
+kept, pop_used = [], False
+for n, t, g in cues:
+    if n == "whoosh" and (t in TRANSITIONS or g == 0.45):
+        kept.append(("whoosh", t, 0.32))
+    elif n in ("swish", "rewind") and g == 0.45:          # card wipes
+        kept.append(("whoosh", t, 0.28))
+    elif n == "whoosh_fast" and abs(t - (o(34.29) - 0.12)) < 0.01:  # into the friends & family B-roll
+        kept.append(("whoosh_fast", t, 0.3))
+    elif n == "pop" and not pop_used:
+        kept.append(("pop", t, 0.35)); pop_used = True
+    elif n == "ding":
+        kept.append(("ding", t, 0.3))
+kept.sort(key=lambda c: c[1])
+cues = [c for i, c in enumerate(kept) if i == 0 or c[1] - kept[i - 1][1] > 0.8]
 json.dump(dict(duration=DUR, cues=cues), open(os.path.join(PROJECT, "media", "cues.json"), "w"), indent=1)
 print("phrases", len(phrases), "elements", len(els), "tweens", len(tl), "cues", len(cues), "duration", DUR)
