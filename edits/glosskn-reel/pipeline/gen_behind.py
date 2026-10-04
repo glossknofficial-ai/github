@@ -8,7 +8,7 @@ o = lambda src: round(to_out(src), 3)
 BEHIND = [
     ("bname", 6.20, 9.58, "Jaspreet", "top: 300px; font-size: 400px; text-align: left; left: 110px;"),
     ("bmission", 19.98, 21.30, "mission", "top: 400px; font-size: 420px;"),
-    ("bdone", 47.05, 47.97, "not done.", "top: 700px; font-size: 380px;"),
+    ("bdone", 47.05, 47.97, "done.", "top: 700px; font-size: 380px;"),
     ("bpower", 48.70, 52.62, "Power Cleanse", "top: 470px; font-size: 300px;"),
 ]
 els, tl = [], []

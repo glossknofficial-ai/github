@@ -17,7 +17,7 @@ EMPH = [(0.25, 0.87), (1.55, 2.02), (4.18, 4.76), (13.36, 13.68), (16.73, 17.12)
         (50.41, 50.95), (51.48, 51.91)]
 STRIKE = [(2.495, 3.24)]  # "makeup remover" gets struck through
 # Source windows where designed graphics replace the running captions
-NO_CAPS = [(5.60, 9.62), (24.42, 29.30), (30.29, 34.12), (38.59, 40.05), (40.05, 41.98), (48.70, 49.32)]
+NO_CAPS = [(20.58, 20.95), (47.57, 47.95), (5.60, 9.62), (24.42, 29.30), (30.29, 34.12), (38.59, 40.05), (40.05, 41.98), (48.70, 49.32)]
 
 in_any = lambda t, rngs: any(a <= t < b - 0.005 for a, b in rngs)
 cues = []  # (sfx, out_time, gain)
@@ -91,9 +91,8 @@ tl.append(f'tl.to("#hook-in",{{opacity:0,y:-40,duration:0.2}},{SHOT_STARTS[1] - 
 a, b = o(5.66), o(9.62)
 roles = [("Makeup Artist", 7.09), ("Educator", 7.78), ("Founder, GLOSSKN", 8.54)]
 chips = "".join(f'<div class="chip" id="role{i}"><span class="dot"></span>{html.escape(r)}</div>' for i, (r, _) in enumerate(roles))
-clip("namecard", a, b, f'<div class="nc"><div class="hi" id="nc-hi">Hi, I&#8217;m</div><div class="name" id="nc-name">Jaspreet</div><div class="chips">{chips}</div></div>')
+clip("namecard", a, b, f'<div class="nc"><div class="hi" id="nc-hi">Hi, I&#8217;m</div><div class="chips">{chips}</div></div>')
 tl.append(f'tl.fromTo("#nc-hi",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.25,ease:"power3.out"}},{o(5.68):.3f});')
-tl.append(f'tl.fromTo("#nc-name",{{opacity:0,y:60,scale:0.9}},{{opacity:1,y:0,scale:1,duration:0.35,ease:"back.out(1.8)"}},{o(6.31):.3f});')
 cue("shutter", o(5.68), 0.5); cue("whoosh_fast", o(6.25), 0.35)
 for i, (r, t) in enumerate(roles):
     tl.append(f'tl.fromTo("#role{i}",{{opacity:0,scale:0.5,y:20}},{{opacity:1,scale:1,y:0,duration:0.24,ease:"back.out(2.6)"}},{o(t):.3f});')

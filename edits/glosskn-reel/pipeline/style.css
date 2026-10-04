@@ -33,7 +33,7 @@
       /* ---------- name card */
       #namecard, #checklist, #eyeicon, #title { position: absolute; inset: 0; }
       .nc { position: absolute; left: 170px; top: 2440px; width: 1600px; z-index: 0; }
-      .hi { font: 600 110px/1 "Inter", sans-serif; text-shadow: 0 0 3px rgba(46, 18, 60, .9), 0 4px 16px rgba(46, 18, 60, .85), 0 10px 48px rgba(46, 18, 60, .6); }
+      .hi { margin-bottom: 40px; font: 600 110px/1 "Inter", sans-serif; text-shadow: 0 0 3px rgba(46, 18, 60, .9), 0 4px 16px rgba(46, 18, 60, .85), 0 10px 48px rgba(46, 18, 60, .6); }
       .name { font: italic 800 300px/1.05 "Playfair Display", serif; color: var(--purple); margin: 10px 0 40px;
               text-shadow: 0 0 3px rgba(46, 18, 60, .9), 0 4px 16px rgba(46, 18, 60, .85), 0 10px 48px rgba(46, 18, 60, .6); }
       .chips { display: flex; flex-wrap: wrap; gap: 26px; }
