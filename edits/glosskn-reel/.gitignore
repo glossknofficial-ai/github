@@ -4,3 +4,5 @@ renders/
 media/*.mp4
 media/*.wav
 __pycache__/
+renders.log
+snapshots/
