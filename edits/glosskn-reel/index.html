@@ -85,6 +85,23 @@
       .rew { width: 300px; height: 300px; margin-bottom: 50px; }
       .rew svg { width: 100%; height: 100%; }
 
+      /* ---------- lab scene */
+      .rack { position: relative; display: flex; justify-content: center; gap: 70px; margin-top: 460px; height: 1000px; align-items: flex-end; }
+      .tube { position: relative; width: 210px; height: 900px; border: 12px solid #fff; border-top: none; border-radius: 0 0 110px 110px;
+              background: rgba(255, 255, 255, .14); overflow: hidden; box-shadow: 0 20px 60px rgba(80, 40, 100, .35); }
+      .liq { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; transform-origin: 50% 100%;
+             background: linear-gradient(180deg, #ffffff 0%, #f1e2f6 100%); }
+      .bub { position: absolute; bottom: 30px; width: 34px; height: 34px; border-radius: 50%; border: 6px solid #d7b6e2; background: rgba(255,255,255,.6); }
+      .dropper { position: absolute; left: 815px; top: -330px; width: 130px; height: 320px; }
+      .drop { position: absolute; left: 862px; top: -20px; width: 36px; height: 48px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: #fff; }
+      /* ---------- sting meter */
+      .gwrap { position: relative; width: 1400px; height: 900px; margin-top: 140px; }
+      .gauge { width: 1400px; height: 780px; }
+      .glab { position: absolute; top: 800px; font: 700 90px/1 "Inter", sans-serif; }
+      .gl { left: 40px; } .gr { right: 40px; }
+      .xstamp { position: absolute; left: 1060px; top: -40px; width: 300px; height: 300px; border-radius: 50%; border: 18px solid #fff;
+                display: flex; align-items: center; justify-content: center; font: 700 200px/1 "Inter", sans-serif; color: #fff;
+                background: rgba(90, 47, 110, .85); }
       /* ---------- product title */
       .pt { position: absolute; left: 0; right: 0; top: 300px; text-align: center; z-index: 0; }
       .pt::before { content: ""; position: absolute; z-index: -1; left: 160px; right: 160px; top: -120px; bottom: -100px;
@@ -104,7 +121,7 @@
       /* ---------- cut flash */
       .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
       #flash1, #flash2, #flash3, #flash4, #flash5 { position: absolute; inset: 0; }
-      #labs, #formula, #backlab { position: absolute; inset: 0; }
+      #labs, #formula, #backlab, #labscene, #meter { position: absolute; inset: 0; }
 
     </style>
   </head>
@@ -130,22 +147,19 @@
       <div class="clip cap" data-start="20.130" data-duration="0.807" data-track-index="5"><div class="capin"><span class="w em" id="p15w0">one</span> <span class="w em" id="p15w1">of</span> <span class="w em" id="p15w2">a</span> <span class="w em" id="p15w3">kind</span></div></div>
       <div class="clip cap" data-start="20.937" data-duration="1.300" data-track-index="5"><div class="capin"><span class="w" id="p16w0">a</span> <span class="w" id="p16w1">face</span> <span class="w" id="p16w2">wash</span> <span class="w" id="p16w3">that</span></div></div>
       <div class="clip cap" data-start="26.753" data-duration="0.710" data-track-index="5"><div class="capin"><span class="w" id="p17w0">We</span> <span class="w" id="p17w1">worked</span></div></div>
-      <div class="clip cap" data-start="28.233" data-duration="1.400" data-track-index="5"><div class="capin"><span class="w" id="p18w0">and</span> <span class="w" id="p18w1">kept</span> <span class="w" id="p18w2">testing</span></div></div>
-      <div class="clip cap" data-start="30.883" data-duration="1.270" data-track-index="5"><div class="capin"><span class="w" id="p19w0">I</span> <span class="w" id="p19w1">tried</span> <span class="w em" id="p19w2">every</span> <span class="w em" id="p19w3">version</span></div></div>
-      <div class="clip cap" data-start="32.153" data-duration="1.350" data-track-index="5"><div class="capin"><span class="w" id="p20w0">on</span> <span class="w" id="p20w1">my</span> <span class="w em" id="p20w2">eyes</span> <span class="w" id="p20w3">first</span></div></div>
-      <div class="clip cap" data-start="33.503" data-duration="0.870" data-track-index="5"><div class="capin"><span class="w" id="p21w0">and</span> <span class="w" id="p21w1">then</span> <span class="w" id="p21w2">with</span> <span class="w em" id="p21w3">friends</span></div></div>
-      <div class="clip cap" data-start="34.373" data-duration="0.810" data-track-index="5"><div class="capin"><span class="w" id="p22w0">and</span> <span class="w em" id="p22w1">family</span></div></div>
-      <div class="clip cap" data-start="35.183" data-duration="0.660" data-track-index="5"><div class="capin"><span class="w" id="p23w0">If</span> <span class="w" id="p23w1">it</span> <span class="w em" id="p23w2">stung</span></div></div>
-      <div class="clip cap" data-start="35.843" data-duration="1.210" data-track-index="5"><div class="capin"><span class="w" id="p24w0">even</span> <span class="w" id="p24w1">a</span> <span class="w" id="p24w2">little</span></div></div>
-      <div class="clip cap" data-start="38.240" data-duration="1.100" data-track-index="5"><div class="capin"><span class="w" id="p25w0">We</span> <span class="w" id="p25w1">kept</span> <span class="w em" id="p25w2">refining</span></div></div>
-      <div class="clip cap" data-start="39.340" data-duration="1.470" data-track-index="5"><div class="capin"><span class="w" id="p26w0">until</span> <span class="w" id="p26w1">it</span> <span class="w" id="p26w2">truly</span> <span class="w" id="p26w3">felt</span></div></div>
-      <div class="clip cap" data-start="40.810" data-duration="0.400" data-track-index="5"><div class="capin"><span class="w em" id="p27w0">gentle</span></div></div>
-      <div class="clip cap" data-start="41.210" data-duration="1.800" data-track-index="5"><div class="capin"><span class="w" id="p28w0">If</span> <span class="w" id="p28w1">it</span> <span class="w" id="p28w2">still</span> <span class="w em" id="p28w3">stung</span></div></div>
-      <div class="clip cap" data-start="43.010" data-duration="0.943" data-track-index="5"><div class="capin"><span class="w" id="p29w0">we</span> <span class="w" id="p29w1">weren&#x27;t</span> <span class="w em" id="p29w2">done</span></div></div>
-      <div class="clip cap" data-start="43.953" data-duration="0.960" data-track-index="5"><div class="capin"><span class="w" id="p30w0">That&#x27;s</span> <span class="w" id="p30w1">what</span> <span class="w" id="p30w2">our</span></div></div>
-      <div class="clip cap" data-start="45.123" data-duration="0.757" data-track-index="5"><div class="capin"><span class="w" id="p31w0">is</span> <span class="w" id="p31w1">all</span> <span class="w" id="p31w2">about</span></div></div>
-      <div class="clip cap" data-start="45.880" data-duration="0.870" data-track-index="5"><div class="capin"><span class="w em" id="p32w0">gentle</span> <span class="w" id="p32w1">yet</span></div></div>
-      <div class="clip cap" data-start="46.750" data-duration="1.440" data-track-index="5"><div class="capin"><span class="w em" id="p33w0">effective</span> <span class="w" id="p33w1">cleansing</span></div></div>
+      <div class="clip cap" data-start="30.883" data-duration="1.270" data-track-index="5"><div class="capin"><span class="w" id="p18w0">I</span> <span class="w" id="p18w1">tried</span> <span class="w em" id="p18w2">every</span> <span class="w em" id="p18w3">version</span></div></div>
+      <div class="clip cap" data-start="32.153" data-duration="1.350" data-track-index="5"><div class="capin"><span class="w" id="p19w0">on</span> <span class="w" id="p19w1">my</span> <span class="w em" id="p19w2">eyes</span> <span class="w" id="p19w3">first</span></div></div>
+      <div class="clip cap" data-start="33.503" data-duration="0.870" data-track-index="5"><div class="capin"><span class="w" id="p20w0">and</span> <span class="w" id="p20w1">then</span> <span class="w" id="p20w2">with</span> <span class="w em" id="p20w3">friends</span></div></div>
+      <div class="clip cap" data-start="34.373" data-duration="1.190" data-track-index="5"><div class="capin"><span class="w" id="p21w0">and</span> <span class="w em" id="p21w1">family</span></div></div>
+      <div class="clip cap" data-start="38.240" data-duration="1.100" data-track-index="5"><div class="capin"><span class="w" id="p22w0">We</span> <span class="w" id="p22w1">kept</span> <span class="w em" id="p22w2">refining</span></div></div>
+      <div class="clip cap" data-start="39.340" data-duration="1.470" data-track-index="5"><div class="capin"><span class="w" id="p23w0">until</span> <span class="w" id="p23w1">it</span> <span class="w" id="p23w2">truly</span> <span class="w" id="p23w3">felt</span></div></div>
+      <div class="clip cap" data-start="40.810" data-duration="0.400" data-track-index="5"><div class="capin"><span class="w em" id="p24w0">gentle</span></div></div>
+      <div class="clip cap" data-start="41.210" data-duration="1.800" data-track-index="5"><div class="capin"><span class="w" id="p25w0">If</span> <span class="w" id="p25w1">it</span> <span class="w" id="p25w2">still</span> <span class="w em" id="p25w3">stung</span></div></div>
+      <div class="clip cap" data-start="43.010" data-duration="0.943" data-track-index="5"><div class="capin"><span class="w" id="p26w0">we</span> <span class="w" id="p26w1">weren&#x27;t</span> <span class="w em" id="p26w2">done</span></div></div>
+      <div class="clip cap" data-start="43.953" data-duration="0.960" data-track-index="5"><div class="capin"><span class="w" id="p27w0">That&#x27;s</span> <span class="w" id="p27w1">what</span> <span class="w" id="p27w2">our</span></div></div>
+      <div class="clip cap" data-start="45.123" data-duration="0.757" data-track-index="5"><div class="capin"><span class="w" id="p28w0">is</span> <span class="w" id="p28w1">all</span> <span class="w" id="p28w2">about</span></div></div>
+      <div class="clip cap" data-start="45.880" data-duration="0.870" data-track-index="5"><div class="capin"><span class="w em" id="p29w0">gentle</span> <span class="w" id="p29w1">yet</span></div></div>
+      <div class="clip cap" data-start="46.750" data-duration="1.440" data-track-index="5"><div class="capin"><span class="w em" id="p30w0">effective</span> <span class="w" id="p30w1">cleansing</span></div></div>
       <div id="flash1" class="clip " data-start="4.747" data-duration="0.240" data-track-index="9"><div class="flash"></div></div>
       <div id="flash2" class="clip " data-start="9.180" data-duration="0.240" data-track-index="9"><div class="flash"></div></div>
       <div id="flash3" class="clip " data-start="17.380" data-duration="0.240" data-track-index="9"><div class="flash"></div></div>
@@ -157,7 +171,9 @@
       <div class="pf" id="pf2" style="left: 90px; top: 560px;"><video id="pf2-v" class="clip pfv" src="media/pf_eyes.mp4" muted playsinline data-start="9.950" data-duration="2.000" data-track-index="7"></video></div>
       <div id="checklist" class="clip " data-start="21.887" data-duration="4.880" data-track-index="6"><div class="cl"><div class="cltitle" id="cl-title">a face wash that could&#8230;</div><div class="ck" id="ck0"><span class="tick"><svg viewBox="0 0 40 40"><path d="M10 21 L17 28 L30 13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Removes makeup</div><div class="ck" id="ck1"><span class="tick"><svg viewBox="0 0 40 40"><path d="M10 21 L17 28 L30 13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Sting free</div><div class="ck" id="ck2"><span class="tick"><svg viewBox="0 0 40 40"><path d="M10 21 L17 28 L30 13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Tear free</div><div class="ck" id="ck3"><span class="tick"><svg viewBox="0 0 40 40"><path d="M10 21 L17 28 L30 13" fill="none" stroke="#fff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/></svg></span>Comfortable on the eyes</div></div></div>
       <div id="labs" class="clip " data-start="27.123" data-duration="1.140" data-track-index="8"><div class="card"><div class="grain"></div><div class="cardin"><div class="kick" id="labs-k">we worked with</div><div class="big" id="labs-b">multiple labs.</div></div></div></div>
+      <div id="labscene" class="clip " data-start="28.263" data-duration="1.030" data-track-index="8"><div class="card"><div class="grain"></div><div class="cardin"><div class="kick" id="ls-k">and kept</div><div class="big" id="ls-b">testing.</div><div class="rack"><svg class="dropper" viewBox="0 0 120 300"><rect x="35" y="0" width="50" height="90" rx="22" fill="#fff"/><path d="M45 90 L75 90 L68 250 Q60 270 52 250 Z" fill="#fff" opacity=".85"/></svg><span class="drop" id="drop"></span><div class="tube"><div class="liq" id="lq0"></div><span class="bub" id="bb00" style="left:40px"></span><span class="bub" id="bb01" style="left:85px"></span><span class="bub" id="bb02" style="left:130px"></span></div><div class="tube"><div class="liq" id="lq1"></div><span class="bub" id="bb10" style="left:40px"></span><span class="bub" id="bb11" style="left:85px"></span><span class="bub" id="bb12" style="left:130px"></span></div><div class="tube"><div class="liq" id="lq2"></div><span class="bub" id="bb20" style="left:40px"></span><span class="bub" id="bb21" style="left:85px"></span><span class="bub" id="bb22" style="left:130px"></span></div><div class="tube"><div class="liq" id="lq3"></div><span class="bub" id="bb30" style="left:40px"></span><span class="bub" id="bb31" style="left:85px"></span><span class="bub" id="bb32" style="left:130px"></span></div><div class="tube"><div class="liq" id="lq4"></div><span class="bub" id="bb40" style="left:40px"></span><span class="bub" id="bb41" style="left:85px"></span><span class="bub" id="bb42" style="left:130px"></span></div></div></div></div></div>
       <div id="formula" class="clip " data-start="29.293" data-duration="1.460" data-track-index="8"><div class="card"><div class="grain"></div><div class="cardin"><div class="kick" id="fm-k">reworking the</div><div class="big" id="fm-b">formula.</div><div class="vers"><span class="v" id="v0">V1</span><span class="v" id="v1">V2</span><span class="v" id="v2">V3</span><span class="v" id="v3">V4</span><span class="v" id="v4">V5</span><span class="v dots" id="v5">&#8230;</span></div></div></div></div>
+      <div id="meter" class="clip " data-start="35.223" data-duration="1.460" data-track-index="8"><div class="card"><div class="grain"></div><div class="cardin"><div class="kick" id="mt-k">if it stung</div><div class="big" id="mt-b">even a little,</div><div class="gwrap"><svg class="gauge" viewBox="0 0 1400 780"><path d="M120 700 A580 580 0 0 1 1280 700" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="70" stroke-linecap="round"/><path d="M120 700 A580 580 0 0 1 700 120" fill="none" stroke="#fff" stroke-width="70" stroke-linecap="round"/><path d="M1080 262 A580 580 0 0 1 1280 700" fill="none" stroke="#5a2f6e" stroke-width="70" stroke-linecap="round"/><g id="needle"><rect x="690" y="200" width="20" height="500" rx="10" fill="#fff"/></g><circle cx="700" cy="700" r="56" fill="#fff"/></svg><div class="glab gl">gentle</div><div class="glab gr">stings</div><div class="xstamp" id="xst">&#10007;</div></div></div></div></div>
       <div id="backlab" class="clip " data-start="36.693" data-duration="1.574" data-track-index="8"><div class="card"><div class="grain"></div><div class="cardin"><div class="rew" id="rew"><svg viewBox="0 0 100 100"><path d="M78 50 A28 28 0 1 1 64 25.8" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/><path d="M58 12 L68 27 L51 31" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="kick" id="bl-k">so we went</div><div class="big" id="bl-b">back to the lab.</div></div></div></div>
       <div id="title" class="clip " data-start="44.533" data-duration="3.400" data-track-index="6"><div class="pt"><div class="ptk" id="pt-k">GLOSSKN</div><div class="ptl" id="pt-l"></div></div></div>
       <div id="endcard" class="clip " data-start="47.933" data-duration="2.200" data-track-index="8"><div class="card end"><div class="grain"></div><div class="cardin"><div class="ek" id="ec-k">GLOSSKN</div><div class="eb" id="ec-b">Power Cleanse</div><div class="es" id="ec-s">Gentle yet effective cleansing.</div></div></div></div>
@@ -232,54 +248,45 @@
       tl.fromTo("#p16w3",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},21.697);
       tl.fromTo("#p17w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},26.793);
       tl.fromTo("#p17w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},26.903);
-      tl.fromTo("#p18w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},28.273);
-      tl.fromTo("#p18w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},28.453);
-      tl.fromTo("#p18w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},28.833);
-      tl.fromTo("#p19w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},30.923);
-      tl.fromTo("#p19w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},31.033);
-      tl.fromTo("#p19w2",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},31.263);
-      tl.fromTo("#p19w3",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},31.733);
-      tl.fromTo("#p20w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},32.193);
-      tl.fromTo("#p20w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},32.443);
-      tl.fromTo("#p20w2",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},32.733);
-      tl.fromTo("#p20w3",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},33.093);
-      tl.fromTo("#p21w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},33.543);
-      tl.fromTo("#p21w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},33.743);
-      tl.fromTo("#p21w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},33.893);
-      tl.fromTo("#p21w3",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},34.113);
-      tl.fromTo("#p22w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},34.413);
-      tl.fromTo("#p22w1",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},34.563);
-      tl.fromTo("#p23w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},35.223);
-      tl.fromTo("#p23w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},35.383);
-      tl.fromTo("#p23w2",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},35.513);
-      tl.fromTo("#p24w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},35.883);
-      tl.fromTo("#p24w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},36.263);
-      tl.fromTo("#p24w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},36.393);
-      tl.fromTo("#p25w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},38.280);
-      tl.fromTo("#p25w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},38.480);
-      tl.fromTo("#p25w2",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},38.810);
-      tl.fromTo("#p26w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},39.380);
-      tl.fromTo("#p26w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},39.830);
-      tl.fromTo("#p26w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},40.090);
-      tl.fromTo("#p26w3",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},40.450);
-      tl.fromTo("#p27w0",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},40.850);
-      tl.fromTo("#p28w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},41.250);
-      tl.fromTo("#p28w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},41.640);
-      tl.fromTo("#p28w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},42.010);
-      tl.fromTo("#p28w3",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},42.530);
-      tl.fromTo("#p29w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},43.050);
-      tl.fromTo("#p29w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},43.200);
-      tl.fromTo("#p29w2",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},43.580);
-      tl.fromTo("#p30w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},43.993);
-      tl.fromTo("#p30w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},44.283);
-      tl.fromTo("#p30w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},44.483);
-      tl.fromTo("#p31w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},45.163);
-      tl.fromTo("#p31w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},45.333);
-      tl.fromTo("#p31w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},45.453);
-      tl.fromTo("#p32w0",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},45.920);
-      tl.fromTo("#p32w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},46.490);
-      tl.fromTo("#p33w0",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},46.790);
-      tl.fromTo("#p33w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},47.210);
+      tl.fromTo("#p18w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},30.923);
+      tl.fromTo("#p18w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},31.033);
+      tl.fromTo("#p18w2",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},31.263);
+      tl.fromTo("#p18w3",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},31.733);
+      tl.fromTo("#p19w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},32.193);
+      tl.fromTo("#p19w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},32.443);
+      tl.fromTo("#p19w2",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},32.733);
+      tl.fromTo("#p19w3",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},33.093);
+      tl.fromTo("#p20w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},33.543);
+      tl.fromTo("#p20w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},33.743);
+      tl.fromTo("#p20w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},33.893);
+      tl.fromTo("#p20w3",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},34.113);
+      tl.fromTo("#p21w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},34.413);
+      tl.fromTo("#p21w1",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},34.563);
+      tl.fromTo("#p22w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},38.280);
+      tl.fromTo("#p22w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},38.480);
+      tl.fromTo("#p22w2",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},38.810);
+      tl.fromTo("#p23w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},39.380);
+      tl.fromTo("#p23w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},39.830);
+      tl.fromTo("#p23w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},40.090);
+      tl.fromTo("#p23w3",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},40.450);
+      tl.fromTo("#p24w0",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},40.850);
+      tl.fromTo("#p25w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},41.250);
+      tl.fromTo("#p25w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},41.640);
+      tl.fromTo("#p25w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},42.010);
+      tl.fromTo("#p25w3",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},42.530);
+      tl.fromTo("#p26w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},43.050);
+      tl.fromTo("#p26w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},43.200);
+      tl.fromTo("#p26w2",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},43.580);
+      tl.fromTo("#p27w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},43.993);
+      tl.fromTo("#p27w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},44.283);
+      tl.fromTo("#p27w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},44.483);
+      tl.fromTo("#p28w0",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},45.163);
+      tl.fromTo("#p28w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},45.333);
+      tl.fromTo("#p28w2",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},45.453);
+      tl.fromTo("#p29w0",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},45.920);
+      tl.fromTo("#p29w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},46.490);
+      tl.fromTo("#p30w0",{opacity:0,scale:0.6,rotation:-4,y:30},{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"},46.790);
+      tl.fromTo("#p30w1",{opacity:0,y:36},{opacity:1,y:0,duration:0.14,ease:"power2.out"},47.210);
       tl.fromTo("#flash1 .flash",{opacity:0.0},{opacity:0.38,duration:0.05,ease:"none"},4.747).to("#flash1 .flash",{opacity:0,duration:0.17,ease:"power2.out"},4.797);
       tl.fromTo("#flash2 .flash",{opacity:0.0},{opacity:0.38,duration:0.05,ease:"none"},9.180).to("#flash2 .flash",{opacity:0,duration:0.17,ease:"power2.out"},9.230);
       tl.fromTo("#flash3 .flash",{opacity:0.0},{opacity:0.38,duration:0.05,ease:"none"},17.380).to("#flash3 .flash",{opacity:0,duration:0.17,ease:"power2.out"},17.430);
@@ -318,6 +325,31 @@
       tl.to("#labs .card",{clipPath:"inset(0 0 100% 0)",duration:0.18,ease:"power3.in"},28.083);
       tl.fromTo("#labs-k",{opacity:0,y:30},{opacity:1,y:0,duration:0.2},27.203);
       tl.fromTo("#labs-b",{opacity:0,scale:0.8},{opacity:1,scale:1,duration:0.3,ease:"back.out(2)"},27.383);
+      tl.fromTo("#labscene .card",{clipPath:"inset(100% 0 0 0)"},{clipPath:"inset(0% 0 0 0)",duration:0.22,ease:"power3.out"},28.263);
+      tl.to("#labscene .card",{clipPath:"inset(0 0 100% 0)",duration:0.18,ease:"power3.in"},29.113);
+      tl.fromTo("#ls-k",{opacity:0,y:30},{opacity:1,y:0,duration:0.2},28.313);
+      tl.fromTo("#ls-b",{opacity:0,scale:0.8},{opacity:1,scale:1,duration:0.3,ease:"back.out(2)"},28.833);
+      tl.fromTo("#lq0",{scaleY:0},{scaleY:0.55,duration:0.7,ease:"power2.out"},28.363);
+      tl.fromTo("#bb00",{y:0,opacity:0},{y:-209,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.613);
+      tl.fromTo("#bb01",{y:0,opacity:0},{y:-209,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.743);
+      tl.fromTo("#bb02",{y:0,opacity:0},{y:-209,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.873);
+      tl.fromTo("#lq1",{scaleY:0},{scaleY:0.78,duration:0.7,ease:"power2.out"},28.443);
+      tl.fromTo("#bb10",{y:0,opacity:0},{y:-296,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.683);
+      tl.fromTo("#bb11",{y:0,opacity:0},{y:-296,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.813);
+      tl.fromTo("#bb12",{y:0,opacity:0},{y:-296,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.943);
+      tl.fromTo("#lq2",{scaleY:0},{scaleY:0.4,duration:0.7,ease:"power2.out"},28.523);
+      tl.fromTo("#bb20",{y:0,opacity:0},{y:-152,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.753);
+      tl.fromTo("#bb21",{y:0,opacity:0},{y:-152,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.883);
+      tl.fromTo("#bb22",{y:0,opacity:0},{y:-152,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},29.013);
+      tl.fromTo("#lq3",{scaleY:0},{scaleY:0.66,duration:0.7,ease:"power2.out"},28.603);
+      tl.fromTo("#bb30",{y:0,opacity:0},{y:-250,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.823);
+      tl.fromTo("#bb31",{y:0,opacity:0},{y:-250,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.953);
+      tl.fromTo("#bb32",{y:0,opacity:0},{y:-250,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},29.083);
+      tl.fromTo("#lq4",{scaleY:0},{scaleY:0.85,duration:0.7,ease:"power2.out"},28.683);
+      tl.fromTo("#bb40",{y:0,opacity:0},{y:-323,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},28.893);
+      tl.fromTo("#bb41",{y:0,opacity:0},{y:-323,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},29.023);
+      tl.fromTo("#bb42",{y:0,opacity:0},{y:-323,opacity:0.9,duration:0.5,ease:"power1.out",repeat:1},29.153);
+      tl.fromTo("#drop",{y:0,opacity:1},{y:330,opacity:0,duration:0.42,ease:"power2.in",repeat:1},28.463);
       tl.fromTo("#formula .card",{clipPath:"inset(100% 0 0 0)"},{clipPath:"inset(0% 0 0 0)",duration:0.22,ease:"power3.out"},29.293);
       tl.to("#formula .card",{clipPath:"inset(0 0 100% 0)",duration:0.18,ease:"power3.in"},30.573);
       tl.fromTo("#fm-k",{opacity:0,y:30},{opacity:1,y:0,duration:0.2},29.343);
@@ -328,6 +360,12 @@
       tl.fromTo("#v3",{opacity:0,y:20},{opacity:1,y:0,duration:0.08},29.953);
       tl.fromTo("#v4",{opacity:0,y:20},{opacity:1,y:0,duration:0.08},30.123);
       tl.fromTo("#v5",{opacity:0,y:20},{opacity:1,y:0,duration:0.08},30.293);
+      tl.fromTo("#meter .card",{clipPath:"inset(100% 0 0 0)"},{clipPath:"inset(0% 0 0 0)",duration:0.22,ease:"power3.out"},35.223);
+      tl.to("#meter .card",{clipPath:"inset(0 0 100% 0)",duration:0.18,ease:"power3.in"},36.503);
+      tl.fromTo("#mt-k",{opacity:0,y:30},{opacity:1,y:0,duration:0.2},35.273);
+      tl.fromTo("#mt-b",{opacity:0,scale:0.8},{opacity:1,scale:1,duration:0.3,ease:"back.out(2)"},35.883);
+      tl.fromTo("#needle",{rotation:-80,svgOrigin:"700 700"},{rotation:62,svgOrigin:"700 700",duration:0.75,ease:"elastic.out(1,0.45)"},35.373);
+      tl.fromTo("#xst",{opacity:0,scale:2.4,rotation:-20},{opacity:1,scale:1,rotation:-8,duration:0.25,ease:"back.out(2)"},36.123);
       tl.fromTo("#backlab .card",{clipPath:"inset(100% 0 0 0)"},{clipPath:"inset(0% 0 0 0)",duration:0.22,ease:"power3.out"},36.693);
       tl.to("#backlab .card",{clipPath:"inset(0 0 100% 0)",duration:0.18,ease:"power3.in"},38.087);
       tl.fromTo("#rew",{rotation:0},{rotation:-360,duration:1.1,ease:"power2.inOut"},36.743);

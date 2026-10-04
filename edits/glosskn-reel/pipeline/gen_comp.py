@@ -17,7 +17,7 @@ EMPH = [(0.25, 0.87), (1.55, 2.02), (4.18, 4.76), (13.36, 13.68), (16.73, 17.12)
         (50.41, 50.95), (51.48, 51.91)]
 STRIKE = [(2.495, 3.24)]  # "makeup remover" gets struck through
 # Source windows where designed graphics replace the running captions
-NO_CAPS = [(5.60, 9.62), (24.42, 29.30), (30.29, 31.43), (32.66, 34.12), (40.05, 41.98), (48.70, 49.32)]
+NO_CAPS = [(5.60, 9.62), (24.42, 29.30), (30.29, 34.12), (38.59, 40.05), (40.05, 41.98), (48.70, 49.32)]
 
 in_any = lambda t, rngs: any(a <= t < b - 0.005 for a, b in rngs)
 cues = []  # (sfx, out_time, gain)
@@ -132,7 +132,8 @@ def card(cid, a, b, inner, sfx_in="whoosh"):
     clip(cid, a, b, f'<div class="card"><div class="grain"></div><div class="cardin">{inner}</div></div>', track=8)
     tl.append(f'tl.fromTo("#{cid} .card",{{clipPath:"inset(100% 0 0 0)"}},{{clipPath:"inset(0% 0 0 0)",duration:0.22,ease:"power3.out"}},{a:.3f});')
     tl.append(f'tl.to("#{cid} .card",{{clipPath:"inset(0 0 100% 0)",duration:0.18,ease:"power3.in"}},{b - 0.18:.3f});')
-    cue(sfx_in, a - 0.2, 0.45)
+    if sfx_in:
+        cue(sfx_in, a - 0.2, 0.45)
 
 
 # Lab card 1: "with multiple labs"
@@ -142,15 +143,43 @@ tl.append(f'tl.fromTo("#labs-k",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.2}
 tl.append(f'tl.fromTo("#labs-b",{{opacity:0,scale:0.8}},{{opacity:1,scale:1,duration:0.3,ease:"back.out(2)"}},{o(30.55):.3f});')
 cue("impact", o(30.55), 0.3)
 
+# Animated lab scene (made in code, no stock footage): "and kept testing"
+a, b = o(31.43), o(32.66)
+levels = [0.55, 0.78, 0.4, 0.66, 0.85]
+tubes = "".join(f'<div class="tube"><div class="liq" id="lq{i}"></div>' + "".join(f'<span class="bub" id="bb{i}{k}" style="left:{40 + 45 * k}px"></span>' for k in range(3)) + '</div>' for i in range(5))
+dropper = ('<svg class="dropper" viewBox="0 0 120 300"><rect x="35" y="0" width="50" height="90" rx="22" fill="#fff"/>'
+           '<path d="M45 90 L75 90 L68 250 Q60 270 52 250 Z" fill="#fff" opacity=".85"/></svg><span class="drop" id="drop"></span>')
+card("labscene", a, b, f'<div class="kick" id="ls-k">and kept</div><div class="big" id="ls-b">testing.</div><div class="rack">{dropper}{tubes}</div>', "whoosh")
+tl.append(f'tl.fromTo("#ls-k",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.2}},{a + 0.05:.3f});')
+tl.append(f'tl.fromTo("#ls-b",{{opacity:0,scale:0.8}},{{opacity:1,scale:1,duration:0.3,ease:"back.out(2)"}},{o(32.2):.3f});')
+for i, lv in enumerate(levels):
+    tl.append(f'tl.fromTo("#lq{i}",{{scaleY:0}},{{scaleY:{lv},duration:0.7,ease:"power2.out"}},{a + 0.1 + i * 0.08:.3f});')
+    for k in range(3):
+        tl.append(f'tl.fromTo("#bb{i}{k}",{{y:0,opacity:0}},{{y:-{int(380 * lv)},opacity:0.9,duration:0.5,ease:"power1.out",repeat:1}},{a + 0.35 + i * 0.07 + k * 0.13:.3f});')
+tl.append(f'tl.fromTo("#drop",{{y:0,opacity:1}},{{y:330,opacity:0,duration:0.42,ease:"power2.in",repeat:1}},{a + 0.2:.3f});')
+
 # Lab card 2: "reworking the formula" with a version counter
 a, b = o(32.66), o(34.12)
 vers = "".join(f'<span class="v" id="v{i}">V{i + 1}</span>' for i in range(5))
-card("formula", a, b, f'<div class="kick" id="fm-k">reworking the</div><div class="big" id="fm-b">formula.</div><div class="vers">{vers}<span class="v dots" id="v5">&#8230;</span></div>', "swish")
+card("formula", a, b, f'<div class="kick" id="fm-k">reworking the</div><div class="big" id="fm-b">formula.</div><div class="vers">{vers}<span class="v dots" id="v5">&#8230;</span></div>', None)
 tl.append(f'tl.fromTo("#fm-k",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.2}},{a + 0.05:.3f});')
 tl.append(f'tl.fromTo("#fm-b",{{opacity:0,scale:0.8}},{{opacity:1,scale:1,duration:0.3,ease:"back.out(2)"}},{o(33.52):.3f});')
 for i in range(6):
     tl.append(f'tl.fromTo("#v{i}",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.08}},{a + 0.15 + i * 0.17:.3f});')
 cue("typing", a + 0.12, 0.5)
+
+# Sting meter (made in code): "If it stung even a little,"
+a, b = o(38.59), o(40.05)
+gauge = ('<svg class="gauge" viewBox="0 0 1400 780"><path d="M120 700 A580 580 0 0 1 1280 700" fill="none" stroke="rgba(255,255,255,.35)" stroke-width="70" stroke-linecap="round"/>'
+         '<path d="M120 700 A580 580 0 0 1 700 120" fill="none" stroke="#fff" stroke-width="70" stroke-linecap="round"/>'
+         '<path d="M1080 262 A580 580 0 0 1 1280 700" fill="none" stroke="#5a2f6e" stroke-width="70" stroke-linecap="round"/>'
+         '<g id="needle"><rect x="690" y="200" width="20" height="500" rx="10" fill="#fff"/></g><circle cx="700" cy="700" r="56" fill="#fff"/></svg>'
+         '<div class="glab gl">gentle</div><div class="glab gr">stings</div><div class="xstamp" id="xst">&#10007;</div>')
+card("meter", a, b, f'<div class="kick" id="mt-k">if it stung</div><div class="big" id="mt-b">even a little,</div><div class="gwrap">{gauge}</div>', "whoosh")
+tl.append(f'tl.fromTo("#mt-k",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.2}},{a + 0.05:.3f});')
+tl.append(f'tl.fromTo("#mt-b",{{opacity:0,scale:0.8}},{{opacity:1,scale:1,duration:0.3,ease:"back.out(2)"}},{o(39.25):.3f});')
+tl.append(f'tl.fromTo("#needle",{{rotation:-80,svgOrigin:"700 700"}},{{rotation:62,svgOrigin:"700 700",duration:0.75,ease:"elastic.out(1,0.45)"}},{a + 0.15:.3f});')
+tl.append(f'tl.fromTo("#xst",{{opacity:0,scale:2.4,rotation:-20}},{{opacity:1,scale:1,rotation:-8,duration:0.25,ease:"back.out(2)"}},{a + 0.9:.3f});')
 
 # Back to the lab: rewind
 a, b = o(40.06), o(41.98)

@@ -78,6 +78,23 @@
       .rew { width: 300px; height: 300px; margin-bottom: 50px; }
       .rew svg { width: 100%; height: 100%; }
 
+      /* ---------- lab scene */
+      .rack { position: relative; display: flex; justify-content: center; gap: 70px; margin-top: 460px; height: 1000px; align-items: flex-end; }
+      .tube { position: relative; width: 210px; height: 900px; border: 12px solid #fff; border-top: none; border-radius: 0 0 110px 110px;
+              background: rgba(255, 255, 255, .14); overflow: hidden; box-shadow: 0 20px 60px rgba(80, 40, 100, .35); }
+      .liq { position: absolute; left: 0; right: 0; bottom: 0; height: 100%; transform-origin: 50% 100%;
+             background: linear-gradient(180deg, #ffffff 0%, #f1e2f6 100%); }
+      .bub { position: absolute; bottom: 30px; width: 34px; height: 34px; border-radius: 50%; border: 6px solid #d7b6e2; background: rgba(255,255,255,.6); }
+      .dropper { position: absolute; left: 815px; top: -330px; width: 130px; height: 320px; }
+      .drop { position: absolute; left: 862px; top: -20px; width: 36px; height: 48px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%; background: #fff; }
+      /* ---------- sting meter */
+      .gwrap { position: relative; width: 1400px; height: 900px; margin-top: 140px; }
+      .gauge { width: 1400px; height: 780px; }
+      .glab { position: absolute; top: 800px; font: 700 90px/1 "Inter", sans-serif; }
+      .gl { left: 40px; } .gr { right: 40px; }
+      .xstamp { position: absolute; left: 1060px; top: -40px; width: 300px; height: 300px; border-radius: 50%; border: 18px solid #fff;
+                display: flex; align-items: center; justify-content: center; font: 700 200px/1 "Inter", sans-serif; color: #fff;
+                background: rgba(90, 47, 110, .85); }
       /* ---------- product title */
       .pt { position: absolute; left: 0; right: 0; top: 300px; text-align: center; z-index: 0; }
       .pt::before { content: ""; position: absolute; z-index: -1; left: 160px; right: 160px; top: -120px; bottom: -100px;
@@ -97,4 +114,4 @@
       /* ---------- cut flash */
       .flash { position: absolute; inset: 0; background: #fff; opacity: 0; }
       #flash1, #flash2, #flash3, #flash4, #flash5 { position: absolute; inset: 0; }
-      #labs, #formula, #backlab { position: absolute; inset: 0; }
+      #labs, #formula, #backlab, #labscene, #meter { position: absolute; inset: 0; }
