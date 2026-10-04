@@ -6,3 +6,7 @@ media/*.wav
 __pycache__/
 renders.log
 snapshots/
+media/*.webm
+media/matte/
+build_v3.log
+renders-main.log

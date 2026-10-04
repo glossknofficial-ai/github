@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait-4k">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=2160, height=3840" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      @font-face { font-family: "Inter"; font-weight: 600; src: url(fonts/inter-latin-600-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Inter"; font-weight: 700; src: url(fonts/inter-latin-700-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 700; src: url(fonts/playfair-display-latin-700-italic.woff2) format("woff2"); }
+      @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 800; src: url(fonts/playfair-display-latin-800-italic.woff2) format("woff2"); }
+      
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { margin: 0; width: 2160px; height: 3840px; overflow: hidden; background: transparent; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      .bt-host { position: absolute; inset: 0; }
+      .bt { position: absolute; left: 0; right: 0; text-align: center; color: #d7b6e2;
+             font-family: "Playfair Display", serif; font-style: italic; font-weight: 800; line-height: 1; letter-spacing: -8px;
+             text-shadow: 0 0 4px rgba(46, 18, 60, .55), 0 14px 70px rgba(46, 18, 60, .55); white-space: nowrap; }
+      .bt .l2 { display: block; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="behind" data-start="0" data-duration="50.133" data-width="2160" data-height="3840">
+      <div id="bname" class="clip bt-host" data-start="5.767" data-duration="3.380" data-track-index="1"><div class="bt" id="bname-t" style="top: 300px; font-size: 400px; text-align: left; left: 110px;">Jaspreet</div></div>
+      <div id="bmission" class="clip bt-host" data-start="17.680" data-duration="1.320" data-track-index="1"><div class="bt" id="bmission-t" style="top: 400px; font-size: 420px;">mission</div></div>
+      <div id="bdone" class="clip bt-host" data-start="43.050" data-duration="0.917" data-track-index="1"><div class="bt" id="bdone-t" style="top: 700px; font-size: 380px;">not done.</div></div>
+      <div id="bpower" class="clip bt-host" data-start="44.533" data-duration="3.387" data-track-index="1"><div class="bt" id="bpower-t" style="top: 470px; font-size: 300px;">Power Cleanse</div></div>
+    </div>
+    <script>
+      const tl = gsap.timeline({ paused: true });
+      tl.fromTo("#bname-t",{opacity:0,scale:0.86,y:60},{opacity:1,scale:1,y:0,duration:0.45,ease:"power3.out"},5.767);
+      tl.fromTo("#bname-t",{scale:1},{scale:1.04,duration:2.730,ease:"none",immediateRender:false},6.217);
+      tl.to("#bname-t",{opacity:0,duration:0.2,ease:"power2.in"},8.947);
+      tl.fromTo("#bmission-t",{opacity:0,scale:0.86,y:60},{opacity:1,scale:1,y:0,duration:0.45,ease:"power3.out"},17.680);
+      tl.fromTo("#bmission-t",{scale:1},{scale:1.04,duration:0.670,ease:"none",immediateRender:false},18.130);
+      tl.to("#bmission-t",{opacity:0,duration:0.2,ease:"power2.in"},18.800);
+      tl.fromTo("#bdone-t",{opacity:0,scale:0.86,y:60},{opacity:1,scale:1,y:0,duration:0.45,ease:"power3.out"},43.050);
+      tl.fromTo("#bdone-t",{scale:1},{scale:1.04,duration:0.300,ease:"none",immediateRender:false},43.500);
+      tl.to("#bdone-t",{opacity:0,duration:0.2,ease:"power2.in"},43.767);
+      tl.fromTo("#bpower-t",{opacity:0,scale:0.86,y:60},{opacity:1,scale:1,y:0,duration:0.45,ease:"power3.out"},44.533);
+      tl.fromTo("#bpower-t",{scale:1},{scale:1.04,duration:2.737,ease:"none",immediateRender:false},44.983);
+      tl.to("#bpower-t",{opacity:0,duration:0.2,ease:"power2.in"},47.720);
+      tl.set({}, {}, 50.133);
+      window.__timelines["behind"] = tl;
+    </script>
+  </body>
+</html>

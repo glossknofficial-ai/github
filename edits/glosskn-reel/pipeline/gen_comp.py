@@ -21,6 +21,7 @@ NO_CAPS = [(5.60, 9.62), (24.42, 29.30), (30.29, 31.43), (32.66, 34.12), (40.05,
 
 in_any = lambda t, rngs: any(a <= t < b - 0.005 for a, b in rngs)
 cues = []  # (sfx, out_time, gain)
+extra_cues = []  # added after the sparse filter
 cue = lambda n, t, g=1.0: cues.append((n, round(max(0.0, t), 3), g))
 
 # ------------------------------------------------------------------ caption phrases
@@ -77,6 +78,15 @@ for si in range(1, len(SHOTS)):
 for ba, bb, n, off in BROLL:
     cue("swish" if ba not in (34.29,) else "whoosh_fast", o(ba) - 0.12, 0.4)  # filtered below
 
+# Zoom-punch transitions: the picture lands slightly zoomed and settles (scene changes + B-roll entries)
+for t in [SHOT_STARTS[i] for i in range(1, len(SHOTS))] + [o(34.29), o(42.26)]:
+    tl.append(f'tl.fromTo("#vwrap",{{scale:1.09}},{{scale:1,duration:0.42,ease:"power3.out",immediateRender:false}},{t:.3f});')
+
+# Hook headline for the first seconds
+clip("hook", 0.15, SHOT_STARTS[1] - 0.05, '<div class="hook" id="hook-in"><span class="hookdot"></span>Why I created my own makeup remover</div>')
+tl.append('tl.fromTo("#hook-in",{opacity:0,y:-60},{opacity:1,y:0,duration:0.35,ease:"back.out(1.8)"},0.15);')
+tl.append(f'tl.to("#hook-in",{{opacity:0,y:-40,duration:0.2}},{SHOT_STARTS[1] - 0.3:.3f});')
+
 # Name card: turnaround -> "Hi, I am Jaspreet" + role chips popping as she says them
 a, b = o(5.66), o(9.62)
 roles = [("Makeup Artist", 7.09), ("Educator", 7.78), ("Founder, GLOSSKN", 8.54)]
@@ -90,12 +100,16 @@ for i, (r, t) in enumerate(roles):
     cue("pop", o(t), 0.55)
 tl.append(f'tl.to("#namecard .nc",{{opacity:0,x:-80,duration:0.2,ease:"power2.in"}},{b - 0.2:.3f});')
 
-# Eye line-icon next to "eyes"
-eye_svg = ('<svg viewBox="0 0 120 70" class="eye"><path d="M5 35 Q60 -12 115 35 Q60 82 5 35 Z" fill="none" stroke="#fff" stroke-width="6" stroke-linejoin="round"/>'
-           f'<circle cx="60" cy="35" r="15" fill="{PURPLE}"/><circle cx="60" cy="35" r="6" fill="#fff"/></svg>')
-clip("eyeicon", o(13.37), o(13.37) + 1.6, eye_svg)
-tl.append(f'tl.fromTo("#eyeicon .eye",{{opacity:0,scale:0.3,rotation:-20}},{{opacity:1,scale:1,rotation:0,duration:0.3,ease:"back.out(2.2)"}},{o(13.37):.3f}).to("#eyeicon .eye",{{opacity:0,scale:0.8,duration:0.2}},{o(13.37) + 1.35:.3f});')
-cue("pop", o(13.37), 0.45)
+# Portrait photo frames (reference style): real footage pops in over her, tilted, then flies out
+PHOTOS = [("pf1", "media/pf_artist.mp4", 0.20, o(2.32), "left: 60px; top: 820px; --w: 600px; --h: 730px;", -5),
+          ("pf2", "media/pf_eyes.mp4", o(11.75), o(13.95), "left: 90px; top: 560px;", 5)]
+for pid, src, a0, b0, pos, rot in PHOTOS:
+    els.append(f'<div class="pf" id="{pid}" style="{pos}"><video id="{pid}-v" class="clip pfv" src="{src}" muted playsinline '
+               f'data-start="{a0:.3f}" data-duration="{b0 - a0:.3f}" data-track-index="7"></video></div>')
+    tl.append(f'tl.fromTo("#{pid}",{{opacity:0,scale:0.6,rotation:{rot * 3},y:120}},{{opacity:1,scale:1,rotation:{rot},y:0,duration:0.4,ease:"back.out(1.6)"}},{a0:.3f});')
+    tl.append(f'tl.to("#{pid}",{{opacity:0,scale:0.85,y:-80,duration:0.22,ease:"power2.in"}},{b0 - 0.22:.3f});')
+    extra_cues.append(("shutter", round(a0, 3), 0.22))
+
 cue("click", o(16.74), 0.4); cue("click", o(17.75), 0.4)
 
 # Mission: riser into it, shimmer on "one of a kind"
@@ -150,9 +164,8 @@ cue("click", o(38.88), 0.45); cue("sparkle", o(44.85), 0.45); cue("impact", o(47
 
 # Product title: Power Cleanse by GLOSSKN
 a, b = o(48.70), TOTAL
-clip("title", a, b, '<div class="pt"><div class="ptk" id="pt-k">GLOSSKN</div><div class="ptb" id="pt-b">Power Cleanse</div><div class="ptl" id="pt-l"></div></div>')
+clip("title", a, b, '<div class="pt"><div class="ptk" id="pt-k">GLOSSKN</div><div class="ptl" id="pt-l"></div></div>')
 tl.append(f'tl.fromTo("#pt-k",{{opacity:0,scale:1.25}},{{opacity:1,scale:1,duration:0.5,ease:"power2.out"}},{a:.3f});')
-tl.append(f'tl.fromTo("#pt-b",{{opacity:0,y:50,scale:0.9}},{{opacity:1,y:0,scale:1,duration:0.4,ease:"back.out(1.8)"}},{o(48.74):.3f});')
 tl.append(f'tl.fromTo("#pt-l",{{scaleX:0}},{{scaleX:1,duration:0.4,ease:"power2.out"}},{o(49.0):.3f});')
 cue("ding", o(48.74), 0.5); cue("shimmer", o(50.42), 0.35)
 
@@ -179,7 +192,7 @@ page = f"""<!doctype html>
   </head>
   <body>
     <div id="root" data-composition-id="main" data-start="0" data-duration="{DUR}" data-width="{W}" data-height="{H}">
-      <video id="base" class="clip" src="media/base.mp4" muted playsinline data-start="0" data-duration="{TOTAL}" data-track-index="0"></video>
+      <div id="vwrap"><video id="base" class="clip" src="media/base.mp4" muted playsinline data-start="0" data-duration="{TOTAL}" data-track-index="0"></video></div>
       <audio id="mix" src="media/mix.wav" data-start="0" data-duration="{DUR}" data-track-index="1"></audio>
       {chr(10).join('      ' + e for e in els).strip()}
     </div>
@@ -209,6 +222,7 @@ for n, t, g in cues:
     elif n == "ding":
         kept.append(("ding", t, 0.3))
 kept.sort(key=lambda c: c[1])
-cues = [c for i, c in enumerate(kept) if i == 0 or c[1] - kept[i - 1][1] > 0.8]
+cues = [c for i, c in enumerate(kept) if i == 0 or c[1] - kept[i - 1][1] > 0.8] + extra_cues
+cues.sort(key=lambda c: c[1])
 json.dump(dict(duration=DUR, cues=cues), open(os.path.join(PROJECT, "media", "cues.json"), "w"), indent=1)
 print("phrases", len(phrases), "elements", len(els), "tweens", len(tl), "cues", len(cues), "duration", DUR)

@@ -7,7 +7,14 @@
       html, body { margin: 0; width: 2160px; height: 3840px; overflow: hidden; background: #000; }
       body { font-family: "Inter", sans-serif; color: var(--white); }
       #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      #vwrap { position: absolute; inset: 0; overflow: hidden; transform-origin: 50% 40%; }
       #base { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      #hook { position: absolute; inset: 0; }
+      .hook { position: absolute; left: 0; right: 0; top: 330px; width: max-content; margin: 0 auto;
+              display: flex; align-items: center; gap: 30px; padding: 34px 60px; border-radius: 90px;
+              background: rgba(36, 14, 48, .55); backdrop-filter: blur(20px); border: 4px solid var(--purple);
+              font: 700 88px/1.1 "Inter", sans-serif; letter-spacing: -1px; white-space: nowrap; }
+      .hookdot { width: 30px; height: 30px; border-radius: 50%; background: var(--purple); flex: none; }
 
       /* ---------- running captions: clean white sans building word by word; key words in purple italic serif */
       .cap { position: absolute; left: 180px; right: 300px; top: 2300px; height: 900px;
@@ -35,6 +42,10 @@
               backdrop-filter: blur(18px); }
       .chip .dot { width: 26px; height: 26px; border-radius: 50%; background: var(--purple); }
 
+      /* ---------- portrait photo frames */
+      .pf { position: absolute; padding: 30px 30px 110px; background: #fff; border-radius: 10px;
+            box-shadow: 0 30px 80px rgba(36, 14, 48, .45); opacity: 0; }
+      .pfv { position: relative; display: block; width: var(--w, 760px); height: var(--h, 920px); object-fit: cover; border-radius: 4px; }
       /* ---------- eye icon */
       .eye { position: absolute; left: 1520px; top: 2080px; width: 340px; height: 200px;
              filter: drop-shadow(0 6px 18px rgba(0,0,0,.5)); }
@@ -68,7 +79,7 @@
       .rew svg { width: 100%; height: 100%; }
 
       /* ---------- product title */
-      .pt { position: absolute; left: 0; right: 0; top: 380px; text-align: center; z-index: 0; }
+      .pt { position: absolute; left: 0; right: 0; top: 300px; text-align: center; z-index: 0; }
       .pt::before { content: ""; position: absolute; z-index: -1; left: 160px; right: 160px; top: -120px; bottom: -100px;
                     background: radial-gradient(closest-side, rgba(36, 14, 48, .5), rgba(36, 14, 48, 0)); }
       .ptk { font: 700 92px/1 "Inter", sans-serif; letter-spacing: .32em; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
