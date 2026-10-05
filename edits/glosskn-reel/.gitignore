@@ -13,3 +13,5 @@ renders-main.log
 build_final.log
 media/freeze/*.png
 media/freeze/*.jpg
+!final/
+!final/*.mp4
