@@ -11,3 +11,5 @@ media/matte/
 build_v3.log
 renders-main.log
 build_final.log
+media/freeze/*.png
+media/freeze/*.jpg

@@ -15,6 +15,9 @@ EMPH = [(0.25, 0.87), (1.55, 2.02), (4.18, 4.76), (13.36, 13.68), (16.73, 17.12)
         (18.38, 18.89), (20.58, 20.95), (22.46, 23.26), (34.62, 35.56), (36.09, 36.46), (37.47, 37.78),
         (37.92, 38.59), (38.87, 39.25), (42.80, 43.38), (44.84, 45.25), (46.52, 47.05), (47.57, 47.95),
         (50.41, 50.95), (51.48, 51.91)]
+# Purple is reserved for the highlight words; other big serif words stay white
+HILITE = [(0.25, 0.87), (4.18, 4.76), (16.73, 17.12), (22.46, 23.26), (37.47, 37.78), (37.92, 38.59),
+          (44.84, 45.25), (50.41, 50.95), (51.48, 51.91)]
 STRIKE = [(2.495, 3.24)]  # "makeup remover" gets struck through
 # Source windows where designed graphics replace the running captions
 NO_CAPS = [(20.58, 20.95), (47.57, 47.95), (5.60, 9.62), (24.42, 29.30), (30.29, 34.12), (38.59, 40.05), (40.05, 41.98), (48.70, 49.32)]
@@ -61,7 +64,7 @@ for pi, ph in enumerate(phrases):
     for wi, w in enumerate(ph):
         txt = html.escape("I" if w["text"].rstrip(",.:") == "i" else w["text"].rstrip(",.:"))
         em = in_any(w["src"], EMPH)
-        cls = "w em" if em else ("w stk" if kind == "stack" else "w")
+        cls = ("w em hl" if in_any(w["src"], HILITE) else "w em") if em else ("w stk" if kind == "stack" else "w")
         if in_any(w["src"], STRIKE): cls += " strike"
         words_html.append((em, f'<span class="{cls}" id="p{pi}w{wi}">{txt}</span>'))
         sel = f"#p{pi}w{wi}"
@@ -118,17 +121,29 @@ stickers("spark1", o(16.74), o(17.12), [(1260, 2160, 150), (1450, 2380, 90)], SP
 stickers("spark2", o(22.47), o(23.30), [(300, 1980, 170), (1690, 2120, 130), (1820, 2420, 90)], SPARK, "sparkle")
 stickers("spark3", o(44.85), o(45.25), [(560, 2000, 150), (1480, 2260, 110)], SPARK, "sparkle")
 
-# Name card: turnaround -> "Hi, I am Jaspreet" + role chips popping as she says them
-a, b = o(5.66), o(9.62)
+# Freeze-frame sticker: the picture pauses on "I'm Jaspreet", she pops out as a white-outlined sticker,
+# her name sits big behind her and the roles pop in as she says them (voice keeps running)
+fa, fb = o(6.25), o(9.62)
 roles = [("Makeup Artist", 7.09), ("Educator", 7.78), ("Founder, GLOSSKN", 8.54)]
 chips = "".join(f'<div class="chip" id="role{i}"><span class="dot"></span>{html.escape(r)}</div>' for i, (r, _) in enumerate(roles))
-clip("namecard", a, b, f'<div class="nc"><div class="hi" id="nc-hi">Hi, I&#8217;m</div><div class="chips">{chips}</div></div>')
-tl.append(f'tl.fromTo("#nc-hi",{{opacity:0,x:-60}},{{opacity:1,x:0,duration:0.25,ease:"power3.out"}},{o(5.68):.3f});')
-cue("shutter", o(5.68), 0.5); cue("whoosh_fast", o(6.25), 0.35)
+clip("freeze", fa, fb, '<div class="fz-bg" id="fz-bg"></div><div class="fz-tint" id="fz-tint"></div>'
+     '<div class="fz-hi" id="fz-hi">Hi, I&#8217;m</div><div class="fz-name" id="fz-name">Jaspreet</div>'
+     '<img class="fz-st" id="fz-st" src="media/freeze/sticker4k.png" />'
+     f'<div class="fz-chips">{chips}</div>', track=7)
+tl.append(f'tl.fromTo("#fz-bg",{{scale:1,filter:"blur(0px)"}},{{scale:1.08,filter:"blur(26px)",duration:0.45,ease:"power2.out"}},{fa:.3f});')
+tl.append(f'tl.fromTo("#fz-tint",{{opacity:0}},{{opacity:1,duration:0.4}},{fa:.3f});')
+tl.append(f'tl.fromTo("#fz-st",{{opacity:0,scale:0.86,rotation:4,y:120}},{{opacity:1,scale:1,rotation:-2,y:0,duration:0.5,ease:"back.out(1.7)"}},{fa + 0.05:.3f});')
+tl.append(f'tl.fromTo("#fz-st",{{scale:1}},{{scale:1.035,duration:{fb - fa - 0.8:.3f},ease:"sine.inOut",immediateRender:false}},{fa + 0.55:.3f});')
+tl.append(f'tl.fromTo("#fz-hi",{{opacity:0,x:-80}},{{opacity:1,x:0,duration:0.3,ease:"power3.out"}},{fa + 0.1:.3f});')
+tl.append(f'tl.fromTo("#fz-name",{{opacity:0,scale:0.7,y:80}},{{opacity:1,scale:1,y:0,duration:0.45,ease:"back.out(1.8)"}},{o(6.31):.3f});')
 for i, (r, t) in enumerate(roles):
-    tl.append(f'tl.fromTo("#role{i}",{{opacity:0,scale:0.5,y:20}},{{opacity:1,scale:1,y:0,duration:0.24,ease:"back.out(2.6)"}},{o(t):.3f});')
-    cue("pop", o(t), 0.55)
-tl.append(f'tl.to("#namecard .nc",{{opacity:0,x:-80,duration:0.2,ease:"power2.in"}},{b - 0.2:.3f});')
+    tl.append(f'tl.fromTo("#role{i}",{{opacity:0,scale:0.4,y:30,rotation:-6}},{{opacity:1,scale:1,y:0,rotation:0,duration:0.28,ease:"back.out(2.6)"}},{o(t):.3f});')
+tl.append(f'tl.to("#freeze .fz-hi, #freeze .fz-name, #freeze .fz-chips",{{opacity:0,y:-60,duration:0.2,ease:"power2.in"}},{fb - 0.22:.3f});')
+tl.append(f'tl.to("#fz-st",{{opacity:0,scale:1.12,duration:0.22,ease:"power2.in"}},{fb - 0.22:.3f});')
+
+# Small zoom accents on key beats (feels "cut to the beat")
+for t in [o(1.56), o(4.19), o(38.88), o(47.58)]:
+    tl.append(f'tl.fromTo("#vwrap",{{scale:1.05}},{{scale:1,duration:0.35,ease:"power2.out",immediateRender:false}},{t:.3f});')
 
 # Portrait photo frames (reference style): real footage pops in over her, tilted, then flies out
 PHOTOS = [("pf1", "media/pf_artist.mp4", 0.20, o(2.32), "left: 60px; top: 820px; --w: 600px; --h: 730px;", -5),
@@ -159,7 +174,15 @@ tl.append(f'tl.to("#checklist .cl",{{opacity:0,y:-40,duration:0.2}},{b - 0.2:.3f
 
 
 def card(cid, a, b, inner, sfx_in="whoosh"):
-    clip(cid, a, b, f'<div class="card"><div class="grain"></div><div class="cardin">{inner}</div></div>', track=8)
+    parts = "".join(f'<span class="pt-dot" id="{cid}-p{k}" style="left:{(k * 397) % 1960 + 60}px;top:{2400 + (k * 613) % 1300}px;'
+                    f'width:{18 + (k * 7) % 26}px;height:{18 + (k * 7) % 26}px"></span>' for k in range(12))
+    clip(cid, a, b, f'<div class="card"><div class="blob b1" id="{cid}-b1"></div><div class="blob b2" id="{cid}-b2"></div>{parts}'
+                    f'<div class="grain"></div><div class="cardin" id="{cid}-in">{inner}</div></div>', track=8)
+    tl.append(f'tl.fromTo("#{cid}-b1",{{x:-200,y:-100,scale:1}},{{x:260,y:180,scale:1.25,duration:{b - a:.3f},ease:"sine.inOut"}},{a:.3f});')
+    tl.append(f'tl.fromTo("#{cid}-b2",{{x:200,y:150,scale:1.2}},{{x:-220,y:-160,scale:0.95,duration:{b - a:.3f},ease:"sine.inOut"}},{a:.3f});')
+    tl.append(f'tl.fromTo("#{cid}-in",{{scale:0.96}},{{scale:1.03,duration:{b - a:.3f},ease:"none"}},{a:.3f});')
+    for k in range(12):
+        tl.append(f'tl.fromTo("#{cid}-p{k}",{{y:0,opacity:0}},{{y:-{900 + (k * 131) % 700},opacity:0.7,duration:{b - a:.3f},ease:"none"}},{a:.3f});')
     tl.append(f'tl.fromTo("#{cid} .card",{{clipPath:"inset(100% 0 0 0)"}},{{clipPath:"inset(0% 0 0 0)",duration:0.22,ease:"power3.out"}},{a:.3f});')
     tl.append(f'tl.to("#{cid} .card",{{clipPath:"inset(0 0 100% 0)",duration:0.18,ease:"power3.in"}},{b - 0.18:.3f});')
     if sfx_in:
@@ -268,7 +291,7 @@ open(os.path.join(PROJECT, "index.html"), "w").write(page)
 # Sound design: varied, soft, each tied to something on screen (no whoosh spam)
 C = [("snap", SHOT_STARTS[i] - 0.02, 0.45) for i in range(1, len(SHOTS))]
 C += [(n, t, g) for n, t, g in extra_cues]                                   # photo-frame shutters
-C += [("scribble", o(2.82), 0.45)]                                           # strike-through
+C += [("scribble", o(2.82), 0.45), ("shutter", fa, 0.45)]                     # strike-through, freeze
 C += [("pop", o(t), 0.35) for t in (7.09, 7.78, 8.54)]                        # name chips
 C += [("tick", o(t) + 0.12, 0.45) for t in (24.67, 26.21, 26.95, 28.21)]      # checklist
 C += [("swipe", o(30.29) - 0.1, 0.4), ("bubbles", o(31.43) + 0.2, 0.4), ("typing", o(32.66) + 0.12, 0.35),

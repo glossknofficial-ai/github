@@ -6,10 +6,9 @@ W, H = 2160, 3840
 o = lambda src: round(to_out(src), 3)
 # (id, src_in, src_out, text, css) — placed above/around her head so she occludes part of the word
 BEHIND = [
-    ("bname", 6.20, 9.58, "Jaspreet", "top: 300px; font-size: 400px; text-align: left; left: 110px;"),
     ("bmission", 19.98, 21.30, "mission", "top: 400px; font-size: 420px;"),
     ("bdone", 47.05, 47.97, "done.", "top: 700px; font-size: 380px;"),
-    ("bpower", 48.70, 52.62, "Power Cleanse", "top: 470px; font-size: 300px;"),
+    ("bpower", 48.70, 52.62, "Power Cleanse", "top: 470px; font-size: 300px; color: #d7b6e2;"),
 ]
 els, tl = [], []
 for bid, a, b, text, css in BEHIND:
@@ -33,7 +32,7 @@ page = f"""<!doctype html>
       html, body {{ margin: 0; width: {W}px; height: {H}px; overflow: hidden; background: transparent; }}
       #root {{ position: relative; width: 100%; height: 100%; overflow: hidden; }}
       .bt-host {{ position: absolute; inset: 0; }}
-      .bt {{ position: absolute; left: 0; right: 0; text-align: center; color: #d7b6e2;
+      .bt {{ position: absolute; left: 0; right: 0; text-align: center; color: #ffffff;
              font-family: "Playfair Display", serif; font-style: italic; font-weight: 800; line-height: 1; letter-spacing: -8px;
              text-shadow: 0 0 4px rgba(46, 18, 60, .55), 0 14px 70px rgba(46, 18, 60, .55); white-space: nowrap; }}
       .bt .l2 {{ display: block; }}
