@@ -22,8 +22,6 @@
       .lay.L { left: 170px; text-align: left; }
       .lay.C { left: 220px; width: 1720px; text-align: center; }
       .lay.R { right: 280px; text-align: right; }
-      .lay::before { content: ""; position: absolute; z-index: -1; left: -120px; right: -120px; top: -90px; bottom: -90px;
-                     background: radial-gradient(closest-side, rgba(36, 14, 48, .5), rgba(36, 14, 48, .25) 60%, rgba(36, 14, 48, 0)); }
       .ln { line-height: 1.12; }
       .ln.big { line-height: 1.0; margin: 6px 0 2px; }
       .lay.L .ln.big { padding-left: 70px; }
@@ -77,8 +75,6 @@
 
       /* ---------- checklist */
       .cl { position: absolute; left: 170px; top: 2180px; width: 1700px; z-index: 0; }
-      .cl::before, .nc::before { content: ""; position: absolute; z-index: -1; left: -200px; right: -100px; top: -140px; bottom: -120px;
-                                 background: radial-gradient(closest-side, rgba(36, 14, 48, .5), rgba(36, 14, 48, 0)); }
       .cltitle { font: italic 800 150px/1.1 "Playfair Display", serif; color: #fff; margin-bottom: 40px;
                  text-shadow: 0 0 3px rgba(46, 18, 60, .9), 0 4px 16px rgba(46, 18, 60, .85), 0 10px 48px rgba(46, 18, 60, .6); }
       .ck { display: flex; align-items: center; gap: 36px; margin: 0 0 28px; padding: 30px 56px 30px 30px; width: fit-content;
@@ -122,8 +118,6 @@
                 background: rgba(90, 47, 110, .85); }
       /* ---------- product title */
       .pt { position: absolute; left: 0; right: 0; top: 300px; text-align: center; z-index: 0; }
-      .pt::before { content: ""; position: absolute; z-index: -1; left: 160px; right: 160px; top: -120px; bottom: -100px;
-                    background: radial-gradient(closest-side, rgba(36, 14, 48, .5), rgba(36, 14, 48, 0)); }
       .ptk { font: 700 92px/1 "Inter", sans-serif; letter-spacing: .32em; text-shadow: 0 4px 24px rgba(0,0,0,.5); }
       .ptb { font: italic 800 270px/1.1 "Playfair Display", serif; color: var(--purple); margin-top: 24px;
              text-shadow: 0 0 3px rgba(46, 18, 60, .9), 0 4px 16px rgba(46, 18, 60, .85), 0 10px 48px rgba(46, 18, 60, .6); }

@@ -11,6 +11,8 @@ BROLL_FILES = {
     "robe": UPLOADS + "cf0c6cdb-WhatsApp_Video_2026-10-04_at_3.00.39_PM.mp4",
     "floral": UPLOADS + "4e9865cf-WhatsApp_Video_2026-10-04_at_3.02.49_PM.mp4",
     "close": UPLOADS + "024d7f60-WhatsApp_Video_2026-10-04_at_3.01.51_PM.mp4",  # landscape
+    "gentle": UPLOADS + "7c699545-WhatsApp_Video_2026-10-02_at_1.08.08_PM.mp4",  # Jaspreet wiping eye makeup gently
+    "lab": os.path.join(PROJECT, "media", "lab_still.png"),  # lab still (screenshot crop), animated with a camera move
 }
 
 q = lambda x: round(x * FPS) / FPS
@@ -22,35 +24,26 @@ SHOTS = [
     [(5.20, 9.62)],                                              # desk: turns around, Hi I am Jaspreet ...
     [(11.00, 13.69), (13.91, 19.40)],                            # office: most makeup goes around the eyes ...
     [(19.70, 23.27), (23.50, 29.30)],                            # sofa + bottle: mission ... face wash ...
-    [(29.93, 31.43), (31.62, 40.24), (40.58, 41.98), (42.26, 47.97)],  # curtain: labs, testing, friends & family
+    [(29.93, 31.43), (31.62, 40.24), (40.58, 41.98), (42.26, 45.24)],  # labs ... "it truly felt gentle." (no A-roll shown)
     [(48.12, 50.07), (50.40, 50.96), (51.17, 52.62)],            # product: power cleanse ... gentle yet effective
 ]
 SHOTS = [[(q(a), q(b)) for a, b in s] for s in SHOTS]
 
 # Framing toggles (punch-in / punch-out) without removing time, on sentence beats.
-ZOOM_TOGGLES = [q(t) for t in (1.46, 7.09, 14.98, 21.59, 25.99, 38.59, 46.75, 49.33)]
+ZOOM_TOGGLES = [q(t) for t in (1.46, 7.09, 14.98, 21.59, 25.99, 38.59, 49.33)]
 PUNCH = 1.14
 
 # B-roll replacing the picture (voice continues). (src_a, src_b, clip, clip in-point)
 BROLL = [
+    (29.93, 31.43, "lab", 0),        # "We worked with multiple labs"  (lab still, push-in)
     (34.29, 36.92, "robe", 0.0),     # "I tried every version on my eyes first"
     (36.92, 37.75, "floral", 0.3),   # "and then with friends"
     (37.75, 38.59, "close", 0.0),    # "and family"
-    (42.26, 44.00, "floral", 1.2),   # "We kept refining until"   (she looks down)
-    (44.00, 45.60, "close", 0.9),    # "it truly felt gentle"     (she looks down)
-    (45.60, 46.40, "robe", 3.2),     # "If it still"              (she looks down)
-    (46.40, 47.05, "floral", 2.95),  # "stung,"                   (last downward glance)
+    (40.05, 41.98, "lab", 1),        # "we went back to the lab"       (lab still, pull-out + pan)
+    (42.26, 45.24, "gentle", 0.25),  # "We kept refining until it truly felt gentle."
 ]
+# (31.43-34.29 lab-scene + formula animations and 38.59-40.05 sting meter are drawn full-screen by HyperFrames)
 BROLL = [(q(a), q(b), n, off) for a, b, n, off in BROLL]
-
-# Full-screen designed cards drawn by HyperFrames where she looks away and no footage exists
-# yet (lab B-roll slots — swap for stock footage once mixkit.co is reachable).
-CARD_SLOTS = [
-    (30.55, 31.43, "labs"),       # "multiple labs"
-    (33.42, 34.12, "formula"),    # "reworking the formula"
-    (40.58, 41.98, "backtolab"),  # "went back to the lab"
-]
-
 
 def pieces():
     out, t = [], 0.0
@@ -67,12 +60,15 @@ SHOT_STARTS = [next(p["out"] for p in PIECES if p["shot"] == s) for s in range(l
 
 
 def to_out(x, snap="next"):
-    """Map a source time onto the edited timeline (None if it falls in a removed gap and snap=None)."""
+    """Map a source time onto the edited timeline (None if it falls in a removed gap and snap=None;
+    snap="prev" maps a gap to the end of the piece before it)."""
     for p in PIECES:
         if p["a"] - 1e-6 <= x <= p["b"] + 1e-6:
             return p["out"] + x - p["a"]
     if snap is None:
         return None
+    if snap == "prev":
+        return max((p["out"] + p["b"] - p["a"] for p in PIECES if p["b"] <= x), default=0.0)
     return min((p["out"] for p in PIECES if p["a"] >= x), default=TOTAL)
 
 

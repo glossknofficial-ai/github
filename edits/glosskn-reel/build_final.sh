@@ -4,7 +4,9 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 export HYPERFRAMES_BROWSER_PATH="${HYPERFRAMES_BROWSER_PATH:-$(ls -d /opt/pw-browsers/chromium_headless_shell-*/*/ | head -1)headless_shell}"
-(cd pipeline && python3 build_base.py && python3 gen_comp.py && python3 gen_behind.py && python3 build_mix.py)
+(cd pipeline && python3 build_base.py && python3 gen_comp.py && python3 gen_behind.py)
+read -r MUS DROP B0 B1 <<< "$(cd pipeline && python3 -c 'from edl import *; print(round(TOTAL + 2.2, 3), SHOT_STARTS[1], round(to_out(40.58), 3), round(to_out(42.26), 3))')"
+(cd pipeline && python3 make_audio_assets.py "$MUS" "$DROP" "$B0" "$B1" && python3 build_mix.py)
 python3 - > .cache/windows.txt <<'P'
 import re, sys; sys.path.insert(0, "pipeline")
 from edl import to_out

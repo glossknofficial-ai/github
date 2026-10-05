@@ -11,7 +11,7 @@ o = lambda src: round(to_out(src), 3)  # source time -> output time
 WORDS = words()
 
 # Emphasis: source-time windows whose words switch to the purple italic serif
-EMPH = [(0.25, 0.87), (1.55, 2.02), (4.18, 4.76), (13.36, 13.68), (16.73, 17.12), (17.74, 18.17),
+EMPH = [(30.55, 31.42), (40.95, 41.97), (0.25, 0.87), (1.55, 2.02), (4.18, 4.76), (13.36, 13.68), (16.73, 17.12), (17.74, 18.17),
         (18.38, 18.89), (20.58, 20.95), (22.46, 23.26), (34.62, 35.56), (36.09, 36.46), (37.47, 37.78),
         (37.92, 38.59), (38.87, 39.25), (42.80, 43.38), (44.84, 45.25), (46.52, 47.05), (47.57, 47.95),
         (50.41, 50.95), (51.48, 51.91)]
@@ -20,7 +20,7 @@ HILITE = [(0.25, 0.87), (4.18, 4.76), (16.73, 17.12), (22.46, 23.26), (37.47, 37
           (44.84, 45.25), (50.41, 50.95), (51.48, 51.91)]
 STRIKE = [(2.495, 3.24)]  # "makeup remover" gets struck through
 # Source windows where designed graphics replace the running captions
-NO_CAPS = [(20.58, 20.95), (47.57, 47.95), (5.60, 9.62), (24.42, 29.30), (30.29, 34.12), (38.59, 40.05), (40.05, 41.98), (48.70, 49.32)]
+NO_CAPS = [(20.58, 20.95), (5.60, 9.62), (24.42, 29.30), (31.43, 34.29), (38.59, 40.05), (48.70, 49.32)]
 
 in_any = lambda t, rngs: any(a <= t < b - 0.005 for a, b in rngs)
 cues = []  # (sfx, out_time, gain)
@@ -31,7 +31,7 @@ cue = lambda n, t, g=1.0: cues.append((n, round(max(0.0, t), 3), g))
 # Hand-set phrase breaks (source start of each phrase) on natural speech beats
 PHRASE_STARTS = [0.07, 1.46, 2.32, 3.25, 4.08, 11.03, 12.59, 13.93, 14.98, 16.19, 17.12, 18.17, 19.72, 20.95,
                  21.59, 22.47, 23.51, 29.96, 31.64, 34.29, 35.56, 36.91, 37.78, 38.59, 39.25, 42.28, 43.38, 44.85,
-                 45.25, 47.05, 48.16, 49.33, 50.42, 51.49]
+                 40.08, 48.16, 49.33, 50.42, 51.49]
 is_start = lambda t: any(abs(t - x) < 0.006 for x in PHRASE_STARTS)
 phrases, cur = [], []
 for i, w in enumerate(WORDS):
@@ -49,9 +49,9 @@ if cur: phrases.append(cur)
 LAYOUT = {0.07: ("lock", "C"), 1.46: ("stack", "L"), 2.32: ("line", "C"), 3.25: ("line", "R"), 4.08: ("lock", "C"),
           11.03: ("line", "C"), 12.59: ("lock", "R"), 13.93: ("line", "L"), 14.98: ("line", "C"), 16.19: ("lock", "L"),
           17.12: ("lock", "R"), 18.17: ("lock", "C"), 19.72: ("line", "L"), 20.95: ("line", "C"), 21.59: ("line", "R"),
-          22.47: ("lock", "C"), 23.51: ("line", "L"), 29.96: ("line", "C"), 34.29: ("lock", "L"), 35.56: ("lock", "R"),
+          22.47: ("lock", "C"), 23.51: ("line", "L"), 29.96: ("lock", "C"), 34.29: ("lock", "L"), 35.56: ("lock", "R"),
           36.91: ("lock", "L"), 37.78: ("lock", "R"), 42.28: ("stack", "L"), 43.38: ("line", "C"), 44.85: ("lock", "C"),
-          45.25: ("lock", "L"), 47.05: ("line", "C"), 48.16: ("line", "C"), 49.33: ("line", "C"), 50.42: ("lock", "C"),
+          40.08: ("lock", "C"), 48.16: ("line", "C"), 49.33: ("line", "C"), 50.42: ("lock", "C"),
           51.49: ("lock", "C")}
 
 els, tl = [], []
@@ -123,7 +123,7 @@ stickers("spark3", o(44.85), o(45.25), [(560, 2000, 150), (1480, 2260, 110)], SP
 
 # Freeze-frame sticker: the picture pauses on "I'm Jaspreet", she pops out as a white-outlined sticker,
 # her name sits big behind her and the roles pop in as she says them (voice keeps running)
-fa, fb = o(6.25), o(9.62)
+fa, fb = o(5.80), o(9.62)
 roles = [("Makeup Artist", 7.09), ("Educator", 7.78), ("Founder, GLOSSKN", 8.54)]
 chips = "".join(f'<div class="chip" id="role{i}"><span class="dot"></span>{html.escape(r)}</div>' for i, (r, _) in enumerate(roles))
 clip("freeze", fa, fb, '<div class="fz-bg" id="fz-bg"></div><div class="fz-tint" id="fz-tint"></div>'
@@ -142,7 +142,7 @@ tl.append(f'tl.to("#freeze .fz-hi, #freeze .fz-name, #freeze .fz-chips",{{opacit
 tl.append(f'tl.to("#fz-st",{{opacity:0,scale:1.12,duration:0.22,ease:"power2.in"}},{fb - 0.22:.3f});')
 
 # Small zoom accents on key beats (feels "cut to the beat")
-for t in [o(1.56), o(4.19), o(38.88), o(47.58)]:
+for t in [o(1.56), o(4.19), o(38.88)]:
     tl.append(f'tl.fromTo("#vwrap",{{scale:1.05}},{{scale:1,duration:0.35,ease:"power2.out",immediateRender:false}},{t:.3f});')
 
 # Portrait photo frames (reference style): real footage pops in over her, tilted, then flies out
@@ -184,17 +184,10 @@ def card(cid, a, b, inner, sfx_in="whoosh"):
     for k in range(12):
         tl.append(f'tl.fromTo("#{cid}-p{k}",{{y:0,opacity:0}},{{y:-{900 + (k * 131) % 700},opacity:0.7,duration:{b - a:.3f},ease:"none"}},{a:.3f});')
     tl.append(f'tl.fromTo("#{cid} .card",{{clipPath:"inset(100% 0 0 0)"}},{{clipPath:"inset(0% 0 0 0)",duration:0.22,ease:"power3.out"}},{a:.3f});')
-    tl.append(f'tl.to("#{cid} .card",{{clipPath:"inset(0 0 100% 0)",duration:0.18,ease:"power3.in"}},{b - 0.18:.3f});')
+    # exits are hard cuts into the next shot (no reveal of the A-roll underneath)
     if sfx_in:
         cue(sfx_in, a - 0.2, 0.45)
 
-
-# Lab card 1: "with multiple labs"
-a, b = o(30.29), o(31.43)
-card("labs", a, b, '<div class="kick" id="labs-k">we worked with</div><div class="big" id="labs-b">multiple labs.</div>')
-tl.append(f'tl.fromTo("#labs-k",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.2}},{a + 0.08:.3f});')
-tl.append(f'tl.fromTo("#labs-b",{{opacity:0,scale:0.8}},{{opacity:1,scale:1,duration:0.3,ease:"back.out(2)"}},{o(30.55):.3f});')
-cue("impact", o(30.55), 0.3)
 
 # Animated lab scene (made in code, no stock footage): "and kept testing"
 a, b = o(31.43), o(32.66)
@@ -212,7 +205,7 @@ for i, lv in enumerate(levels):
 tl.append(f'tl.fromTo("#drop",{{y:0,opacity:1}},{{y:330,opacity:0,duration:0.42,ease:"power2.in",repeat:1}},{a + 0.2:.3f});')
 
 # Lab card 2: "reworking the formula" with a version counter
-a, b = o(32.66), o(34.12)
+a, b = o(32.66), o(34.29)
 vers = "".join(f'<span class="v" id="v{i}">V{i + 1}</span>' for i in range(5))
 card("formula", a, b, f'<div class="kick" id="fm-k">reworking the</div><div class="big" id="fm-b">formula.</div><div class="vers">{vers}<span class="v dots" id="v5">&#8230;</span></div>', None)
 tl.append(f'tl.fromTo("#fm-k",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.2}},{a + 0.05:.3f});')
@@ -234,15 +227,6 @@ tl.append(f'tl.fromTo("#mt-b",{{opacity:0,scale:0.8}},{{opacity:1,scale:1,durati
 tl.append(f'tl.fromTo("#needle",{{rotation:-80,svgOrigin:"700 700"}},{{rotation:62,svgOrigin:"700 700",duration:0.75,ease:"elastic.out(1,0.45)"}},{a + 0.15:.3f});')
 tl.append(f'tl.fromTo("#xst",{{opacity:0,scale:2.4,rotation:-20}},{{opacity:1,scale:1,rotation:-8,duration:0.25,ease:"back.out(2)"}},{a + 0.9:.3f});')
 
-# Back to the lab: rewind
-a, b = o(40.06), o(41.98)
-card("backlab", a, b, f'<div class="rew" id="rew"><svg viewBox="0 0 100 100"><path d="M78 50 A28 28 0 1 1 64 25.8" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round"/><path d="M58 12 L68 27 L51 31" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div><div class="kick" id="bl-k">so we went</div><div class="big" id="bl-b">back to the lab.</div>', "rewind")
-tl.append(f'tl.fromTo("#rew",{{rotation:0}},{{rotation:-360,duration:1.1,ease:"power2.inOut"}},{a + 0.05:.3f});')
-tl.append(f'tl.fromTo("#bl-k",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.2}},{a + 0.1:.3f});')
-tl.append(f'tl.fromTo("#bl-b",{{opacity:0,scale:0.8}},{{opacity:1,scale:1,duration:0.3,ease:"back.out(2)"}},{o(40.95):.3f});')
-
-# Stung / gentle / done accents
-cue("click", o(38.88), 0.45); cue("sparkle", o(44.85), 0.45); cue("impact", o(47.58), 0.45)
 
 # Product title: Power Cleanse by GLOSSKN
 a, b = o(48.70), TOTAL
@@ -294,7 +278,7 @@ C += [(n, t, g) for n, t, g in extra_cues]                                   # p
 C += [("scribble", o(2.82), 0.45), ("shutter", fa, 0.45)]                     # strike-through, freeze
 C += [("pop", o(t), 0.35) for t in (7.09, 7.78, 8.54)]                        # name chips
 C += [("tick", o(t) + 0.12, 0.45) for t in (24.67, 26.21, 26.95, 28.21)]      # checklist
-C += [("swipe", o(30.29) - 0.1, 0.4), ("bubbles", o(31.43) + 0.2, 0.4), ("typing", o(32.66) + 0.12, 0.35),
+C += [("bubbles", o(31.43) + 0.2, 0.4), ("typing", o(32.66) + 0.12, 0.35),
       ("swipe", o(38.59) - 0.1, 0.4), ("blip", o(38.59) + 0.9, 0.45), ("rewind", o(40.06) - 0.1, 0.4)]
 C += [(n, t, 0.45 if n == "heartpop" else 0.4) for n, t in sticker_cues]
 C += [("ding", o(48.74), 0.45), ("swipe", TOTAL - 0.15, 0.4), ("sparkle", TOTAL + 0.8, 0.35)]

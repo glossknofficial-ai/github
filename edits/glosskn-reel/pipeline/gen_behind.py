@@ -7,7 +7,6 @@ o = lambda src: round(to_out(src), 3)
 # (id, src_in, src_out, text, css) — placed above/around her head so she occludes part of the word
 BEHIND = [
     ("bmission", 19.98, 21.30, "mission", "top: 400px; font-size: 420px;"),
-    ("bdone", 47.05, 47.97, "done.", "top: 700px; font-size: 380px;"),
     ("bpower", 48.70, 52.62, "Power Cleanse", "top: 400px; font-size: 300px;"),
 ]
 els, tl = [], []
@@ -34,7 +33,8 @@ page = f"""<!doctype html>
       .bt-host {{ position: absolute; inset: 0; }}
       .bt {{ position: absolute; left: 0; right: 0; text-align: center; color: #d7b6e2;
              font-family: "Playfair Display", serif; font-style: italic; font-weight: 800; line-height: 1; letter-spacing: -8px;
-             text-shadow: 0 0 4px rgba(46, 18, 60, .55), 0 14px 70px rgba(46, 18, 60, .55); white-space: nowrap; }}
+             text-shadow: 0 0 4px rgba(46, 18, 60, .55), 0 14px 70px rgba(46, 18, 60, .55); white-space: nowrap;
+             -webkit-text-stroke: 14px #4a2a5a; paint-order: stroke fill; }}
       .bt .l2 {{ display: block; }}
     </style>
   </head>
