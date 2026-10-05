@@ -40,7 +40,8 @@ for s in segs:
 files = []
 for s in segs:
     n = round((s["b"] - s["a"]) * FPS)
-    key = hashlib.md5(json.dumps([s, W, GRADE, 3]).encode()).hexdigest()[:12]
+    src_stamp = os.path.getmtime(BROLL_FILES["lab"]) if s["broll"] and s["broll"][0] == "lab" else 0  # re-render if the still changes
+    key = hashlib.md5(json.dumps([s, W, GRADE, 3, src_stamp]).encode()).hexdigest()[:12]
     out = os.path.join(CACHE, f"{key}.mp4"); files.append(out)
     if os.path.exists(out):
         continue
