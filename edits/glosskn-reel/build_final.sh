@@ -16,4 +16,4 @@ P
 pipeline/matte_windows.sh
 (cd behind && hyperframes render --format mov -o ../renders/behind.mov --quiet) && echo "behind rendered"
 hyperframes render -q delivery -o renders/main.mp4 --quiet && echo "main rendered"
-python3 pipeline/composite.py glosskn-power-cleanse-v3-4k.mp4 && echo "composited"
+python3 pipeline/composite.py glosskn-power-cleanse-final-4k.mp4 && echo "composited"

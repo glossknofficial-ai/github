@@ -40,52 +40,83 @@ for i, w in enumerate(WORDS):
     cur.append(w)
 if cur: phrases.append(cur)
 
+# Reference-style text: small white words placed around her + one big purple serif word per beat.
+# layout: "lock" = small / BIG / small lines, "stack" = one word per line (small caps) building down,
+# "line" = a short small line. align: L / C / R (all in the chest band, clear of her face).
+LAYOUT = {0.07: ("lock", "C"), 1.46: ("stack", "L"), 2.32: ("line", "C"), 3.25: ("line", "R"), 4.08: ("lock", "C"),
+          11.03: ("line", "C"), 12.59: ("lock", "R"), 13.93: ("line", "L"), 14.98: ("line", "C"), 16.19: ("lock", "L"),
+          17.12: ("lock", "R"), 18.17: ("lock", "C"), 19.72: ("line", "L"), 20.95: ("line", "C"), 21.59: ("line", "R"),
+          22.47: ("lock", "C"), 23.51: ("line", "L"), 29.96: ("line", "C"), 34.29: ("lock", "L"), 35.56: ("lock", "R"),
+          36.91: ("lock", "L"), 37.78: ("lock", "R"), 42.28: ("stack", "L"), 43.38: ("line", "C"), 44.85: ("lock", "C"),
+          45.25: ("lock", "L"), 47.05: ("line", "C"), 48.16: ("line", "C"), 49.33: ("line", "C"), 50.42: ("lock", "C"),
+          51.49: ("lock", "C")}
+
 els, tl = [], []
 for pi, ph in enumerate(phrases):
     start = max(0.0, ph[0]["start"] - 0.04)
     nxt_start = phrases[pi + 1][0]["start"] - 0.04 if pi + 1 < len(phrases) else DUR
     end = min(ph[-1]["end"] + 0.35, nxt_start)
-    spans = []
+    kind, align = next((v for k, v in LAYOUT.items() if abs(k - ph[0]["src"]) < 0.02), ("line", "C"))
+    words_html = []
     for wi, w in enumerate(ph):
         txt = html.escape("I" if w["text"].rstrip(",.:") == "i" else w["text"].rstrip(",.:"))
-        cls = "w em" if in_any(w["src"], EMPH) else "w"
+        em = in_any(w["src"], EMPH)
+        cls = "w em" if em else ("w stk" if kind == "stack" else "w")
         if in_any(w["src"], STRIKE): cls += " strike"
-        spans.append(f'<span class="{cls}" id="p{pi}w{wi}">{txt}</span>')
+        words_html.append((em, f'<span class="{cls}" id="p{pi}w{wi}">{txt}</span>'))
         sel = f"#p{pi}w{wi}"
-        if "em" in cls:
-            tl.append(f'tl.fromTo("{sel}",{{opacity:0,scale:0.6,rotation:-4,y:30}},{{opacity:1,scale:1,rotation:0,y:0,duration:0.22,ease:"back.out(2.4)"}},{w["start"]:.3f});')
+        if em:
+            tl.append(f'tl.fromTo("{sel}",{{opacity:0,scale:0.5,rotation:-7,y:40}},{{opacity:1,scale:1,rotation:0,y:0,duration:0.26,ease:"back.out(2.2)"}},{w["start"]:.3f});')
         else:
-            tl.append(f'tl.fromTo("{sel}",{{opacity:0,y:36}},{{opacity:1,y:0,duration:0.14,ease:"power2.out"}},{w["start"]:.3f});')
+            tl.append(f'tl.fromTo("{sel}",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.14,ease:"power2.out"}},{w["start"]:.3f});')
         if "strike" in cls:
             tl.append(f'tl.fromTo("{sel}",{{"--s":0}},{{"--s":1,duration:0.25,ease:"power2.inOut",immediateRender:false}},{w["end"]:.3f});')
+    lines = []
+    if kind == "stack":
+        lines = [([h], em) for em, h in words_html]
+    elif kind == "lock":
+        for em, h in words_html:
+            if lines and lines[-1][1] == em:
+                lines[-1][0].append(h)
+            else:
+                lines.append(([h], em))
+    else:
+        lines = [([h for _, h in words_html], False)]
+    body = "".join(f'<div class="ln{" big" if big else ""}">{" ".join(hs)}</div>' for hs, big in lines)
     els.append(f'<div class="clip cap" data-start="{start:.3f}" data-duration="{end - start:.3f}" data-track-index="5">'
-               f'<div class="capin">{" ".join(spans)}</div></div>')
+               f'<div class="lay {align}">{body}</div></div>')
 
 # ------------------------------------------------------------------ designed graphics
 def clip(cid, a, b, inner, cls="", track=6):
     els.append(f'<div id="{cid}" class="clip {cls}" data-start="{a:.3f}" data-duration="{b - a:.3f}" data-track-index="{track}">{inner}</div>')
 
 
-# Hook impact on "12 years", strike-through tick, sparkle on "create it"
-cue("impact", o(0.26) - 0.02, 0.55); cue("swish", o(2.83), 0.35); cue("sparkle", o(4.19), 0.5)
-
-# Shot changes: soft white flash + whoosh; B-roll entries: swish
+# Whip-blur transitions on scene changes; a soft punch on B-roll entries
 for si in range(1, len(SHOTS)):
-    t = SHOT_STARTS[si]
-    clip(f"flash{si}", t - 0.02, t + 0.22, '<div class="flash"></div>', track=9)
-    tl.append(f'tl.fromTo("#flash{si} .flash",{{opacity:0.0}},{{opacity:0.38,duration:0.05,ease:"none"}},{t - 0.02:.3f}).to("#flash{si} .flash",{{opacity:0,duration:0.17,ease:"power2.out"}},{t + 0.03:.3f});')
-    cue("whoosh", t - 0.3, 0.45)
-for ba, bb, n, off in BROLL:
-    cue("swish" if ba not in (34.29,) else "whoosh_fast", o(ba) - 0.12, 0.4)  # filtered below
-
-# Zoom-punch transitions: the picture lands slightly zoomed and settles (scene changes + B-roll entries)
-for t in [SHOT_STARTS[i] for i in range(1, len(SHOTS))] + [o(34.29), o(42.26)]:
+    t = SHOT_STARTS[si]; dx = 160 if si % 2 else -160
+    tl.append(f'tl.fromTo("#vwrap",{{x:{dx},scale:1.18,filter:"blur(26px)"}},{{x:0,scale:1,filter:"blur(0px)",duration:0.32,ease:"power3.out",immediateRender:false}},{t:.3f});')
+for t in [o(34.29), o(42.26)]:
     tl.append(f'tl.fromTo("#vwrap",{{scale:1.09}},{{scale:1,duration:0.42,ease:"power3.out",immediateRender:false}},{t:.3f});')
 
-# Hook headline for the first seconds
-clip("hook", 0.15, SHOT_STARTS[1] - 0.05, '<div class="hook" id="hook-in"><span class="hookdot"></span>Why I created my own makeup remover</div>')
-tl.append('tl.fromTo("#hook-in",{opacity:0,y:-60},{opacity:1,y:0,duration:0.35,ease:"back.out(1.8)"},0.15);')
-tl.append(f'tl.to("#hook-in",{{opacity:0,y:-40,duration:0.2}},{SHOT_STARTS[1] - 0.3:.3f});')
+# Stickers (drawn here, no stock art): hearts for friends & family, sparkles for the gentle moments
+HEART = ('<svg viewBox="0 0 100 92"><path d="M50 88 C20 66 4 50 4 28 C4 13 16 3 30 3 C40 3 46 9 50 16 C54 9 60 3 70 3 '
+         'C84 3 96 13 96 28 C96 50 80 66 50 88 Z" fill="#d7b6e2" stroke="#fff" stroke-width="6"/></svg>')
+SPARK = '<svg viewBox="0 0 100 100"><path d="M50 0 C54 34 66 46 100 50 C66 54 54 66 50 100 C46 66 34 54 0 50 C34 46 46 34 50 0 Z" fill="#fff"/></svg>'
+sticker_cues = []
+def stickers(sid, t0, t1, items, svg, sfx):
+    inner = "".join(f'<div class="stk-i" id="{sid}{k}" style="left:{x}px;top:{y}px;width:{w}px;height:{w}px">{svg}</div>' for k, (x, y, w) in enumerate(items))
+    clip(sid, t0, t1, inner, "stickers", track=8)
+    for k, (x, y, w) in enumerate(items):
+        tk = t0 + 0.09 * k
+        tl.append(f'tl.fromTo("#{sid}{k}",{{opacity:0,scale:0.2,rotation:-25}},{{opacity:1,scale:1,rotation:{(-1) ** k * 10},duration:0.3,ease:"back.out(2.6)"}},{tk:.3f});')
+        tl.append(f'tl.to("#{sid}{k}",{{y:-90,rotation:{(-1) ** k * -6},duration:{max(0.3, t1 - tk - 0.5):.3f},ease:"sine.inOut"}},{tk + 0.3:.3f});')
+    sticker_cues.append((sfx, round(t0, 3)))
+
+stickers("hearts1", o(37.48), o(37.78), [(1480, 1880, 230), (1760, 2080, 170), (1560, 2300, 130)], HEART, "heartpop")
+stickers("hearts2", o(37.93), o(38.59), [(260, 1860, 230), (520, 2120, 170), (300, 2330, 130)], HEART, "heartpop")
+stickers("spark1", o(16.74), o(17.12), [(1260, 2160, 150), (1450, 2380, 90)], SPARK, "sparkle")
+stickers("spark2", o(22.47), o(23.30), [(300, 1980, 170), (1690, 2120, 130), (1820, 2420, 90)], SPARK, "sparkle")
+stickers("spark3", o(44.85), o(45.25), [(560, 2000, 150), (1480, 2260, 110)], SPARK, "sparkle")
 
 # Name card: turnaround -> "Hi, I am Jaspreet" + role chips popping as she says them
 a, b = o(5.66), o(9.62)
@@ -234,23 +265,16 @@ page = f"""<!doctype html>
 </html>
 """
 open(os.path.join(PROJECT, "index.html"), "w").write(page)
-# Keep the sound design sparse, like the references: transition whooshes, one pop for the name, one ding for
-# the product title. Everything else stays visual only.
-TRANSITIONS = set([round(SHOT_STARTS[i] - 0.3, 3) for i in range(1, len(SHOTS))] + [round(TOTAL - 0.25, 3)])
-kept, pop_used = [], False
-for n, t, g in cues:
-    if n == "whoosh" and (t in TRANSITIONS or g == 0.45):
-        kept.append(("whoosh", t, 0.32))
-    elif n in ("swish", "rewind") and g == 0.45:          # card wipes
-        kept.append(("whoosh", t, 0.28))
-    elif n == "whoosh_fast" and abs(t - (o(34.29) - 0.12)) < 0.01:  # into the friends & family B-roll
-        kept.append(("whoosh_fast", t, 0.3))
-    elif n == "pop" and not pop_used:
-        kept.append(("pop", t, 0.35)); pop_used = True
-    elif n == "ding":
-        kept.append(("ding", t, 0.3))
-kept.sort(key=lambda c: c[1])
-cues = [c for i, c in enumerate(kept) if i == 0 or c[1] - kept[i - 1][1] > 0.8] + extra_cues
-cues.sort(key=lambda c: c[1])
+# Sound design: varied, soft, each tied to something on screen (no whoosh spam)
+C = [("snap", SHOT_STARTS[i] - 0.02, 0.45) for i in range(1, len(SHOTS))]
+C += [(n, t, g) for n, t, g in extra_cues]                                   # photo-frame shutters
+C += [("scribble", o(2.82), 0.45)]                                           # strike-through
+C += [("pop", o(t), 0.35) for t in (7.09, 7.78, 8.54)]                        # name chips
+C += [("tick", o(t) + 0.12, 0.45) for t in (24.67, 26.21, 26.95, 28.21)]      # checklist
+C += [("swipe", o(30.29) - 0.1, 0.4), ("bubbles", o(31.43) + 0.2, 0.4), ("typing", o(32.66) + 0.12, 0.35),
+      ("swipe", o(38.59) - 0.1, 0.4), ("blip", o(38.59) + 0.9, 0.45), ("rewind", o(40.06) - 0.1, 0.4)]
+C += [(n, t, 0.45 if n == "heartpop" else 0.4) for n, t in sticker_cues]
+C += [("ding", o(48.74), 0.45), ("swipe", TOTAL - 0.15, 0.4), ("sparkle", TOTAL + 0.8, 0.35)]
+cues = sorted((n, round(max(0.0, t), 3), g) for n, t, g in C)
 json.dump(dict(duration=DUR, cues=cues), open(os.path.join(PROJECT, "media", "cues.json"), "w"), indent=1)
 print("phrases", len(phrases), "elements", len(els), "tweens", len(tl), "cues", len(cues), "duration", DUR)

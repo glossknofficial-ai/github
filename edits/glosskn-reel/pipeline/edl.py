@@ -38,7 +38,8 @@ BROLL = [
     (37.75, 38.59, "close", 0.0),    # "and family"
     (42.26, 44.00, "floral", 1.2),   # "We kept refining until"   (she looks down)
     (44.00, 45.60, "close", 0.9),    # "it truly felt gentle"     (she looks down)
-    (45.60, 46.80, "robe", 3.2),     # "If it still stung"        (she looks down)
+    (45.60, 46.40, "robe", 3.2),     # "If it still"              (she looks down)
+    (46.40, 47.05, "floral", 2.95),  # "stung,"                   (last downward glance)
 ]
 BROLL = [(q(a), q(b), n, off) for a, b, n, off in BROLL]
 
