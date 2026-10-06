@@ -35,3 +35,4 @@ becomes the real Power Melt packshot. Premium, calm, ASMR.
 
 - No on-screen text at all ("15 seconds...no text"). Brand appears only on the product label.
 - Background solid #d7b6e2.
+- Set: seamless lavender sweep (#d7b6e2 base) — tube stands on a tabletop with soft left key light, contact + cast shadow to the right, like the reference ("take care of the background").
