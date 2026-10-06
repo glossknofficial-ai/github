@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "preferences": {
+    "destination": {
+      "value": "instagram-reels",
+      "confirmed_in": [
+        "power-melt-ingredient-pour"
+      ],
+      "updated_at": "2026-10-06T03:54:44.631Z"
+    },
+    "aspect": {
+      "value": "1080x1920",
+      "confirmed_in": [
+        "power-melt-ingredient-pour"
+      ],
+      "updated_at": "2026-10-06T03:54:44.678Z"
+    },
+    "language": {
+      "value": "en",
+      "confirmed_in": [
+        "power-melt-ingredient-pour"
+      ],
+      "updated_at": "2026-10-06T03:54:44.722Z"
+    },
+    "flow": {
+      "value": "automation",
+      "confirmed_in": [
+        "power-melt-ingredient-pour"
+      ],
+      "updated_at": "2026-10-06T03:54:44.769Z"
+    },
+    "storyboard": {
+      "value": "yes",
+      "confirmed_in": [
+        "power-melt-ingredient-pour"
+      ],
+      "updated_at": "2026-10-06T03:54:44.815Z"
+    }
+  },
+  "sightings": {}
+}
