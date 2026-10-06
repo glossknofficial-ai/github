@@ -1,817 +1,833 @@
 <title>GLOSSKN Power Cleanse</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="description" content="Power Cleanse by GLOSSKN: the make-up removing face wash that is sting-free, tear-free and gentle on eyes.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;1,500;1,600;1,700;1,800&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Outfit:wght@300;400;500;600&display=swap">
 <style>
-/* Layout: one fixed WebGL stage (bottle + bubbles) behind alternating night/mist sections; the bottle travels between sections as you scroll. */
+/* Layout: Cosmo (Zest) editorial structure in GLOSSKN's own palette — warm off-white ground, lilac surfaces,
+   serif display with italic accents, Outfit for UI. 3D lives in depth: a parallax split hero, tilting product
+   tiles, floating texture icons and one real-time Power Cleanse bottle. */
 :root {
-  --night: #120a17;      /* page ground, deep aubergine */
-  --plum: #241430;       /* raised dark surface */
-  --lilac: #d7b6e2;      /* brand lavender */
-  --orchid: #8e6aa1;     /* brand deep lavender */
-  --mist: #f5eef7;       /* light section ground */
-  --pearl: #fbf8fc;      /* text on dark */
-  --ink: #1f1025;        /* text on light */
-  --haze: #b6a3c0;       /* secondary text on dark */
-  --dusk: #6d5a77;       /* secondary text on light */
-  --line-d: rgba(215, 182, 226, .18);
-  --line-l: rgba(142, 106, 161, .22);
-  --glass: rgba(36, 20, 48, .42);
-  --glass-l: rgba(255, 255, 255, .55);
-  --silver: #c9c3cc;
+  --paper: #f7f5f5;      /* page ground (site uses #f5f5f5) */
+  --white: #ffffff;
+  --lilac: #e0cee4;      /* GLOSSKN primary */
+  --lilac-2: #cfbcd7;    /* GLOSSKN button lilac */
+  --tile: #ccb8d6;       /* product photo ground */
+  --mist: #efe8f1;       /* soft lilac-greige surface */
+  --plum: #2b2230;       /* deep surface, Cosmo's dark block in brand hue */
+  --ink: #181310;        /* GLOSSKN text */
+  --ink-2: #5d5360;      /* secondary text */
+  --line: #e2dbe4;
 
-  --display: "Playfair Display", "Didot", "Bodoni MT", Georgia, serif;
-  --sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --serif: "Libre Baskerville", "Baskerville", Georgia, serif;
+  --sans: "Outfit", "Helvetica Neue", Helvetica, Arial, sans-serif;
 
-  --step--1: clamp(.78rem, .75rem + .15vw, .86rem);
-  --step-0: clamp(.95rem, .92rem + .2vw, 1.06rem);
-  --step-1: clamp(1.15rem, 1.05rem + .45vw, 1.4rem);
-  --step-2: clamp(1.5rem, 1.25rem + 1.1vw, 2.15rem);
-  --step-3: clamp(2.1rem, 1.6rem + 2.4vw, 3.6rem);
-  --step-4: clamp(2.8rem, 1.9rem + 4.6vw, 6.2rem);
+  --t-xs: .78rem; --t-sm: .9rem; --t-md: 1.02rem;
+  --t-lg: clamp(1.15rem, 1.05rem + .4vw, 1.35rem);
+  --t-xl: clamp(1.7rem, 1.3rem + 1.6vw, 2.6rem);
+  --t-2xl: clamp(2.1rem, 1.4rem + 2.8vw, 3.7rem);
 
-  --gutter: clamp(16px, 4vw, 56px);
-  --max: 1240px;
-  --ease: cubic-bezier(.2, .8, .2, 1);
-  color-scheme: dark;
+  --gutter: clamp(16px, 3.6vw, 56px);
+  --max: 1360px;
+  --ease: cubic-bezier(.2, .75, .2, 1);
+  color-scheme: light;
 }
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
 html { scroll-behavior: smooth; }
-@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-body {
-  margin: 0; background: var(--night); color: var(--pearl);
-  font: 400 var(--step-0)/1.6 var(--sans); -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-img, video { max-width: 100%; display: block; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 300 var(--t-md)/1.65 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+img, video { display: block; max-width: 100%; }
 a { color: inherit; }
 button { font: inherit; color: inherit; cursor: pointer; }
-:focus-visible { outline: 2px solid var(--lilac); outline-offset: 3px; border-radius: 6px; }
-h1, h2, h3 { margin: 0; text-wrap: balance; font-weight: 600; }
-p { margin: 0; }
-em { font-family: var(--display); font-style: italic; font-weight: 600; }
-
-/* ---------- 3D stage */
-#stage { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: 1; pointer-events: none; display: block; }
-.wrap { position: relative; z-index: 2; width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+h1, h2, h3, h4, p { margin: 0; }
+h2, h3 { text-wrap: balance; }
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+em.it { font-family: var(--serif); font-style: italic; }
+.h2 { font: 400 var(--t-2xl)/1.15 var(--serif); letter-spacing: -.02em; }
+.h2 em { font-style: italic; }
+.h3 { font: 400 var(--t-xl)/1.2 var(--sans); letter-spacing: -.02em; }
+.eyebrow { font: 500 var(--t-xs)/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; }
+.muted { color: var(--ink-2); }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 0; border-radius: 50px; padding: 15px 30px;
+  font: 500 var(--t-sm)/1 var(--sans); letter-spacing: .06em; text-transform: uppercase; text-decoration: none; transition: background .3s, color .3s, transform .4s var(--ease); }
+.btn:hover { transform: translateY(-2px); }
+.btn-ink { background: var(--ink); color: var(--white); }
+.btn-ink:hover { background: #3a2f3c; }
+.btn-white { background: var(--white); color: var(--ink); }
+.btn-lilac { background: var(--lilac-2); color: var(--ink); }
+.btn-lilac:hover { background: var(--ink); color: var(--white); }
+.btn-line { background: transparent; box-shadow: inset 0 0 0 1px currentColor; }
+.price { font-variant-numeric: tabular-nums; }
+.price s { color: var(--ink-2); margin-left: 8px; font-size: .92em; }
 section { position: relative; }
-.ph { text-decoration: underline dotted var(--orchid) 1.5px; text-underline-offset: 4px; cursor: help; }
-
-.eyebrow { display: inline-flex; align-items: center; gap: 10px; font: 600 var(--step--1)/1 var(--sans); letter-spacing: .22em; text-transform: uppercase; color: var(--lilac); }
-.eyebrow::before { content: ""; width: 22px; height: 1px; background: currentColor; }
-.light .eyebrow { color: var(--orchid); }
-.h2 { font: 500 var(--step-3)/1.05 var(--sans); letter-spacing: -.035em; }
-.h2 em { font-weight: 600; letter-spacing: -.02em; color: var(--lilac); }
-.light .h2 em { color: var(--orchid); }
-.lede { color: var(--haze); max-width: 58ch; }
-.light { background: var(--mist); color: var(--ink); }
-.light .lede { color: var(--dusk); }
-
-.btn { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border: 0; border-radius: 999px;
-  padding: 16px 28px; font: 600 var(--step-0)/1 var(--sans); letter-spacing: -.01em; text-decoration: none;
-  transition: transform .4s var(--ease), box-shadow .4s var(--ease), background .3s; }
-.btn-primary { background: var(--lilac); color: var(--ink); box-shadow: 0 10px 40px -10px rgba(215, 182, 226, .7), inset 0 1px 0 rgba(255, 255, 255, .6); }
-.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 18px 50px -12px rgba(215, 182, 226, .9), inset 0 1px 0 rgba(255, 255, 255, .6); }
-.btn-ghost { background: transparent; color: inherit; box-shadow: inset 0 0 0 1px var(--line-d); }
-.light .btn-ghost { box-shadow: inset 0 0 0 1px var(--line-l); }
-.btn-ghost:hover { box-shadow: inset 0 0 0 1px var(--lilac); }
-.btn-dark { background: var(--ink); color: var(--pearl); }
-.btn-dark:hover { transform: translateY(-2px); background: var(--orchid); }
-.play { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--lilac); color: var(--ink); }
-.play svg { width: 10px; margin-left: 2px; }
 
 /* ---------- announcement + header */
-.announce { position: relative; z-index: 3; background: var(--lilac); color: var(--ink); text-align: center;
-  font: 600 .78rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; padding: 11px 16px; }
-.header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; }
-.header-in { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding-block: 14px;
-  transition: padding .4s var(--ease); }
-.header::before { content: ""; position: absolute; inset: 0; background: rgba(18, 10, 23, .86); backdrop-filter: blur(18px) saturate(1.4);
-  -webkit-backdrop-filter: blur(18px) saturate(1.4); border-bottom: 1px solid var(--line-d); opacity: 0; transition: opacity .4s; }
-.header.scrolled::before { opacity: 1; }
-.logo { font: 500 1.2rem/1 var(--sans); letter-spacing: .34em; text-decoration: none; padding-left: .34em; }
-.nav { display: flex; gap: 6px; }
-.nav a { text-decoration: none; padding: 9px 16px; border-radius: 999px; font-weight: 500; font-size: .95rem; color: var(--haze); transition: color .3s, background .3s; }
-.nav a:hover { color: var(--pearl); background: rgba(215, 182, 226, .1); }
-.h-actions { display: flex; gap: 8px; align-items: center; }
-.icon-btn { position: relative; width: 44px; height: 44px; border-radius: 50%; border: 0; display: grid; place-items: center;
-  background: rgba(215, 182, 226, .1); transition: background .3s; }
-.icon-btn:hover { background: rgba(215, 182, 226, .22); }
-.icon-btn svg { width: 20px; height: 20px; }
-.count { position: absolute; top: -2px; right: -2px; min-width: 19px; height: 19px; padding: 0 5px; border-radius: 99px; background: var(--lilac);
-  color: var(--ink); font: 700 .7rem/19px var(--sans); text-align: center; font-variant-numeric: tabular-nums; transition: transform .4s var(--ease); }
-.count.bump { transform: scale(1.35); }
+.announce { background: var(--lilac); text-align: center; font: 500 var(--t-xs)/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; padding: 11px 16px; }
+.header { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 30; color: var(--white); transition: color .4s, background .4s, box-shadow .4s; }
+.header.solid { color: var(--ink); background: rgba(247, 245, 245, .94); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); box-shadow: 0 1px 0 var(--line); }
+.header-in { display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; gap: 20px; height: 74px; }
+.nav { display: flex; gap: 26px; }
+.nav a { position: relative; padding-block: 6px; text-decoration: none; font: 400 var(--t-sm)/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+.nav a::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px; background: currentColor; transform: scaleX(0); transform-origin: right; transition: transform .4s var(--ease); }
+.nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+.brand { display: block; width: 150px; height: 38px; position: relative; }
+.brand img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: contain; transition: opacity .4s; }
+.brand .dark { opacity: 0; }
+.header.solid .brand .dark { opacity: 1; }
+.header.solid .brand .light { opacity: 0; }
+.icons { display: flex; justify-content: flex-end; gap: 6px; }
+.ibtn { position: relative; width: 42px; height: 42px; display: grid; place-items: center; border: 0; background: none; border-radius: 50%; color: inherit; text-decoration: none; }
+.ibtn:hover { background: rgba(127, 110, 135, .14); }
+.ibtn svg { width: 21px; height: 21px; }
+.bubble { position: absolute; top: 3px; right: 1px; min-width: 18px; height: 18px; padding: 0 5px; border-radius: 9px; background: var(--lilac); color: var(--ink);
+  font: 600 .68rem/18px var(--sans); text-align: center; transition: transform .4s var(--ease); }
+.bubble.pop { transform: scale(1.4); }
 .menu-btn { display: none; }
-.mnav { position: absolute; left: var(--gutter); right: var(--gutter); top: 100%; z-index: 2; display: grid; gap: 4px; padding: 10px;
-  border-radius: 20px; background: rgba(36, 20, 48, .92); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid var(--line-d); }
-.mnav a { padding: 14px 16px; border-radius: 12px; text-decoration: none; font-weight: 500; }
-.mnav a:hover { background: rgba(215, 182, 226, .1); }
-@media (max-width: 820px) { .nav { display: none; } .menu-btn { display: grid; } }
-
-/* ---------- hero */
-.hero { min-height: min(900px, calc(100svh - 110px)); display: grid; align-items: center; padding-block: 40px 90px; overflow: clip; }
-.hero::before { content: ""; position: absolute; inset: -20% -10% auto auto; width: 70vw; height: 70vw; max-width: 1000px; max-height: 1000px;
-  background: radial-gradient(closest-side, rgba(142, 106, 161, .55), rgba(142, 106, 161, .12) 60%, transparent); filter: blur(10px); }
-.hero::after { content: ""; position: absolute; left: -15%; bottom: -30%; width: 60vw; height: 60vw; max-width: 800px; max-height: 800px;
-  background: radial-gradient(closest-side, rgba(215, 182, 226, .16), transparent); }
-.hero-grid { display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, .95fr); gap: 40px; align-items: center; }
-.hero-copy { display: grid; gap: 28px; justify-items: start; }
-.hero h1 { font: 500 var(--step-4)/.95 var(--sans); letter-spacing: -.05em; }
-.hero h1 .l { display: block; overflow: clip; padding-bottom: .08em; }
-.hero h1 .l > span { display: inline-block; animation: rise 1.2s var(--ease) both; }
-.hero h1 .l:nth-child(2) > span { animation-delay: .12s; }
-.hero h1 em { font-weight: 600; letter-spacing: -.03em; color: var(--lilac); padding-right: .06em; }
-.hero .lede { font-size: var(--step-1); line-height: 1.55; animation: fade 1.2s .35s var(--ease) both; }
-.cta-row { display: flex; flex-wrap: wrap; gap: 12px; animation: fade 1.2s .5s var(--ease) both; }
-.chips { display: flex; flex-wrap: wrap; gap: 8px; list-style: none; margin: 0; padding: 0; animation: fade 1.2s .65s var(--ease) both; }
-.chip { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; font: 500 .86rem/1 var(--sans);
-  background: var(--glass); border: 1px solid var(--line-d); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); }
-.chip::before { content: ""; width: 6px; height: 6px; border-radius: 50%; background: var(--lilac); box-shadow: 0 0 10px var(--lilac); }
-.hero-space { min-height: 440px; }
-.hero-tag { position: absolute; z-index: 2; right: var(--gutter); bottom: 34px; display: flex; gap: 14px; align-items: center;
-  font: 500 .78rem/1.3 var(--sans); letter-spacing: .16em; text-transform: uppercase; color: var(--haze); }
-.scroll-cue { width: 1px; height: 46px; background: linear-gradient(var(--lilac), transparent); animation: cue 2.4s ease-in-out infinite; transform-origin: top; }
-@keyframes rise { from { transform: translateY(105%) rotate(2deg); } to { transform: none; } }
-@keyframes fade { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
-@keyframes cue { 0% { transform: scaleY(0); } 50% { transform: scaleY(1); } 100% { transform: scaleY(1); opacity: 0; } }
-@media (max-width: 820px) {
-  .hero { min-height: 0; padding-block: 24px 40px; }
-  .hero-grid { grid-template-columns: 1fr; gap: 0; }
-  .hero-space { min-height: 330px; order: -1; }
-  .hero-tag { display: none; }
+.mnav { position: absolute; left: 0; right: 0; top: 100%; background: var(--paper); color: var(--ink); padding: 8px var(--gutter) 20px; box-shadow: 0 20px 40px -20px rgba(24, 19, 16, .25); display: grid; }
+.mnav a { padding: 14px 0; border-bottom: 1px solid var(--line); text-decoration: none; font: 400 1rem/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; }
+@media (max-width: 900px) {
+  .nav { display: none; } .menu-btn { display: grid; }
+  .header-in { grid-template-columns: auto 1fr auto; height: 64px; }
+  .brand { width: 124px; justify-self: center; }
+  .icons .hide-sm { display: none; }
 }
+
+/* ---------- hero: split image with depth */
+.hero { margin-top: -74px; height: min(92svh, 860px); min-height: 560px; overflow: hidden; perspective: 1400px; background: var(--plum); color: var(--white); }
+.hero-stage { position: absolute; inset: 0; transform-style: preserve-3d; }
+.half { position: absolute; top: -4%; bottom: -4%; width: 52%; background-size: cover; will-change: transform; }
+.half.l { left: -2%; background-image: url(assets/hero-face.webp); background-position: 50% 30%; }
+.half.r { right: -2%; background-image: url(assets/hero-texture.webp); background-position: center; }
+.half.m { display: none; inset: -4%; width: auto; background-image: url(assets/hero-mobile.webp); background-position: 50% 25%; }
+.hero::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(24, 19, 16, .32), rgba(24, 19, 16, 0) 30%, rgba(24, 19, 16, .05) 60%, rgba(24, 19, 16, .38)); pointer-events: none; }
+.hero-copy { position: absolute; inset: 0; z-index: 2; display: grid; place-content: center; justify-items: center; gap: 22px; text-align: center; padding-inline: var(--gutter); transform-style: preserve-3d; }
+.wordmark { width: min(860px, 82vw); filter: drop-shadow(0 20px 40px rgba(24, 19, 16, .3)); animation: wm 1.6s var(--ease) both; }
+.tagline { font: 400 clamp(1.6rem, 1rem + 2.6vw, 3.2rem)/1.1 var(--serif); text-shadow: 0 6px 30px rgba(24, 19, 16, .35); animation: rise 1.4s .3s var(--ease) both; }
+.tagline em { font-style: italic; }
+.hero .btn { animation: rise 1.4s .45s var(--ease) both; }
+@keyframes wm { from { opacity: 0; transform: translateY(30px) scale(.96); } to { opacity: 1; transform: none; } }
+@keyframes rise { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: none; } }
+@media (max-width: 700px) {
+  .hero { margin-top: -64px; height: 86svh; }
+  .half.l, .half.r { display: none; } .half.m { display: block; }
+}
+
+/* ---------- featured products */
+.featured { padding-block: clamp(70px, 9vw, 120px); }
+.sec-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 36px; }
+.tabs { display: flex; gap: 28px; }
+.tab { border: 0; background: none; padding: 8px 0; font: 500 var(--t-sm)/1 var(--sans); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); border-bottom: 1px solid transparent; }
+.tab[aria-selected="true"] { color: var(--ink); border-color: var(--ink); }
+.rail-wrap { position: relative; }
+.rail { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 3 * 14px) / 4); gap: 14px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-block: 10px 6px; }
+.rail::-webkit-scrollbar { display: none; }
+.arrow { position: absolute; top: calc(50% - 50px); z-index: 3; width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--white); box-shadow: 0 8px 24px rgba(24, 19, 16, .14); display: grid; place-items: center; transition: transform .3s var(--ease); }
+.arrow:hover { transform: scale(1.08); }
+.arrow.prev { left: -10px; } .arrow.next { right: -10px; }
+.arrow svg { width: 16px; height: 16px; }
+@media (max-width: 1000px) { .rail { grid-auto-columns: calc((100% - 2 * 14px) / 2.4); } }
+@media (max-width: 600px) { .rail { grid-auto-columns: 74%; } .arrow { display: none; } }
+
+.card { scroll-snap-align: start; display: grid; gap: 14px; align-content: start; min-width: 0; }
+.tile { position: relative; aspect-ratio: 1; overflow: hidden; background: var(--tile); transition: transform .6s var(--ease), box-shadow .6s var(--ease); max-width: 100%; }
+.tile img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: opacity .6s var(--ease), transform 1.2s var(--ease); }
+.tile img.alt { opacity: 0; }
+.card:hover .tile img.alt { opacity: 1; }
+.card:hover .tile img, .mini:hover .tile img { transform: scale(1.04); }
+.card:hover .tile { box-shadow: 0 30px 50px -30px rgba(43, 34, 48, .55); }
+.glare { position: absolute; inset: 0; pointer-events: none; background: radial-gradient(circle at var(--gx, 50%) var(--gy, 0%), rgba(255, 255, 255, .5), transparent 45%); opacity: 0; transition: opacity .4s; mix-blend-mode: soft-light; }
+.tile:hover .glare { opacity: 1; }
+.badges { position: absolute; top: 12px; left: 12px; display: flex; gap: 6px; z-index: 2; }
+.badge { padding: 5px 9px; font: 500 .7rem/1 var(--sans); letter-spacing: .04em; background: var(--ink); color: var(--white); }
+.badge.l { background: var(--white); color: var(--ink); }
+.quick { position: absolute; left: 12px; right: 12px; bottom: 12px; z-index: 2; border: 0; padding: 13px; border-radius: 50px; background: var(--white); color: var(--ink);
+  font: 500 var(--t-xs)/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; transform: translateY(140%); transition: transform .5s var(--ease), background .3s, color .3s; }
+.card:hover .quick, .quick:focus-visible { transform: none; }
+.quick:hover { background: var(--ink); color: var(--white); }
+@media (hover: none) { .quick { transform: none; } }
+.card h3 { font: 400 var(--t-md)/1.4 var(--sans); }
+.card .price { font-size: var(--t-sm); color: var(--ink-2); margin-top: -8px; }
+.card .price b, .mini .price b, .pack .price b, .ba-prod b { font-weight: 400; color: var(--ink); }
+.center { display: flex; justify-content: center; margin-top: 36px; }
+
+/* ---------- highlight text with floating textures */
+.ace { padding-block: clamp(30px, 6vw, 80px) clamp(60px, 9vw, 120px); text-align: center; }
+.ace p { font: 400 clamp(2rem, 1.1rem + 3.6vw, 4.4rem)/1.3 var(--sans); letter-spacing: -.03em; }
+.ace em { font: italic 400 1em/1 var(--serif); letter-spacing: -.02em; }
+.tx { display: inline-block; width: 1.45em; height: 1em; vertical-align: -.12em; margin-inline: .12em; position: relative; transition: transform .6s var(--ease); }
+.tx img { position: absolute; inset: -30% -10%; width: 120%; height: 160%; object-fit: contain; filter: drop-shadow(0 14px 14px rgba(43, 34, 48, .22)); animation: float 6s ease-in-out infinite; }
+.tx:nth-of-type(2) img { animation-delay: -2s; } .tx:nth-of-type(3) img { animation-delay: -4s; }
+@keyframes float { 0%, 100% { transform: perspective(600px) translateY(0) rotateX(10deg) rotateY(-16deg) rotateZ(-4deg); } 50% { transform: perspective(600px) translateY(-10%) rotateX(-8deg) rotateY(18deg) rotateZ(5deg); } }
 
 /* ---------- marquee */
-.marquee { position: relative; z-index: 2; overflow: hidden; border-block: 1px solid var(--line-d); background: rgba(18, 10, 23, .6);
-  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
-.marquee-track { display: flex; width: max-content; animation: slide 38s linear infinite; }
-.marquee span { display: inline-flex; align-items: center; gap: 34px; padding: 22px 17px; font: italic 500 var(--step-2)/1 var(--display); white-space: nowrap; color: var(--pearl); }
-.marquee span::after { content: "✦"; font: 400 .9rem/1 var(--sans); color: var(--lilac); }
+.marquee { background: var(--lilac); overflow: hidden; }
+.mq { display: flex; width: max-content; animation: slide 40s linear infinite; }
+.mq span { display: inline-flex; align-items: center; gap: 34px; padding: 20px 17px; font: 300 clamp(1.3rem, 1rem + 1vw, 1.9rem)/1 var(--sans); white-space: nowrap; letter-spacing: -.01em; }
+.mq span::after { content: ""; width: 70px; height: 1px; background: var(--ink); opacity: .5; }
 @keyframes slide { to { transform: translateX(-50%); } }
 
-/* ---------- why */
-.why { padding-block: clamp(90px, 14vw, 180px); }
-.why-head { display: grid; gap: 22px; max-width: 760px; margin-bottom: clamp(48px, 8vw, 110px); }
-.why-cards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; perspective: 1200px; }
-.glass-card { position: relative; display: grid; align-content: start; gap: 14px; padding: 30px 28px 34px; border-radius: 28px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, .09), rgba(255, 255, 255, .02)); border: 1px solid rgba(255, 255, 255, .12);
-  backdrop-filter: blur(22px) saturate(1.3); -webkit-backdrop-filter: blur(22px) saturate(1.3);
-  box-shadow: 0 30px 60px -30px rgba(0, 0, 0, .6), inset 0 1px 0 rgba(255, 255, 255, .14);
-  transform-style: preserve-3d; transition: transform .6s var(--ease); min-width: 0; }
-.glass-card .k { font: italic 600 3.2rem/1 var(--display); color: var(--lilac); }
-.glass-card h3 { font: 600 var(--step-1)/1.25 var(--sans); letter-spacing: -.02em; }
-.glass-card p { color: var(--haze); }
-@media (max-width: 860px) { .why-cards { grid-template-columns: 1fr; } }
+/* ---------- hand-picked */
+.picked { background: var(--mist); padding-block: clamp(70px, 9vw, 130px); overflow: hidden; }
+.picked-grid { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 110px); align-items: start; }
+.picked-copy { display: grid; gap: 22px; justify-items: start; max-width: 560px; }
+.picked-photo { margin-top: 30px; width: min(100%, 560px); aspect-ratio: 1; overflow: hidden; box-shadow: 0 40px 70px -40px rgba(43, 34, 48, .5); }
+.picked-photo img { width: 100%; height: 118%; object-fit: cover; margin-top: -9%; will-change: transform; }
+.stack { display: grid; gap: 18px; justify-items: center; }
+.mini { width: min(100%, 300px); background: var(--white); padding: 14px 14px 18px; display: grid; gap: 12px; text-decoration: none; box-shadow: 0 30px 50px -36px rgba(43, 34, 48, .45); will-change: transform; }
+.mini h3 { font: 400 var(--t-sm)/1.35 var(--sans); }
+.mini .price { font-size: var(--t-sm); color: var(--ink-2); margin-top: -6px; }
+@media (max-width: 860px) {
+  .picked-grid { grid-template-columns: 1fr; }
+  .stack { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+  .mini { padding: 8px 8px 12px; }
+  .mini h3 { font-size: .8rem; }
+}
 
-/* ---------- shop */
-.shop { padding-block: clamp(80px, 11vw, 150px); overflow: clip; }
-.shop::before { content: ""; position: absolute; inset: 0; background:
-  radial-gradient(60% 50% at 22% 40%, rgba(215, 182, 226, .55), transparent 70%),
-  radial-gradient(40% 40% at 90% 90%, rgba(142, 106, 161, .16), transparent 70%); }
-.shop-head { display: flex; justify-content: space-between; align-items: end; gap: 24px; flex-wrap: wrap; margin-bottom: 40px; }
-.pdp { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 70px); align-items: center; }
-.pdp-stage { position: relative; min-height: 600px; display: grid; place-items: center; }
-.pedestal { position: absolute; bottom: 40px; left: 50%; width: min(78%, 420px); aspect-ratio: 3 / 1; transform: translateX(-50%);
-  border-radius: 50%; background: radial-gradient(closest-side, rgba(142, 106, 161, .35), transparent); }
-.ring { position: absolute; top: 50%; left: 50%; width: min(90%, 520px); aspect-ratio: 1; transform: translate(-50%, -50%);
-  border-radius: 50%; border: 1px solid var(--line-l); }
-.ring::after { content: ""; position: absolute; inset: 9%; border-radius: 50%; border: 1px dashed var(--line-l); animation: spin 60s linear infinite; }
-@keyframes spin { to { transform: rotate(360deg); } }
-.drag-hint { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); font: 500 .75rem/1 var(--sans); letter-spacing: .16em;
-  text-transform: uppercase; color: var(--dusk); white-space: nowrap; }
-.panel { position: relative; z-index: 2; display: grid; gap: 22px; padding: clamp(24px, 4vw, 44px); border-radius: 32px;
-  background: var(--glass-l); border: 1px solid rgba(255, 255, 255, .8); backdrop-filter: blur(24px); -webkit-backdrop-filter: blur(24px);
-  box-shadow: 0 40px 80px -40px rgba(70, 30, 90, .35); min-width: 0; }
-.brandline { font: 600 .78rem/1 var(--sans); letter-spacing: .32em; color: var(--dusk); }
-.pdp h2 { font: italic 600 var(--step-3)/1 var(--display); letter-spacing: -.02em; margin-top: -6px; }
-.sub { color: var(--dusk); font-weight: 500; }
-.price-row { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
-.price { font: 600 var(--step-2)/1 var(--sans); letter-spacing: -.02em; font-variant-numeric: tabular-nums; }
-.tax { color: var(--dusk); font-size: .88rem; }
-.claims { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
-.claims li { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border-radius: 16px; background: rgba(255, 255, 255, .7);
-  border: 1px solid var(--line-l); font-weight: 500; font-size: .93rem; }
-.claims svg { flex: none; width: 20px; height: 20px; color: var(--orchid); }
-.buy { display: flex; gap: 10px; flex-wrap: wrap; }
-.qty { display: inline-flex; align-items: center; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-l); background: rgba(255, 255, 255, .7); }
-.qty button { width: 44px; height: 50px; border: 0; background: none; font-size: 1.2rem; }
-.qty output { min-width: 28px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
-.buy .btn-dark { flex: 1; min-width: 180px; }
-.acc { border-top: 1px solid var(--line-l); }
-.acc details { border-bottom: 1px solid var(--line-l); }
-.acc summary { list-style: none; display: flex; justify-content: space-between; align-items: center; padding: 16px 2px; cursor: pointer; font-weight: 600; }
-.acc summary::-webkit-details-marker { display: none; }
-.acc summary::after { content: "+"; font: 400 1.4rem/1 var(--sans); color: var(--orchid); transition: transform .3s var(--ease); }
-.acc details[open] summary::after { transform: rotate(45deg); }
-.acc details p { padding: 0 2px 18px; color: var(--dusk); }
-@media (max-width: 900px) { .pdp { grid-template-columns: 1fr; } .pdp-stage { min-height: 460px; } }
-@media (max-width: 460px) { .claims { grid-template-columns: 1fr; } }
+/* ---------- 3D spotlight */
+.spot { background: linear-gradient(160deg, #ece0ef 0%, var(--lilac) 45%, var(--lilac-2) 100%); overflow: hidden; padding-block: clamp(60px, 8vw, 110px); }
+.spot::before { content: ""; position: absolute; left: -10%; top: -20%; width: 60vw; height: 60vw; max-width: 900px; max-height: 900px; border-radius: 50%; background: radial-gradient(closest-side, rgba(255, 255, 255, .6), transparent); }
+.spot-grid { position: relative; display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: clamp(20px, 5vw, 80px); align-items: center; }
+.stage3d { position: relative; height: clamp(460px, 52vw, 680px); touch-action: pan-y; cursor: grab; }
+.stage3d:active { cursor: grabbing; }
+.stage3d canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+.stage3d .fallback { position: absolute; inset: 8%; width: 84%; height: 84%; object-fit: contain; }
+.stage3d .hint { position: absolute; left: 50%; bottom: 6px; transform: translateX(-50%); font: 500 var(--t-xs)/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; display: flex; gap: 10px; align-items: center; pointer-events: none; }
+.stage3d .hint::before, .stage3d .hint::after { content: ""; width: 28px; height: 1px; background: currentColor; }
+.spot-copy { display: grid; gap: 22px; justify-items: start; max-width: 520px; }
+.loves { list-style: none; padding: 0; margin: 0; width: 100%; border-top: 1px solid rgba(24, 19, 16, .15); }
+.loves li { display: flex; gap: 14px; align-items: baseline; padding: 13px 0; border-bottom: 1px solid rgba(24, 19, 16, .15); font-weight: 400; }
+.loves li::before { content: "✦"; font-size: .7rem; color: var(--ink-2); transform: translateY(-2px); }
+.powered { font-size: var(--t-sm); }
+.powered b { font-weight: 500; }
+.buy-row { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.buy-row .price { font: 400 var(--t-lg)/1 var(--sans); margin-right: 6px; }
+@media (max-width: 860px) { .spot-grid { grid-template-columns: 1fr; } .stage3d { height: 440px; } }
 
-/* routine tabs */
-.routine { position: relative; z-index: 2; margin-top: clamp(70px, 9vw, 120px); display: grid; gap: 28px; }
-.tabs { display: flex; gap: 6px; padding: 6px; border-radius: 999px; background: rgba(255, 255, 255, .6); border: 1px solid var(--line-l); width: max-content; max-width: 100%; overflow-x: auto; }
-.tab { border: 0; background: none; padding: 12px 20px; border-radius: 999px; font-weight: 600; white-space: nowrap; color: var(--dusk); transition: background .3s, color .3s; }
-.tab[aria-selected="true"] { background: var(--ink); color: var(--pearl); }
-.tabpanel { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr); gap: 18px; }
-.rcard { border-radius: 28px; padding: clamp(24px, 4vw, 40px); background: var(--ink); color: var(--pearl); display: grid; gap: 14px; align-content: start; min-width: 0;
-  background-image: radial-gradient(80% 90% at 100% 0%, rgba(142, 106, 161, .55), transparent 60%); }
-.rcard .when { font: 600 .78rem/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--lilac); }
-.rcard h3 { font: 500 var(--step-2)/1.15 var(--sans); letter-spacing: -.03em; }
-.rcard h3 em { color: var(--lilac); }
-.rcard p { color: var(--haze); }
-.slots { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
-.slot { border-radius: 28px; padding: 22px; display: grid; gap: 10px; align-content: space-between; min-height: 200px; min-width: 0; transition: transform .5s var(--ease), box-shadow .5s; }
-.slot.real { background: #fff; border: 1px solid var(--line-l); box-shadow: 0 20px 40px -30px rgba(70, 30, 90, .45); }
-.slot.real:hover { transform: translateY(-4px); box-shadow: 0 30px 50px -30px rgba(70, 30, 90, .55); }
-.slot.empty { border: 1.5px dashed var(--line-l); color: var(--dusk); place-content: center; text-align: center; font-weight: 500; }
-.slot .stepn { font: 600 .74rem/1 var(--sans); letter-spacing: .18em; text-transform: uppercase; color: var(--orchid); }
-.slot h4 { margin: 0; font: italic 600 1.5rem/1.1 var(--display); }
-.mini-add { justify-self: start; border: 0; border-radius: 999px; padding: 10px 16px; background: var(--lilac); color: var(--ink); font-weight: 600; font-size: .9rem; }
-@media (max-width: 820px) { .tabpanel { grid-template-columns: 1fr; } }
+/* ---------- routines (dark accordion) */
+.routines { background: var(--plum); color: var(--white); padding-block: clamp(70px, 9vw, 120px); }
+.rt-grid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 6vw, 100px); align-items: center; }
+.rt-copy { display: grid; gap: 30px; }
+.rt-copy .eyebrow { color: var(--lilac); }
+.rt-list { border-top: 1px solid rgba(255, 255, 255, .16); }
+.rt-item { border-bottom: 1px solid rgba(255, 255, 255, .16); }
+.rt-item button { width: 100%; border: 0; background: none; display: flex; justify-content: space-between; align-items: center; gap: 16px; padding: 20px 0; text-align: left; font: 400 var(--t-lg)/1.3 var(--sans); }
+.rt-item .pm { flex: none; width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .3); transition: background .3s, color .3s, transform .4s var(--ease); }
+.rt-item.open .pm { background: var(--white); color: var(--plum); transform: rotate(45deg); }
+.rt-body { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .5s var(--ease); }
+.rt-item.open .rt-body { grid-template-rows: 1fr; }
+.rt-body > div { overflow: hidden; }
+.rt-body p { color: #d4cbd7; padding-bottom: 8px; max-width: 46ch; }
+.rt-body a { display: inline-block; margin-bottom: 22px; color: var(--lilac); font: 500 var(--t-xs)/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
+.rt-media { position: relative; aspect-ratio: 1; perspective: 1200px; max-width: 100%; }
+.rt-media img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; opacity: 0; transform: rotateY(-14deg) translateZ(-60px); transform-origin: left center; transition: opacity .8s var(--ease), transform 1s var(--ease); box-shadow: 0 50px 80px -40px rgba(0, 0, 0, .7); }
+.rt-media img.on { opacity: 1; transform: none; }
+@media (max-width: 860px) { .rt-grid { grid-template-columns: 1fr; } .rt-media { order: -1; } }
 
-/* ---------- story */
-.story { padding-block: clamp(90px, 13vw, 170px); overflow: clip; }
-.story::before { content: ""; position: absolute; inset: 0; background: radial-gradient(50% 60% at 15% 50%, rgba(142, 106, 161, .35), transparent 70%); }
-.story-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(36px, 7vw, 100px); align-items: center; }
-.phone-scene { perspective: 1400px; display: grid; place-items: center; }
-.phone { position: relative; width: min(320px, 78vw); aspect-ratio: 9 / 16; border-radius: 42px; padding: 10px; background: linear-gradient(145deg, #3a2546, #140a1a);
-  box-shadow: 0 0 0 1px rgba(255, 255, 255, .1), 0 60px 100px -40px rgba(0, 0, 0, .8), 30px 40px 120px -40px rgba(142, 106, 161, .6);
-  transform: rotateY(14deg) rotateX(4deg) rotateZ(-2deg); transform-style: preserve-3d; transition: transform .8s var(--ease); }
-.phone video { width: 100%; height: 100%; object-fit: cover; border-radius: 33px; background: #000; }
-.phone .sound { position: absolute; right: 22px; bottom: 22px; display: inline-flex; gap: 8px; align-items: center; border: 0; border-radius: 999px;
-  padding: 10px 14px; background: rgba(18, 10, 23, .6); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); font: 600 .82rem/1 var(--sans); }
-.phone .sound svg { width: 16px; height: 16px; }
-.story-copy { position: relative; z-index: 2; display: grid; gap: 26px; }
-.quote { font: italic 600 var(--step-3)/1.05 var(--display); letter-spacing: -.02em; }
-.quote span { color: var(--lilac); }
-.steps { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 0; counter-reset: s; }
-.steps li { display: grid; grid-template-columns: 54px minmax(0, 1fr); gap: 16px; padding: 20px 0; border-top: 1px solid var(--line-d); counter-increment: s; }
-.steps li::before { content: counter(s, decimal-leading-zero); font: 600 .82rem/1.9 var(--sans); letter-spacing: .1em; color: var(--lilac); font-variant-numeric: tabular-nums; }
-.steps h3 { font: 600 var(--step-1)/1.3 var(--sans); letter-spacing: -.02em; margin-bottom: 4px; }
-.steps p { color: var(--haze); }
-.vchips { display: inline-flex; gap: 6px; margin-top: 10px; }
-.vchips span { padding: 4px 9px; border-radius: 8px; border: 1px solid var(--line-d); font: 600 .74rem/1 var(--sans); color: var(--haze); }
-.vchips span:last-child { border-color: var(--lilac); color: var(--lilac); }
-.sign { font: italic 500 var(--step-1)/1 var(--display); color: var(--haze); }
-@media (max-width: 860px) { .story-grid { grid-template-columns: 1fr; } .phone { transform: rotateY(8deg) rotateX(3deg); } }
-
-/* ---------- compare */
-.compare { padding-block: clamp(80px, 11vw, 150px); }
-.compare-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 6vw, 80px); align-items: center; }
-.compare-copy { display: grid; gap: 22px; }
-.ba { position: relative; aspect-ratio: 16 / 10; width: 100%; border-radius: 32px; overflow: hidden; box-shadow: 0 40px 80px -40px rgba(70, 30, 90, .5);
-  --pos: 50%; touch-action: pan-y; user-select: none; }
-.ba svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+/* ---------- before / after */
+.ba-sec { padding-block: clamp(70px, 9vw, 120px); }
+.ba-card { background: var(--white); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 5vw, 80px); align-items: center; padding: clamp(16px, 2.6vw, 34px); }
+.ba-left { display: grid; gap: 14px; }
+.ba { position: relative; aspect-ratio: 1; overflow: hidden; --pos: 50%; user-select: none; max-width: 100%; }
+.ba img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
 .ba .before { clip-path: inset(0 calc(100% - var(--pos)) 0 0); }
-.ba .handle { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: #fff; pointer-events: none; }
-.ba .handle::after { content: "‹ ›"; position: absolute; top: 50%; left: 50%; width: 52px; height: 52px; transform: translate(-50%, -50%); border-radius: 50%;
-  display: grid; place-items: center; background: #fff; color: var(--ink); font: 600 1.1rem/1 var(--sans); letter-spacing: 2px; box-shadow: 0 10px 30px rgba(0, 0, 0, .25); }
-.ba input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
-.ba .lbl { position: absolute; top: 18px; padding: 8px 12px; border-radius: 999px; background: rgba(255, 255, 255, .8); backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px); font: 600 .74rem/1 var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--ink); pointer-events: none; }
-.ba .lbl.l { left: 18px; } .ba .lbl.r { right: 18px; }
-.note { font-size: .82rem; color: var(--dusk); }
-@media (max-width: 860px) { .compare-grid { grid-template-columns: 1fr; } }
+.ba .line { position: absolute; top: 0; bottom: 0; left: var(--pos); width: 2px; margin-left: -1px; background: var(--white); pointer-events: none; }
+.ba .knob { position: absolute; top: 50%; left: var(--pos); width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: var(--white); display: grid; place-items: center; box-shadow: 0 8px 24px rgba(0, 0, 0, .25); pointer-events: none; }
+.ba .knob svg { width: 18px; }
+.ba input { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; margin: 0; cursor: ew-resize; }
+.ba .lb { position: absolute; top: 14px; font: 400 var(--t-sm)/1 var(--sans); color: var(--ink); pointer-events: none; background: rgba(255, 255, 255, .75); padding: 6px 10px; }
+.ba .lb.l { left: 14px; } .ba .lb.r { right: 14px; }
+.ba-prod { display: flex; justify-content: space-between; gap: 12px; font-size: var(--t-sm); border-bottom: 1px solid var(--ink); padding: 4px 0 8px; text-decoration: none; }
+.ba-prod .price { white-space: nowrap; }
+.ba-copy { display: grid; gap: 20px; justify-items: start; max-width: 460px; }
+@media (max-width: 860px) { .ba-card { grid-template-columns: 1fr; } .ba-prod { flex-direction: column; gap: 4px; } }
 
-/* ---------- reviews (3D coverflow) */
-.reviews { padding-block: clamp(90px, 12vw, 160px); overflow: clip; }
-.reviews-head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; margin-bottom: 50px; }
-.flow { position: relative; height: 380px; perspective: 1400px; }
-.flow-card { position: absolute; top: 0; left: 50%; width: min(400px, 82vw); margin-left: calc(min(400px, 82vw) / -2); padding: 34px; border-radius: 30px;
-  display: grid; gap: 20px; align-content: space-between; min-height: 320px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, .1), rgba(255, 255, 255, .03)); border: 1px solid rgba(255, 255, 255, .13);
-  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); box-shadow: 0 40px 70px -40px rgba(0, 0, 0, .7);
-  transition: transform .8s var(--ease), opacity .8s var(--ease), filter .8s; }
-.flow-card blockquote { margin: 0; font: italic 500 var(--step-1)/1.45 var(--display); }
-.stars { color: var(--lilac); letter-spacing: 3px; }
-.who { display: flex; justify-content: space-between; align-items: center; gap: 10px; color: var(--haze); font-size: .9rem; }
-.sample { padding: 5px 9px; border-radius: 99px; border: 1px dashed var(--lilac); color: var(--lilac); font: 600 .68rem/1 var(--sans); letter-spacing: .12em; text-transform: uppercase; }
-.flow-nav { display: flex; gap: 8px; }
-.flow-nav button { width: 50px; height: 50px; border-radius: 50%; border: 0; background: rgba(215, 182, 226, .12); font-size: 1.2rem; transition: background .3s; }
-.flow-nav button:hover { background: var(--lilac); color: var(--ink); }
+/* ---------- gift packs */
+.packs { padding-block: 0 clamp(70px, 9vw, 120px); }
+.packs-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 60px); align-items: center; }
+.packs-photo { position: relative; aspect-ratio: 1; overflow: hidden; max-width: 100%; transition: transform .6s var(--ease); }
+.packs-photo img { width: 100%; height: 100%; object-fit: cover; }
+.packs-list { background: var(--white); padding: clamp(22px, 3.4vw, 46px); display: grid; gap: 18px; }
+.pack { display: grid; grid-template-columns: 28px 76px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding-block: 14px; border-bottom: 1px solid var(--line); }
+.pack .n { width: 26px; height: 26px; border-radius: 50%; background: var(--mist); display: grid; place-items: center; font: 500 .74rem/1 var(--sans); }
+.pack img { width: 76px; height: 76px; object-fit: cover; }
+.pack h3 { font: 400 var(--t-sm)/1.35 var(--sans); }
+.pack .price { font-size: var(--t-sm); color: var(--ink-2); }
+.pack button { border: 0; background: var(--mist); width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; transition: background .3s, color .3s; }
+.pack button:hover { background: var(--ink); color: var(--white); }
+.pack button svg { width: 18px; }
+@media (max-width: 860px) { .packs-grid { grid-template-columns: 1fr; } }
+@media (max-width: 420px) { .pack { grid-template-columns: 62px minmax(0, 1fr) auto; } .pack .n { display: none; } .pack img { width: 62px; height: 62px; } }
 
-/* ---------- join + footer */
-.join { padding-block: clamp(110px, 14vw, 190px); text-align: center; overflow: clip; }
-.join::before { content: ""; position: absolute; inset: 0; background: radial-gradient(50% 50% at 50% 30%, rgba(142, 106, 161, .5), transparent 70%); }
-.join .wrap { display: grid; justify-items: center; gap: 22px; }
-.join .h2 { max-width: 16ch; }
-.signup { display: flex; gap: 8px; width: min(100%, 520px); padding: 6px; border-radius: 999px; background: var(--glass); border: 1px solid var(--line-d);
-  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); }
-.signup input { flex: 1; min-width: 0; border: 0; background: none; color: var(--pearl); font: inherit; padding: 0 18px; outline: none; }
-.signup input::placeholder { color: var(--haze); }
-.signup .btn { padding: 14px 22px; }
-.signup-msg { min-height: 1.6em; color: var(--lilac); font-weight: 500; }
-.footer { position: relative; z-index: 2; border-top: 1px solid var(--line-d); background: var(--night); padding-block: 60px 40px; }
-.f-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) repeat(3, minmax(0, 1fr)); gap: 30px; }
-.f-grid h4 { margin: 0 0 14px; font: 600 .78rem/1 var(--sans); letter-spacing: .2em; text-transform: uppercase; color: var(--lilac); }
-.f-grid ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
-.f-grid a { text-decoration: none; color: var(--haze); }
-.f-grid a:hover { color: var(--pearl); }
-.f-brand { display: grid; gap: 14px; align-content: start; }
-.f-brand p { color: var(--haze); max-width: 36ch; }
-.f-base { margin-top: 50px; padding-top: 22px; border-top: 1px solid var(--line-d); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; color: var(--haze); font-size: .85rem; }
-@media (max-width: 760px) { .f-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .f-brand { grid-column: 1 / -1; } }
+/* ---------- founder */
+.founder { background: var(--mist); padding-block: clamp(70px, 9vw, 120px); overflow: hidden; }
+.f-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(28px, 6vw, 100px); align-items: center; }
+.reel { position: relative; justify-self: center; width: min(340px, 80vw); aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; background: var(--plum);
+  box-shadow: 0 50px 80px -40px rgba(43, 34, 48, .6); transform: perspective(1200px) rotateY(10deg) rotateX(3deg); transition: transform .8s var(--ease); }
+.reel video { width: 100%; height: 100%; object-fit: cover; }
+.sound { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); display: inline-flex; gap: 8px; align-items: center; border: 0; border-radius: 50px; padding: 10px 16px;
+  background: rgba(255, 255, 255, .92); color: var(--ink); font: 500 var(--t-xs)/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.sound svg { width: 15px; }
+.f-copy { display: grid; gap: 22px; justify-items: start; max-width: 600px; }
+.quote { font: italic 400 var(--t-xl)/1.35 var(--serif); }
+.sig { font-size: var(--t-sm); color: var(--ink-2); }
+@media (max-width: 860px) { .f-grid { grid-template-columns: 1fr; } }
 
-/* ---------- sticky buy bar */
-.sticky-buy { position: fixed; left: 50%; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 25; display: flex; align-items: center; gap: 14px;
-  padding: 8px 8px 8px 20px; border-radius: 999px; width: max-content; max-width: calc(100% - 32px);
-  background: rgba(36, 20, 48, .78); border: 1px solid var(--line-d); backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 20px 50px -20px rgba(0, 0, 0, .7); transform: translate(-50%, 140%); transition: transform .6s var(--ease); }
-.sticky-buy.show { transform: translate(-50%, 0); }
-.sticky-buy .t { display: grid; line-height: 1.2; min-width: 0; }
-.sticky-buy .t b { font: italic 600 1.05rem/1.2 var(--display); }
-.sticky-buy .t span { font-size: .8rem; color: var(--haze); }
-.sticky-buy .btn { padding: 13px 20px; white-space: nowrap; }
+/* ---------- reviews */
+.reviews { padding-block: clamp(70px, 9vw, 120px); }
+.rv-rail { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 2 * 16px) / 3); gap: 16px; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding-bottom: 6px; }
+.rv-rail::-webkit-scrollbar { display: none; }
+.rv { scroll-snap-align: start; background: var(--white); padding: 26px; display: grid; gap: 16px; align-content: space-between; min-width: 0; border: 1px solid var(--line); margin: 0; }
+.rv .stars { letter-spacing: 3px; color: #a98bb8; font-size: .9rem; }
+.rv blockquote { margin: 0; font: 300 var(--t-md)/1.6 var(--sans); }
+.rv .who { font-weight: 500; }
+.rv .tag { display: flex; align-items: center; gap: 10px; padding-top: 14px; border-top: 1px solid var(--line); font-size: var(--t-sm); color: var(--ink-2); text-decoration: none; }
+.rv .tag img { width: 40px; height: 40px; object-fit: cover; }
+.rv-nav { display: flex; gap: 10px; align-items: center; font-size: var(--t-sm); font-variant-numeric: tabular-nums; }
+.rv-nav button { border: 0; background: none; width: 34px; height: 34px; border-radius: 50%; display: grid; place-items: center; }
+.rv-nav button:hover { background: var(--mist); }
+.rv-nav svg { width: 15px; }
+@media (max-width: 900px) { .rv-rail { grid-auto-columns: 82%; } }
 
-/* ---------- cart drawer */
-.scrim { position: fixed; inset: 0; z-index: 40; background: rgba(10, 5, 14, .55); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); opacity: 0; pointer-events: none; transition: opacity .4s; }
+/* ---------- instagram */
+.ig { padding-block: 0 clamp(70px, 9vw, 110px); text-align: center; }
+.ig-row { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 10px; margin-top: 26px; }
+.ig-row a { position: relative; aspect-ratio: 4 / 5; overflow: hidden; max-width: 100%; transition: transform .6s var(--ease); }
+.ig-row img { width: 100%; height: 100%; object-fit: cover; transition: transform 1s var(--ease); }
+.ig-row a:hover img { transform: scale(1.06); }
+@media (max-width: 700px) { .ig-row { grid-template-columns: repeat(3, minmax(0, 1fr)); } .ig-row a:nth-child(n+4) { display: none; } }
+
+/* ---------- faq */
+.faq { background: #ebe6ec; padding-block: clamp(60px, 8vw, 100px); }
+.faq-grid { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: clamp(24px, 5vw, 80px); }
+.faq details { border-bottom: 1px solid rgba(24, 19, 16, .14); }
+.faq summary { list-style: none; cursor: pointer; display: flex; justify-content: space-between; gap: 16px; padding: 18px 0; font: 400 var(--t-md)/1.4 var(--sans); }
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; font-size: 1.3rem; line-height: 1; transition: transform .3s var(--ease); }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { padding-bottom: 18px; color: var(--ink-2); max-width: 64ch; }
+@media (max-width: 860px) { .faq-grid { grid-template-columns: 1fr; } }
+
+/* ---------- club + footer */
+.club { padding-block: clamp(70px, 9vw, 110px); text-align: center; }
+.club .wrap { display: grid; justify-items: center; gap: 14px; }
+.club h2 { font: 400 var(--t-xl)/1.2 var(--serif); }
+.club form { display: flex; width: min(100%, 460px); margin-top: 10px; border: 1px solid #cfc9cf; border-radius: 50px; padding: 4px 4px 4px 20px; background: var(--white); }
+.club input { flex: 1; min-width: 0; border: 0; outline: none; background: none; font: 300 var(--t-md)/1 var(--sans); color: var(--ink); }
+.club form button { width: 44px; height: 44px; border-radius: 50%; border: 0; background: var(--ink); color: var(--white); display: grid; place-items: center; }
+.club form button svg { width: 16px; }
+.club .msg { min-height: 1.5em; font-size: var(--t-sm); }
+.club small { font-size: var(--t-xs); color: var(--ink-2); }
+.footer { background: var(--lilac); padding-block: 60px 30px; }
+.ft { display: grid; grid-template-columns: minmax(0, 1.5fr) repeat(3, minmax(0, 1fr)); gap: 32px; }
+.ft p.lead { font: 500 var(--t-md)/1.5 var(--sans); max-width: 40ch; }
+.ft h4 { margin: 0 0 12px; font: 500 var(--t-sm)/1 var(--sans); }
+.ft ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.ft a { text-decoration: none; font-size: var(--t-sm); }
+.ft a:hover { text-decoration: underline; }
+.ft-base { margin-top: 30px; display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; font-size: var(--t-xs); }
+.social { display: flex; gap: 14px; }
+.social a { display: grid; place-items: center; width: 34px; height: 34px; border-radius: 50%; }
+.social a:hover { background: rgba(255, 255, 255, .5); }
+.social svg { width: 17px; }
+@media (max-width: 800px) { .ft { grid-template-columns: repeat(2, minmax(0, 1fr)); } .ft > div:first-child { grid-column: 1 / -1; } }
+
+/* ---------- cart drawer (Cosmo-style) */
+.scrim { position: fixed; inset: 0; z-index: 50; background: rgba(24, 19, 16, .4); opacity: 0; pointer-events: none; transition: opacity .4s; }
 .scrim.open { opacity: 1; pointer-events: auto; }
-.drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 41; width: min(440px, 100%); display: grid; grid-template-rows: auto 1fr auto;
-  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px);
-  background: var(--mist); color: var(--ink); transform: translateX(105%); transition: transform .6s var(--ease); box-shadow: -40px 0 80px -30px rgba(0, 0, 0, .5); }
+.drawer { position: fixed; top: 0; right: 0; bottom: 0; z-index: 51; width: min(430px, 100%); background: var(--paper); display: grid; grid-template-rows: auto auto 1fr auto;
+  padding-top: env(safe-area-inset-top, 0px); padding-bottom: env(safe-area-inset-bottom, 0px); transform: translateX(105%); transition: transform .55s var(--ease); box-shadow: -30px 0 60px -30px rgba(24, 19, 16, .4); }
 .drawer.open { transform: none; }
-.d-head { display: flex; justify-content: space-between; align-items: center; padding: 22px 24px; border-bottom: 1px solid var(--line-l); }
-.d-head h2 { font: italic 600 1.6rem/1 var(--display); }
-.d-head .icon-btn { background: rgba(142, 106, 161, .12); }
-.d-body { overflow-y: auto; padding: 20px 24px; display: grid; align-content: start; gap: 16px; }
-.line { display: grid; grid-template-columns: 76px minmax(0, 1fr) auto; gap: 14px; align-items: center; padding: 14px; border-radius: 20px; background: #fff; border: 1px solid var(--line-l); }
-.thumb { width: 76px; height: 90px; border-radius: 14px; background: radial-gradient(circle at 50% 35%, #fff, #ecdff1); display: grid; place-items: center; }
-.thumb svg { height: 74px; }
-.line h3 { font: italic 600 1.15rem/1.2 var(--display); }
-.line .s { font-size: .82rem; color: var(--dusk); }
-.line .qty { margin-top: 8px; }
-.line .qty button { width: 34px; height: 36px; }
-.rm { border: 0; background: none; color: var(--dusk); font-size: .8rem; text-decoration: underline; align-self: start; }
-.empty-cart { display: grid; gap: 14px; justify-items: center; text-align: center; padding: 40px 10px; color: var(--dusk); }
-.extras { display: grid; gap: 10px; }
-.toggle { display: flex; align-items: center; gap: 12px; padding: 14px; border-radius: 16px; background: #fff; border: 1px solid var(--line-l); cursor: pointer; font-weight: 500; }
-.toggle input { width: 18px; height: 18px; accent-color: var(--orchid); }
-.extras textarea { width: 100%; min-height: 76px; resize: vertical; border-radius: 16px; border: 1px solid var(--line-l); background: #fff; color: var(--ink); padding: 12px 14px; font: inherit; font-size: .92rem; }
-.d-foot { padding: 20px 24px 24px; border-top: 1px solid var(--line-l); display: grid; gap: 12px; }
-.total { display: flex; justify-content: space-between; font-weight: 600; font-size: 1.1rem; font-variant-numeric: tabular-nums; }
-.d-foot .btn { width: 100%; }
-.d-foot small { color: var(--dusk); text-align: center; }
+.dh { display: flex; justify-content: space-between; align-items: center; padding: 20px 22px 14px; }
+.dh h2 { font: 400 1.25rem/1 var(--sans); }
+.ship { padding: 0 22px 16px; border-bottom: 1px solid var(--line); font-size: var(--t-sm); display: grid; gap: 10px; }
+.bar { height: 4px; background: var(--line); border-radius: 4px; overflow: hidden; }
+.bar i { display: block; height: 100%; background: var(--ink); width: 0; transition: width .6s var(--ease); }
+.db { overflow-y: auto; padding: 18px 22px; display: grid; gap: 18px; align-content: start; }
+.ln { display: grid; grid-template-columns: 72px minmax(0, 1fr) auto; gap: 14px; align-items: start; }
+.ln img { width: 72px; height: 72px; object-fit: cover; }
+.ln h3 { font: 400 var(--t-sm)/1.35 var(--sans); }
+.qty { display: inline-flex; align-items: center; margin-top: 8px; border: 1px solid #d6d0d6; border-radius: 50px; }
+.qty button { width: 32px; height: 32px; border: 0; background: none; }
+.qty span { min-width: 22px; text-align: center; font-size: var(--t-sm); font-variant-numeric: tabular-nums; }
+.rm { border: 0; background: none; font-size: var(--t-xs); text-decoration: underline; color: var(--ink-2); padding: 0; margin-top: 6px; }
+.upsell { display: grid; gap: 10px; }
+.up { display: grid; grid-template-columns: 62px minmax(0, 1fr) auto; gap: 12px; align-items: center; background: var(--mist); padding: 10px; }
+.up img { width: 62px; height: 62px; object-fit: cover; }
+.up h4 { margin: 0; font: 400 var(--t-sm)/1.3 var(--sans); }
+.up button { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--ink); background: var(--white); display: grid; place-items: center; }
+.up button svg { width: 15px; }
+.opt { display: flex; gap: 10px; align-items: center; font-size: var(--t-sm); padding-top: 12px; border-top: 1px solid var(--line); cursor: pointer; }
+.opt input { accent-color: var(--ink); width: 16px; height: 16px; }
+.note-box { width: 100%; min-height: 70px; resize: vertical; border: 1px solid var(--line); background: var(--white); padding: 10px 12px; font: 300 var(--t-sm)/1.4 var(--sans); color: var(--ink); }
+.empty { text-align: center; padding: 30px 0; display: grid; gap: 16px; justify-items: center; color: var(--ink-2); }
+.df { border-top: 1px solid var(--line); padding: 16px 22px 20px; display: grid; gap: 10px; }
+.tot { display: flex; justify-content: space-between; font-weight: 500; font-variant-numeric: tabular-nums; }
+.df small { color: var(--ink-2); font-size: var(--t-xs); }
+.df .two { display: grid; grid-template-columns: 1fr 1.6fr; gap: 10px; }
+.df .btn { padding: 14px 10px; }
 
-/* ---------- scroll reveals (progressive; content is visible without them) */
+/* ---------- toast + reveals */
+.toast { position: fixed; left: 50%; bottom: calc(20px + env(safe-area-inset-bottom, 0px)); z-index: 60; transform: translate(-50%, 160%); background: var(--ink); color: var(--white); padding: 12px 20px; border-radius: 50px; font-size: var(--t-sm); transition: transform .5s var(--ease); max-width: calc(100% - 32px); text-align: center; }
+.toast.show { transform: translate(-50%, 0); }
 @supports (animation-timeline: view()) {
   @media (prefers-reduced-motion: no-preference) {
-    .reveal { animation: up linear both; animation-timeline: view(); animation-range: entry 0% entry 55%; }
-    @keyframes up { from { opacity: .001; transform: translateY(50px) rotateX(8deg); } to { opacity: 1; transform: none; } }
+    .reveal { animation: up linear both; animation-timeline: view(); animation-range: entry 0% entry 45%; }
+    @keyframes up { from { opacity: .001; transform: translateY(40px); } to { opacity: 1; transform: none; } }
   }
 }
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
-}
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
 </style>
 
-<canvas id="stage" aria-hidden="true"></canvas>
-
-<div class="announce">Sting-free · Tear-free · Gentle on eyes</div>
+<div class="announce">Clean Beauty · Cruelty-Free · Made in India</div>
 
 <header class="header" id="header">
   <div class="wrap header-in">
-    <a class="logo" href="#top" aria-label="GLOSSKN home">GLOSSKN</a>
     <nav class="nav" aria-label="Main">
-      <a href="#shop">Shop</a>
-      <a href="#why">Why it exists</a>
-      <a href="#story">Our story</a>
-      <a href="#reviews">Reviews</a>
+      <a href="#featured">Cleansers</a><a href="#gifts">Gift Sets</a><a href="#featured">Shop All</a><a href="#story">Our Story</a>
     </nav>
-    <div class="h-actions">
-      <button class="icon-btn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="M4 8h16M4 16h16"/></svg>
-      </button>
-      <button class="icon-btn" id="cartBtn" aria-label="Open cart">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"><path d="M5 8h14l-1.2 11.2a2 2 0 0 1-2 1.8H8.2a2 2 0 0 1-2-1.8L5 8Z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>
-        <span class="count" id="cartCount">0</span>
-      </button>
+    <button class="ibtn menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 7h18M3 12h18M3 17h18"/></svg></button>
+    <a class="brand" href="#top" aria-label="GLOSSKN home"><img class="light" src="assets/logo-white.png" alt="GLOSSKN"><img class="dark" src="assets/logo-color.png" alt=""></a>
+    <div class="icons">
+      <a class="ibtn hide-sm" href="https://glosskn.com/search" target="_blank" rel="noopener" aria-label="Search"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg></a>
+      <a class="ibtn hide-sm" href="https://glosskn.com/account" target="_blank" rel="noopener" aria-label="Account"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></a>
+      <button class="ibtn" id="cartBtn" aria-label="Open cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><path d="M4 7h16l-1.4 12.2a2 2 0 0 1-2 1.8H7.4a2 2 0 0 1-2-1.8Z"/><path d="M9 10V6a3 3 0 0 1 6 0v4"/></svg><span class="bubble" id="count">0</span></button>
     </div>
   </div>
   <nav class="mnav" id="mnav" aria-label="Mobile" hidden>
-    <a href="#shop">Shop</a><a href="#why">Why it exists</a><a href="#story">Our story</a><a href="#reviews">Reviews</a>
+    <a href="#featured">Cleansers</a><a href="#gifts">Gift Sets</a><a href="#featured">Shop All</a><a href="#story">Our Story</a>
   </nav>
 </header>
 
 <main id="top">
-  <section class="hero" data-bottle="0.44 -0.04 -0.55 1.08 0.08" data-bottle-m="0 0.36 -0.4 0.56 0.05">
-    <div class="wrap hero-grid">
-      <div class="hero-copy">
-        <span class="eyebrow">Power Cleanse · Make-up removing face wash</span>
-        <h1><span class="l"><span>All of it off.</span></span><span class="l"><span><em>None</em> of the sting.</span></span></h1>
-        <p class="lede">After 12 years in makeup, Jaspreet stopped looking for a makeup remover and created one. Power Cleanse is a face wash that takes your makeup off, eyes included, without stinging or tearing up.</p>
-        <div class="cta-row">
-          <a class="btn btn-primary" href="#shop">Shop Power Cleanse</a>
-          <a class="btn btn-ghost" href="#story"><span class="play"><svg viewBox="0 0 10 12"><path d="M0 0l10 6-10 6z" fill="currentColor"/></svg></span>Watch her story</a>
+  <section class="hero" id="hero">
+    <div class="hero-stage">
+      <div class="half l" data-depth="-1"></div>
+      <div class="half r" data-depth="1"></div>
+      <div class="half m"></div>
+    </div>
+    <div class="hero-copy" id="heroCopy">
+      <img class="wordmark" src="assets/logo-white.png" alt="GLOSSKN">
+      <p class="tagline">Own your <em>Radiance</em></p>
+      <a class="btn btn-white" href="#featured">Shop now</a>
+    </div>
+  </section>
+
+  <section class="featured wrap" id="featured">
+    <div class="sec-head">
+      <h2 class="h3 reveal">Featured Products</h2>
+      <div class="tabs" role="tablist" aria-label="Collections">
+        <button class="tab" role="tab" aria-selected="true" data-tab="cleansers" id="tabC" aria-controls="rail">Cleansers</button>
+        <button class="tab" role="tab" aria-selected="false" data-tab="gifting" id="tabG" aria-controls="rail">Gifting</button>
+      </div>
+    </div>
+    <div class="rail-wrap">
+      <button class="arrow prev" id="railPrev" aria-label="Previous products"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3 5 8l5 5"/></svg></button>
+      <div class="rail" id="rail" role="tabpanel"></div>
+      <button class="arrow next" id="railNext" aria-label="Next products"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m6 3 5 5-5 5"/></svg></button>
+    </div>
+    <div class="center"><a class="btn btn-lilac" href="https://glosskn.com/collections/all" target="_blank" rel="noopener">Shop all</a></div>
+  </section>
+
+  <section class="ace wrap" aria-label="You ace the day, we ace your skin">
+    <p class="reveal" id="ace">You ace <span class="tx"><img src="assets/tex-swirl.webp" alt=""></span> the day <span class="tx"><img src="assets/tex-cream.webp" alt=""></span> <em>we ace</em> <span class="tx"><img src="assets/tex-oil.webp" alt=""></span> <em>your skin</em></p>
+  </section>
+
+  <div class="marquee" aria-hidden="true"><div class="mq">
+    <span>Clean Beauty</span><span>Cruelty-Free</span><span>Made in India</span><span>pH-Balanced</span><span>No Harsh Chemicals</span><span>Sensitive Skin Safe</span>
+    <span>Clean Beauty</span><span>Cruelty-Free</span><span>Made in India</span><span>pH-Balanced</span><span>No Harsh Chemicals</span><span>Sensitive Skin Safe</span>
+  </div></div>
+
+  <section class="picked">
+    <div class="wrap picked-grid">
+      <div>
+        <div class="picked-copy reveal">
+          <span class="eyebrow">The Power Series</span>
+          <h2 class="h2">Designed to make cleansing <em>feel easy.</em></h2>
+          <p class="muted">Removes makeup, sunscreen, dirt and daily buildup in one wash. No separate ritual. No cotton pads. No unnecessary rubbing.</p>
+          <a class="btn btn-ink" href="#spotlight">Shop now</a>
         </div>
-        <ul class="chips">
-          <li class="chip">Sting-free</li><li class="chip">Tear-free</li><li class="chip">Gentle on eyes</li><li class="chip">Eyelash friendly</li>
+        <div class="picked-photo"><img src="assets/p-cleanse-texture.webp" alt="Power Cleanse texture on skin" data-par="-0.06" loading="lazy"></div>
+      </div>
+      <div class="stack" id="stack"></div>
+    </div>
+  </section>
+
+  <section class="spot" id="spotlight">
+    <div class="wrap spot-grid">
+      <div class="stage3d" id="stage3d">
+        <img class="fallback" src="assets/p-box.webp" alt="Power Cleanse bottle and box" id="fallbackImg">
+        <span class="hint">Drag to rotate</span>
+      </div>
+      <div class="spot-copy">
+        <span class="eyebrow reveal">Power Cleanse · Make-up removing face wash</span>
+        <h2 class="h2 reveal">Massage. Rinse. <em>Done.</em></h2>
+        <p class="reveal">An all-in-one makeup-removing face wash for women who want effective cleansing without a complicated routine.</p>
+        <ul class="loves reveal">
+          <li>Removes makeup + cleanses, one easy wash</li>
+          <li>Designed for comfortable cleansing around the eyes</li>
+          <li>Helps minimise unnecessary rubbing</li>
+          <li>Gentle, non-stripping, soft &amp; fresh finish</li>
         </ul>
-      </div>
-      <div class="hero-space" aria-hidden="true"></div>
-    </div>
-    <div class="hero-tag"><span class="scroll-cue"></span>Scroll to explore</div>
-  </section>
-
-  <div class="marquee" aria-hidden="true">
-    <div class="marquee-track">
-      <span>Sting-free</span><span>Tear-free</span><span>Removes eye makeup</span><span>Eyelash friendly</span><span>Made by a makeup artist</span><span>Gentle yet effective</span>
-      <span>Sting-free</span><span>Tear-free</span><span>Removes eye makeup</span><span>Eyelash friendly</span><span>Made by a makeup artist</span><span>Gentle yet effective</span>
-    </div>
-  </div>
-
-  <section class="why" id="why" data-bottle="0.55 -0.12 1.4 1.05 0.15" data-bottle-m="0.5 -0.25 1.4 0.6 0.1">
-    <div class="wrap">
-      <div class="why-head reveal">
-        <span class="eyebrow">Why it exists</span>
-        <h2 class="h2">Most makeup goes around the eyes. <em>Most removers forget that.</em></h2>
-      </div>
-      <div class="why-cards">
-        <article class="glass-card reveal" data-tilt><span class="k">i.</span><h3>The eye area carries the most makeup</h3><p>Liner, mascara, shadow and lashes all sit on the most sensitive skin of your face.</p></article>
-        <article class="glass-card reveal" data-tilt><span class="k">ii.</span><h3>Gentle usually meant weak</h3><p>Removers that were kind to the eyes left makeup behind. The ones that worked made them sting.</p></article>
-        <article class="glass-card reveal" data-tilt><span class="k">iii.</span><h3>So she made one that does both</h3><p>One face wash that removes your makeup, stays sting-free and tear-free, and feels comfortable on the eyes.</p></article>
-      </div>
-    </div>
-  </section>
-
-  <section class="shop light" id="shop" data-bottle="-0.5 -0.16 0 0.8 0" data-bottle-m="0 0.02 0 0.5 0">
-    <div class="wrap">
-      <div class="shop-head reveal">
-        <div style="display:grid;gap:18px"><span class="eyebrow">Shop</span><h2 class="h2">Meet <em>Power Cleanse</em></h2></div>
-        <p class="lede" style="max-width:40ch">Drag the bottle to turn it. Everything on the label, in 3D.</p>
-      </div>
-      <div class="pdp">
-        <div class="pdp-stage" id="pdpStage">
-          <div class="ring"></div><div class="pedestal"></div>
-          <span class="drag-hint">Drag to rotate</span>
-        </div>
-        <div class="panel reveal">
-          <span class="brandline">GLOSSKN</span>
-          <h2>Power Cleanse</h2>
-          <p class="sub">Make-up removing face wash</p>
-          <div class="price-row"><span class="price" id="pdpPrice"></span><span class="tax">Taxes included</span></div>
-          <ul class="claims">
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 12s3.6-6 10-6 10 6 10 6-3.6 6-10 6S2 12 2 12Z"/><circle cx="12" cy="12" r="2.6"/></svg>Gentle on eyes</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M3 14c3-4 15-4 18 0M6 12.6 4.5 9.5M9.5 11.6 9 8.2M14.5 11.6 15 8.2M18 12.6l1.5-3.1"/></svg>Eyelash friendly</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M12 3c3.5 4.2 6 7.6 6 10.6a6 6 0 0 1-12 0C6 10.6 8.5 7.2 12 3Z"/><path d="m5 5 14 14"/></svg>Tear-free</li>
-            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 4 6v6c0 4.4 3.4 8 8 9 4.6-1 8-4.6 8-9V6l-8-3Z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg>Sting-free</li>
-          </ul>
-          <div class="buy">
-            <div class="qty" role="group" aria-label="Quantity">
-              <button type="button" id="qMinus" aria-label="Decrease quantity">−</button><output id="qVal">1</output><button type="button" id="qPlus" aria-label="Increase quantity">+</button>
-            </div>
-            <button class="btn btn-dark" id="addMain" type="button">Add to cart</button>
-          </div>
-          <div class="acc">
-            <details open><summary>What it does</summary><p>Removes your makeup and cleanses your face in one wash, including liner and mascara around the eyes, without stinging or tearing up.</p></details>
-            <details><summary>How to use</summary><p><span class="ph" title="Placeholder: replace with your directions">Add your usage directions here.</span></p></details>
-            <details><summary>Ingredients</summary><p><span class="ph" title="Placeholder: replace with your ingredient list">Add your full ingredient list here.</span></p></details>
-          </div>
+        <p class="powered reveal"><b>Powered with</b> Squalane · Moringa · Rice Extract · Gentle Cleansing System</p>
+        <div class="buy-row reveal">
+          <span class="price" id="spotPrice"></span>
+          <button class="btn btn-ink" type="button" data-add="cleanse">Add to cart</button>
+          <a class="btn btn-line" href="https://glosskn.com/products/power-cleanse-face-wash" target="_blank" rel="noopener">Details</a>
         </div>
       </div>
-
-      <div class="routine">
-        <div class="reveal" style="display:grid;gap:14px"><span class="eyebrow">Where it fits</span><h2 class="h2" style="font-size:var(--step-2)">Shop by <em>routine</em></h2></div>
-        <div class="tabs" role="tablist" aria-label="Routines">
-          <button class="tab" role="tab" id="t-night" aria-controls="routinePanel" aria-selected="true" data-r="night">Night: makeup off</button>
-          <button class="tab" role="tab" id="t-morning" aria-controls="routinePanel" aria-selected="false" data-r="morning">Morning: fresh start</button>
-          <button class="tab" role="tab" id="t-pro" aria-controls="routinePanel" aria-selected="false" data-r="pro">Long makeup days</button>
-        </div>
-        <div class="tabpanel" id="routinePanel" role="tabpanel"></div>
-      </div>
     </div>
   </section>
 
-  <section class="story" id="story" data-bottle="1.5 0.2 2.6 0.8 0" data-bottle-m="1.6 0.2 2.6 0.6 0">
-    <div class="wrap story-grid">
-      <div class="phone-scene">
-        <div class="phone" id="phone" data-tilt-strong>
-          <video id="reel" src="media/founder-story.mp4" poster="media/founder-poster.jpg" muted loop playsinline preload="metadata"></video>
-          <button class="sound" id="soundBtn" type="button" aria-pressed="false">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/><path id="sndWave" d="M16 9.5a3.5 3.5 0 0 1 0 5M18.5 7a7 7 0 0 1 0 10" stroke-linecap="round" opacity=".35"/></svg>
-            <span id="soundLbl">Play with sound</span>
-          </button>
+  <section class="routines">
+    <div class="wrap rt-grid">
+      <div class="rt-copy">
+        <span class="eyebrow">Two formats. One philosophy.</span>
+        <h2 class="h2">One routine does not fit <em>every day.</em></h2>
+        <div class="rt-list">
+          <div class="rt-item open" data-img="0"><button type="button" aria-expanded="true"><span>Wash and go</span><span class="pm">+</span></button>
+            <div class="rt-body"><div><p>Power Cleanse: makeup removal and cleansing in one wash. Massage. Rinse. Done.</p><a href="#spotlight">Shop Power Cleanse →</a></div></div></div>
+          <div class="rt-item" data-img="1"><button type="button" aria-expanded="false"><span>Melt, wipe and unwind</span><span class="pm">+</span></button>
+            <div class="rt-body"><div><p>Power Melt: a silky cleansing balm that turns into oil and lifts long-wear and stubborn makeup. Massage. Melt. Wipe.</p><a href="https://glosskn.com/products/power-melt-cleansing-balm" target="_blank" rel="noopener">Shop Power Melt →</a></div></div></div>
+          <div class="rt-item" data-img="2"><button type="button" aria-expanded="false"><span>Keep it mess-free</span><span class="pm">+</span></button>
+            <div class="rt-body"><div><p>Power Bands: a plush headband and wrist bands that keep hair back and water off your sleeves while you cleanse.</p><a href="https://glosskn.com/products/powerbands-for-skincare" target="_blank" rel="noopener">Shop Power Bands →</a></div></div></div>
         </div>
       </div>
-      <div class="story-copy">
-        <span class="eyebrow reveal">The founder</span>
-        <p class="quote reveal">“If it stung even a little, <span>we went back to the lab.</span>”</p>
-        <p class="lede reveal">Hi, I’m Jaspreet: makeup artist, educator and founder of GLOSSKN. I went on a mission to create something truly one of a kind.</p>
-        <ol class="steps">
-          <li class="reveal"><div><h3>12 years in makeup</h3><p>The most makeup goes around the eyes, yet nothing gentle and effective existed for that sensitive area.</p></div></li>
-          <li class="reveal"><div><h3>Multiple labs, many versions</h3><p>We kept testing and reworking the formula.</p><div class="vchips"><span>V1</span><span>V2</span><span>V3</span><span>V4</span></div></div></li>
-          <li class="reveal"><div><h3>Her own eyes first</h3><p>Every version went on my eyes first, then on friends and family.</p></div></li>
-          <li class="reveal"><div><h3>Until it truly felt gentle</h3><p>If it still stung, we weren’t done. That’s what Power Cleanse is about: gentle yet effective cleansing.</p></div></li>
-        </ol>
-        <span class="sign reveal">Jaspreet, founder of GLOSSKN</span>
+      <div class="rt-media">
+        <img class="on" src="assets/p-cleanse-how.webp" alt="How to use Power Cleanse" loading="lazy">
+        <img src="assets/p-melt-how.webp" alt="How to use Power Melt" loading="lazy">
+        <img src="assets/p-bands.webp" alt="Power Bands headband and wrist bands" loading="lazy">
       </div>
     </div>
   </section>
 
-  <section class="compare light" data-bottle="-2.4 -0.1 -2 0.7 0" data-bottle-m="-2.4 0 -2 0.6 0">
-    <div class="wrap compare-grid">
-      <div class="compare-copy reveal">
-        <span class="eyebrow">One wash</span>
-        <h2 class="h2">Full glam to bare skin. <em>Eyes included.</em></h2>
-        <p class="lede">Liner, mascara and shadow come off in the same wash as the rest of your face. Drag the handle to compare.</p>
-        <p class="note">Illustration. Replace with your real before-and-after photos.</p>
+  <section class="ba-sec wrap">
+    <div class="ba-card">
+      <div class="ba-left">
+        <div class="ba" id="ba">
+          <img src="assets/ba-after.webp" alt="After cleansing" loading="lazy">
+          <img class="before" src="assets/ba-before.webp" alt="Before cleansing" loading="lazy">
+          <span class="lb l">Before</span><span class="lb r">After</span>
+          <span class="line"></span><span class="knob"><svg viewBox="0 0 18 12" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 1 1 6l4 5M13 1l4 5-4 5"/></svg></span>
+          <input type="range" min="0" max="100" value="50" id="baRange" aria-label="Compare before and after">
+        </div>
+        <a class="ba-prod" href="https://glosskn.com/products/power-series-double-cleansing-duo" target="_blank" rel="noopener"><span>Power Series Combo: Double Cleansing Duo (Melt + Cleanse)</span><span class="price" id="duoPrice"></span></a>
       </div>
-      <div class="ba reveal" id="ba">
-        <svg class="after" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#eyeBase"/><g id="lashesAfter"></g></svg>
-        <svg class="before" viewBox="0 0 800 500" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-          <use href="#eyeBase"/>
-          <ellipse cx="400" cy="195" rx="270" ry="105" fill="url(#shadowG)" filter="url(#soft)"/>
-          <ellipse cx="400" cy="318" rx="230" ry="26" fill="url(#smudgeG)" filter="url(#soft)"/>
-          <use href="#eyeBall"/>
-          <path d="M140 262 Q400 108 660 254 L742 196 L668 268 Q400 140 140 262Z" fill="#160b10"/>
-          <g id="lashesBefore"></g>
-        </svg>
-        <span class="lbl l">Before</span><span class="lbl r">After one wash</span>
-        <div class="handle"></div>
-        <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Compare before and after">
+      <div class="ba-copy reveal">
+        <span class="eyebrow">Double cleansing, made effortless</span>
+        <h2 class="h2">Four ways to glow. <em>One Power Combo.</em></h2>
+        <p class="muted">High-performance formulas, skin-friendly care balanced to cleanse, melt, hydrate and protect in one seamless ritual. Use them according to your lifestyle, not because beauty needs more steps.</p>
+        <button class="btn btn-ink" type="button" data-add="duo">Add the duo</button>
       </div>
     </div>
   </section>
 
-  <section class="reviews" id="reviews" data-bottle="2.2 -0.3 0.6 0.6 0.2" data-bottle-m="2.4 0 0 0.5 0">
+  <section class="packs wrap" id="gifts">
+    <div class="packs-grid">
+      <div class="packs-photo" data-tilt><img src="assets/p-gift-2.webp" alt="Power Reset gift box" loading="lazy"><span class="glare"></span></div>
+      <div class="packs-list reveal">
+        <span class="eyebrow muted">Gift sets</span>
+        <h2 class="h2" style="font-size:var(--t-xl)">Thoughtful gifting, <em>made effortless.</em></h2>
+        <div id="packs"></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="founder" id="story">
+    <div class="wrap f-grid">
+      <div class="reel" id="reelBox">
+        <video id="reel" src="media/founder-story.mp4" poster="media/founder-poster.jpg" muted loop playsinline preload="metadata"></video>
+        <button class="sound" id="soundBtn" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/></svg><span id="soundLbl">Play with sound</span></button>
+      </div>
+      <div class="f-copy">
+        <span class="eyebrow reveal">Our story</span>
+        <p class="quote reveal">“If it stung even a little, we went back to the lab. We kept refining until it truly felt gentle.”</p>
+        <p class="sig reveal">Jaspreet, makeup artist, educator and founder of GLOSSKN</p>
+        <p class="muted reveal">After 12 years in makeup, she stopped looking for a makeup remover and decided to create it: a face wash that removes your makeup and stays comfortable on the eyes.</p>
+        <a class="btn btn-line reveal" href="https://glosskn.com/pages/our-story" target="_blank" rel="noopener">Read our story</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="reviews wrap" id="reviews">
+    <div class="sec-head">
+      <h2 class="h3 reveal">Real People, Real Results</h2>
+      <div class="rv-nav"><button type="button" id="rvPrev" aria-label="Previous review"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M10 3 5 8l5 5"/></svg></button><span id="rvPos">1/4</span><button type="button" id="rvNext" aria-label="Next review"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="m6 3 5 5-5 5"/></svg></button></div>
+    </div>
+    <div class="rv-rail" id="rvRail"></div>
+  </section>
+
+  <section class="ig wrap">
+    <h2 class="h3 reveal">Follow us on Instagram</h2>
+    <p class="muted"><a href="https://www.instagram.com/glosskndaily/" target="_blank" rel="noopener">@glosskndaily</a></p>
+    <div class="ig-row">
+      <a href="https://www.instagram.com/glosskndaily/" target="_blank" rel="noopener" data-tilt aria-label="GLOSSKN on Instagram"><img src="assets/ig-1.webp" alt="" loading="lazy"></a>
+      <a href="https://www.instagram.com/glosskndaily/" target="_blank" rel="noopener" data-tilt aria-label="GLOSSKN on Instagram"><img src="assets/ig-4.webp" alt="" loading="lazy"></a>
+      <a href="https://www.instagram.com/glosskndaily/" target="_blank" rel="noopener" data-tilt aria-label="GLOSSKN on Instagram"><img src="assets/ig-2.webp" alt="" loading="lazy"></a>
+      <a href="https://www.instagram.com/glosskndaily/" target="_blank" rel="noopener" data-tilt aria-label="GLOSSKN on Instagram"><img src="assets/ig-5.webp" alt="" loading="lazy"></a>
+      <a href="https://www.instagram.com/glosskndaily/" target="_blank" rel="noopener" data-tilt aria-label="GLOSSKN on Instagram"><img src="assets/ig-3.webp" alt="" loading="lazy"></a>
+    </div>
+  </section>
+
+  <section class="faq">
+    <div class="wrap faq-grid">
+      <h2 class="h3 reveal">Discover more in our FAQs</h2>
+      <div>
+        <details><summary>What is the skin barrier?</summary><p>Think of it as your skin’s personal bodyguard. The outermost layer of your skin is made of skin cells (like bricks) and lipids (like mortar). It locks in moisture, protects against pollution, bacteria and UV rays, and keeps skin balanced.</p></details>
+        <details><summary>What are the signs of a damaged skin barrier?</summary><p>Redness or inflammation, dry or flaky skin, itching or burning, breakouts or increased sensitivity, and skin that feels tight even after moisturising.</p></details>
+        <details><summary>What causes a damaged skin barrier?</summary><p>Over-exfoliation or harsh products, too many actives at once, environmental stress like sun, cold and pollution, poor diet or lack of hydration, and some skin conditions.</p></details>
+        <details><summary>How do I repair and protect it?</summary><p>Switch to gentle, hydrating cleansers, use a moisturiser rich in ceramides and fatty acids, avoid over-exfoliating, and always wear sunscreen during the day.</p></details>
+        <details><summary>Glosskn suggests</summary><p>Healthy skin starts with a strong barrier. Before chasing glow or anti-ageing, prioritise barrier health. It’s the foundation for all good skin.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="club">
     <div class="wrap">
-      <div class="reviews-head reveal">
-        <div style="display:grid;gap:18px"><span class="eyebrow">Reviews</span><h2 class="h2">What people <em>feel</em></h2></div>
-        <div class="flow-nav"><button type="button" id="prev" aria-label="Previous review">←</button><button type="button" id="next" aria-label="Next review">→</button></div>
-      </div>
-      <div class="flow" id="flow"></div>
-    </div>
-  </section>
-
-  <section class="join" data-bottle="0.66 0.05 0.5 0.75 -0.12" data-bottle-m="2.4 0.4 0.3 0.6 0">
-    <div class="wrap">
-      <span class="eyebrow">The GLOSSKN list</span>
-      <h2 class="h2">Be first to know <em>what’s next.</em></h2>
-      <p class="lede">New launches, restocks and makeup tips from Jaspreet.</p>
-      <form class="signup" id="signup" novalidate>
-        <label for="email" class="sr" style="position:absolute;left:-9999px">Email address</label>
-        <input id="email" type="email" placeholder="Your email address" autocomplete="email" required>
-        <button class="btn btn-primary" type="submit">Join</button>
+      <h2>Join the GLOSSKN <em class="it">Club</em></h2>
+      <p class="muted">Subscribe for store updates and discounts.</p>
+      <form id="club" novalidate>
+        <label for="email" style="position:absolute;left:-9999px">Email</label>
+        <input id="email" type="email" placeholder="Enter your email" autocomplete="email">
+        <button type="submit" aria-label="Subscribe"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2 8h12M9 3l5 5-5 5"/></svg></button>
       </form>
-      <p class="signup-msg" id="signupMsg" role="status"></p>
+      <p class="msg" id="clubMsg" role="status"></p>
+      <small>By subscribing you agree to the Terms of Use &amp; Privacy Policy.</small>
     </div>
   </section>
 </main>
 
 <footer class="footer">
   <div class="wrap">
-    <div class="f-grid">
-      <div class="f-brand"><span class="logo">GLOSSKN</span><p>Gentle yet effective cleansing, created by makeup artist and educator Jaspreet.</p></div>
-      <div><h4>Shop</h4><ul><li><a href="#shop">Power Cleanse</a></li><li><a href="#shop">Routines</a></li></ul></div>
-      <div><h4>About</h4><ul><li><a href="#story">Our story</a></li><li><a href="#why">Why it exists</a></li><li><a href="#reviews">Reviews</a></li></ul></div>
-      <div><h4>Help</h4><ul><li><a href="#top">Shipping</a></li><li><a href="#top">Returns</a></li><li><a href="#top">Contact</a></li></ul></div>
+    <div class="ft">
+      <div><p class="lead">Glosskn is more than mere beauty care, it’s a way to Own your Radiance. Powered by trust, empathy and innovation, we create one-stop routines with no-compromise ingredients, making beauty truly uncomplicated.</p></div>
+      <div><h4>Shop</h4><ul><li><a href="https://glosskn.com/products/power-cleanse-face-wash" target="_blank" rel="noopener">Power Cleanse</a></li><li><a href="https://glosskn.com/products/power-melt-cleansing-balm" target="_blank" rel="noopener">Power Melt</a></li><li><a href="https://glosskn.com/products/powerbands-for-skincare" target="_blank" rel="noopener">Accessories</a></li></ul></div>
+      <div><h4>Collections</h4><ul><li><a href="https://glosskn.com/products/power-reset-gift-box" target="_blank" rel="noopener">Power Reset</a></li><li><a href="#gifts">Gifting</a></li><li><a href="https://glosskn.com/products/power-series-double-cleansing-duo" target="_blank" rel="noopener">Power Series Combo</a></li></ul></div>
+      <div><h4>Quick links</h4><ul><li><a href="https://glosskn.com/blogs/news" target="_blank" rel="noopener">Blogs</a></li><li><a href="https://glosskn.com/policies/privacy-policy" target="_blank" rel="noopener">Privacy Policy</a></li><li><a href="https://glosskn.com/policies/shipping-policy" target="_blank" rel="noopener">Shipping Policy</a></li><li><a href="https://glosskn.com/pages/contact" target="_blank" rel="noopener">Contact us</a></li></ul></div>
     </div>
-    <div class="f-base"><span>© 2026 GLOSSKN</span><span>Sting-free · Tear-free · Gentle on eyes</span></div>
+    <p style="margin-top:34px;font-size:var(--t-sm)">For gifting enquiries write to us at <b style="font-weight:500;user-select:all">hello@glosskn.com</b></p>
+    <div class="ft-base">
+      <div class="social">
+        <a href="https://www.instagram.com/glosskndaily/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r=".8" fill="currentColor"/></svg></a>
+      </div>
+      <span>© 2026, GLOSSKN. All Rights Reserved.</span>
+    </div>
   </div>
 </footer>
 
-<div class="sticky-buy" id="stickyBuy" aria-hidden="true">
-  <div class="t"><b>Power Cleanse</b><span id="stickyPrice"></span></div>
-  <button class="btn btn-primary" type="button" id="addSticky" tabindex="-1">Add to cart</button>
-</div>
-
 <div class="scrim" id="scrim"></div>
-<aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
-  <div class="d-head"><h2>Your cart</h2><button class="icon-btn" id="closeCart" aria-label="Close cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
-  <div class="d-body" id="cartBody"></div>
-  <div class="d-foot">
-    <div class="total"><span>Subtotal</span><span id="subtotal"></span></div>
-    <button class="btn btn-dark" type="button" id="checkout">Checkout</button>
-    <small id="checkoutNote">Shipping calculated at checkout.</small>
+<aside class="drawer" id="drawer" aria-label="Your cart" aria-hidden="true">
+  <div class="dh"><h2 id="cartTitle">Your Cart (0)</h2><button class="ibtn" id="closeCart" aria-label="Close cart"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="m6 6 12 12M18 6 6 18"/></svg></button></div>
+  <div class="ship"><span id="shipMsg"></span><div class="bar"><i id="shipBar"></i></div></div>
+  <div class="db" id="cartBody"></div>
+  <div class="df">
+    <div class="tot"><span>Subtotal</span><span id="subtotal">Rs. 0.00</span></div>
+    <small>Taxes and shipping calculated at checkout.</small>
+    <div class="two"><a class="btn btn-line" href="https://glosskn.com/cart" target="_blank" rel="noopener">View cart</a><button class="btn btn-ink" type="button" id="checkout">Check out</button></div>
   </div>
 </aside>
-
-<!-- shared SVG defs for the before/after illustration -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <defs>
-    <linearGradient id="skinG" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#f3d6c6"/><stop offset="1" stop-color="#e2b7a1"/></linearGradient>
-    <radialGradient id="irisG"><stop offset="0" stop-color="#2a160c"/><stop offset=".45" stop-color="#5b3518"/><stop offset=".85" stop-color="#8a5a2b"/><stop offset="1" stop-color="#3a2010"/></radialGradient>
-    <radialGradient id="shadowG"><stop offset="0" stop-color="#4a1f5c" stop-opacity=".95"/><stop offset=".55" stop-color="#7b3f8f" stop-opacity=".7"/><stop offset="1" stop-color="#c58fb4" stop-opacity="0"/></radialGradient>
-    <radialGradient id="smudgeG"><stop offset="0" stop-color="#2b1a22" stop-opacity=".7"/><stop offset="1" stop-color="#2b1a22" stop-opacity="0"/></radialGradient>
-    <filter id="soft" x="-20%" y="-40%" width="140%" height="180%"><feGaussianBlur stdDeviation="14"/></filter>
-    <g id="eyeBall">
-      <path d="M150 262 Q400 120 650 258 Q400 392 150 262Z" fill="#fbf6f3"/>
-      <clipPath id="eyeClip"><path d="M150 262 Q400 120 650 258 Q400 392 150 262Z"/></clipPath>
-      <g clip-path="url(#eyeClip)">
-        <circle cx="400" cy="262" r="78" fill="url(#irisG)"/><circle cx="400" cy="262" r="32" fill="#120806"/>
-        <circle cx="425" cy="236" r="12" fill="#fff" opacity=".9"/>
-        <path d="M150 262 Q400 120 650 258 L650 200 L150 200Z" fill="#cfa08c" opacity=".35"/>
-      </g>
-    </g>
-    <g id="eyeBase">
-      <rect width="800" height="500" fill="url(#skinG)"/>
-      <path d="M170 150 Q380 52 650 124" fill="none" stroke="#4a3226" stroke-width="26" stroke-linecap="round"/>
-      <path d="M180 214 Q400 70 636 216" fill="none" stroke="#c4917c" stroke-width="5" stroke-linecap="round" opacity=".7"/>
-      <use href="#eyeBall"/>
-      <path d="M150 262 Q400 120 650 258" fill="none" stroke="#7a4e3e" stroke-width="4"/>
-      <path d="M175 280 Q400 360 630 272" fill="none" stroke="#c48e7a" stroke-width="3" opacity=".7"/>
-    </g>
-  </defs>
-</svg>
+<div class="toast" id="toast" role="status"></div>
 
 <script>
-/* ===== Store content: replace these with your real product data ===== */
-const STORE = {
-  currency: "₹",
-  products: {
-    "power-cleanse": { name: "Power Cleanse", type: "Make-up removing face wash", price: null }
-  },
-  routines: {
-    night: { when: "Night", title: "Full glam to <em>bare skin</em> in one wash.", body: "Liner, mascara and shadow come off with the cleanse, so the separate makeup remover can go.", slots: ["power-cleanse", null] },
-    morning: { when: "Morning", title: "A gentle wash for <em>sleepy eyes.</em>", body: "Nothing stings and nothing tears up, even when you wash right over your eyes.", slots: ["power-cleanse", null] },
-    pro: { when: "Long makeup days", title: "Made by someone who <em>wears it all day.</em>", body: "Created by a working makeup artist for the heaviest eye looks, and gentle enough to use every day.", slots: ["power-cleanse", null] }
-  },
-  reviews: [
-    { q: "My mascara came off in one wash and my eyes didn’t sting at all.", who: "Sample review" },
-    { q: "I wear contacts and usually avoid washing near my eyes. This one is comfortable.", who: "Sample review" },
-    { q: "Finally one step instead of a remover and a face wash.", who: "Sample review" },
-    { q: "Gentle enough for every day, strong enough for full glam.", who: "Sample review" },
-    { q: "No tears, no red eyes, no leftover liner.", who: "Sample review" }
-  ]
+/* ===== Catalogue: real GLOSSKN products and prices from glosskn.com ===== */
+const P = {
+  cleanse: { name: "Power Cleanse - Make-up Removing Face Wash", short: "Power Cleanse", price: 1299, img: "assets/p-cleanse.webp", alt: "assets/p-cleanse-2.webp", url: "power-cleanse-face-wash" },
+  melt: { name: "Power Melt - Face Cleansing Balm", short: "Power Melt", price: 1099, img: "assets/p-melt.webp", alt: "assets/p-melt-2.webp", url: "power-melt-cleansing-balm" },
+  duo: { name: "Power Series Combo - Double Cleansing Duo (Melt + Cleanse)", short: "Power Series Combo", price: 1820, was: 2032, badges: ["Best Seller", "-10%"], img: "assets/p-duo.webp", alt: "assets/p-duo-2.webp", url: "power-series-double-cleansing-duo" },
+  bands: { name: "Power Bands: Wrist and Head Bands for Skin Care", short: "Power Bands", price: 380, was: 423, badges: ["-10%"], img: "assets/p-bands.webp", alt: "assets/p-gift.webp", url: "powerbands-for-skincare" },
+  gift: { name: "Power Reset Gifting Edition", short: "Power Reset Gift Box", price: 2086, was: 2455, badges: ["-15%"], img: "assets/p-gift.webp", alt: "assets/p-gift-2.webp", url: "power-reset-gift-box" },
+  engrave: { name: "Power Reset Gifting Edition with Custom Engraving", short: "Gift Box with Custom Engraving", price: 2086, was: 2455, badges: ["-15%"], img: "assets/p-gift-2.webp", alt: "assets/p-gift.webp", url: "power-reset-gifting-edition-custom-engraving" },
+  cb: { name: "Power Cleanse - Make-up removing Face wash with Power Bands Combo", short: "Power Cleanse + Power Bands", price: 1371, was: 1524, badges: ["-10%"], img: "assets/p-box.webp", alt: "assets/p-bands.webp", url: "power-cleanse-power-bands-combo" },
+  mb: { name: "Power Melt - Cleansing Balm + Power Bands Combo", short: "Power Melt + Power Bands", price: 1218, was: 1354, badges: ["-10%"], img: "assets/p-melt-texture.webp", alt: "assets/p-bands.webp", url: "power-melt-power-bands-combo" }
 };
+const TABS = { cleansers: ["melt", "cleanse", "duo", "bands"], gifting: ["gift", "engrave", "cb", "mb"] };
+const REVIEWS = [
+  { q: "The Power Melt is the best! Waterproof mascara gone in seconds. No rubbing!", who: "Simran K", p: "melt" },
+  { q: "I used to hate double cleansing, but this duo makes it effortless. The Melt lifts the sunscreen, and the Cleanse with Moringa and Rice Extract leaves me with that healthy glow. It’s the perfect pair for fighting pollution!", who: "V. Shah", p: "duo" },
+  { q: "Did it give me glass skin overnight? No. But my hormonal breakouts are finally under control, and the red marks are fading faster. This line is magic for my sensitive, moody skin. Thank you!", who: "Aisha", p: "duo" },
+  { q: "I love that the Power Bands are made with such a soft, stretchy fabric. They don’t dig into my wrists or leave marks on my forehead.", who: "Shreya", p: "bands" }
+];
+const FREE_SHIP = 250;
 
 const $ = (s, r = document) => r.querySelector(s);
-const fmt = p => p == null ? STORE.currency + " —" : STORE.currency + p.toLocaleString("en-IN");
-const store = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } },
-                set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+const rs = n => "Rs. " + n.toLocaleString("en-IN", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+const priceHTML = p => `<b>${rs(p.price)}</b>${p.was ? `<s>${rs(p.was)}</s>` : ""}`;
+const keep = { get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch { return d; } }, set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} } };
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fine = matchMedia("(pointer: fine)").matches && !reduceMotion;
+const plusIcon = `<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 3v10M3 8h10"/></svg>`;
 
 /* ----- header */
-const header = $("#header");
-addEventListener("scroll", () => header.classList.toggle("scrolled", scrollY > 30), { passive: true });
-const menuBtn = $("#menuBtn"), mnav = $("#mnav");
-menuBtn.addEventListener("click", () => { mnav.hidden = !mnav.hidden; menuBtn.setAttribute("aria-expanded", String(!mnav.hidden)); });
-mnav.addEventListener("click", e => { if (e.target.closest("a")) { mnav.hidden = true; menuBtn.setAttribute("aria-expanded", "false"); } });
+const header = $("#header"), hero = $("#hero");
+function onScrollHeader() { header.classList.toggle("solid", scrollY > hero.offsetHeight - 90 || !$("#mnav").hidden); }
+addEventListener("scroll", onScrollHeader, { passive: true }); onScrollHeader();
+$("#menuBtn").addEventListener("click", () => { const m = $("#mnav"); m.hidden = !m.hidden; $("#menuBtn").setAttribute("aria-expanded", String(!m.hidden)); onScrollHeader(); });
+$("#mnav").addEventListener("click", e => { if (e.target.closest("a")) { $("#mnav").hidden = true; $("#menuBtn").setAttribute("aria-expanded", "false"); onScrollHeader(); } });
 
-/* ----- prices */
-const pc = STORE.products["power-cleanse"];
-$("#pdpPrice").textContent = fmt(pc.price);
-$("#stickyPrice").textContent = fmt(pc.price);
-if (pc.price == null) { $("#pdpPrice").classList.add("ph"); $("#pdpPrice").title = "Placeholder: set the price in STORE.products"; }
+/* ----- hero: depth parallax on pointer and scroll */
+const halves = [...document.querySelectorAll(".half")], copy = $("#heroCopy");
+let mx = 0, my = 0, tmx = 0, tmy = 0;
+if (fine) hero.addEventListener("pointermove", e => { tmx = e.clientX / innerWidth - .5; tmy = e.clientY / innerHeight - .5; });
+hero.addEventListener("pointerleave", () => { tmx = tmy = 0; });
+function heroFrame() {
+  requestAnimationFrame(heroFrame);
+  const s = Math.min(1, scrollY / hero.offsetHeight);
+  if (s >= 1 && Math.abs(tmx - mx) < .001) return;
+  mx += (tmx - mx) * .07; my += (tmy - my) * .07;
+  halves.forEach(h => {
+    const d = +h.dataset.depth || 0;
+    h.style.transform = `translate3d(${d * s * 5 + mx * -2.4}%, ${s * 60 + my * -16}px, ${-s * 140}px) rotateY(${mx * 5 - d * s * 10}deg) rotateX(${my * -3}deg) scale(1.06)`;
+  });
+  copy.style.transform = `translate3d(${mx * 30}px, ${my * 20 - s * 80}px, 0) rotateY(${mx * 8}deg) rotateX(${my * -6}deg)`;
+  copy.style.opacity = String(Math.max(0, 1 - s * 1.4));
+}
+if (!reduceMotion) requestAnimationFrame(heroFrame);
+
+/* ----- product cards */
+function cardHTML(id) {
+  const p = P[id];
+  return `<article class="card">
+    <div class="tile" data-tilt>
+      ${p.badges ? `<div class="badges">${p.badges.map((b, i) => `<span class="badge ${p.badges.length > 1 && !i ? "" : "l"}">${b}</span>`).join("")}</div>` : ""}
+      <img src="${p.img}" alt="${p.short}"><img class="alt" src="${p.alt}" alt="" loading="lazy">
+      <span class="glare"></span>
+      <button class="quick" type="button" data-add="${id}">Add to cart</button>
+    </div>
+    <h3>${p.name}</h3><p class="price">${priceHTML(p)}</p>
+  </article>`;
+}
+const rail = $("#rail");
+function showTab(t) {
+  rail.innerHTML = TABS[t].map(cardHTML).join(""); rail.scrollLeft = 0; bindTilt(rail);
+  document.querySelectorAll(".tab").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === t)));
+  rail.setAttribute("aria-labelledby", t === "cleansers" ? "tabC" : "tabG");
+}
+document.querySelectorAll(".tab").forEach(b => b.addEventListener("click", () => showTab(b.dataset.tab)));
+$("#railPrev").addEventListener("click", () => rail.scrollBy({ left: -rail.clientWidth * .6, behavior: "smooth" }));
+$("#railNext").addEventListener("click", () => rail.scrollBy({ left: rail.clientWidth * .6, behavior: "smooth" }));
+
+$("#stack").innerHTML = ["cleanse", "melt", "bands"].map((id, i) => { const p = P[id]; return `
+  <a class="mini" href="https://glosskn.com/products/${p.url}" target="_blank" rel="noopener" data-par="${[0.05, -0.02, -0.09][i]}">
+    <div class="tile" data-tilt><img src="${p.img}" alt="${p.short}" loading="lazy"><span class="glare"></span></div>
+    <h3>${p.name}</h3><p class="price">${priceHTML(p)}</p></a>`; }).join("");
+
+$("#packs").innerHTML = ["gift", "engrave", "cb", "mb"].map((id, i) => { const p = P[id]; return `
+  <div class="pack"><span class="n">${i + 1}</span><img src="${p.img}" alt="" loading="lazy">
+    <div><h3>${p.short}</h3><p class="price">${priceHTML(p)}</p></div>
+    <button type="button" data-add="${id}" aria-label="Add ${p.short} to cart">${plusIcon}</button></div>`; }).join("");
+
+$("#spotPrice").textContent = rs(P.cleanse.price);
+$("#duoPrice").innerHTML = priceHTML(P.duo);
+
+/* ----- 3D tilt with glare */
+function bindTilt(root = document) {
+  if (!fine) return;
+  root.querySelectorAll("[data-tilt]").forEach(el => {
+    if (el.dataset.bound) return; el.dataset.bound = 1;
+    const g = el.querySelector(".glare");
+    el.addEventListener("pointermove", e => {
+      const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+      el.style.transform = `perspective(900px) rotateY(${(x - .5) * 12}deg) rotateX(${(.5 - y) * 12}deg) translateZ(14px)`;
+      if (g) { g.style.setProperty("--gx", x * 100 + "%"); g.style.setProperty("--gy", y * 100 + "%"); }
+    });
+    el.addEventListener("pointerleave", () => { el.style.transform = ""; });
+  });
+}
+showTab("cleansers"); bindTilt();
+
+/* ----- scroll parallax for layered elements */
+const parEls = [...document.querySelectorAll("[data-par]")];
+function par() { parEls.forEach(el => { const r = el.getBoundingClientRect(); const c = r.top + r.height / 2 - innerHeight / 2; el.style.transform = `translate3d(0, ${c * +el.dataset.par}px, 0)`; }); }
+if (!reduceMotion) { addEventListener("scroll", par, { passive: true }); par(); }
+
+/* ----- floating texture icons lean toward the pointer */
+const ace = $("#ace");
+if (fine) {
+  ace.addEventListener("pointermove", e => {
+    const r = ace.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
+    ace.querySelectorAll(".tx").forEach((t, i) => t.style.transform = `translate3d(${x * (14 + i * 8)}px, ${y * (10 + i * 6)}px, 0)`);
+  });
+  ace.addEventListener("pointerleave", () => ace.querySelectorAll(".tx").forEach(t => t.style.transform = ""));
+}
+
+/* ----- routines accordion */
+const items = [...document.querySelectorAll(".rt-item")], rtImgs = [...document.querySelectorAll(".rt-media img")];
+items.forEach(it => it.querySelector("button").addEventListener("click", () => {
+  items.forEach(o => { const on = o === it; o.classList.toggle("open", on); o.querySelector("button").setAttribute("aria-expanded", String(on)); });
+  rtImgs.forEach((im, i) => im.classList.toggle("on", i === +it.dataset.img));
+}));
+
+/* ----- before / after */
+$("#baRange").addEventListener("input", e => $("#ba").style.setProperty("--pos", e.target.value + "%"));
+
+/* ----- reviews */
+const rvRail = $("#rvRail");
+rvRail.innerHTML = REVIEWS.map(r => { const p = P[r.p]; return `
+  <figure class="rv"><div style="display:grid;gap:12px"><span class="who">${r.who}</span><span class="stars" aria-label="5 out of 5 stars">★★★★★</span><blockquote>${r.q}</blockquote></div>
+  <a class="tag" href="https://glosskn.com/products/${p.url}" target="_blank" rel="noopener"><img src="${p.img}" alt="" loading="lazy">${p.short}</a></figure>`; }).join("");
+let rvI = 0;
+function rvGo(d) {
+  const cards = rvRail.children; rvI = (rvI + d + cards.length) % cards.length;
+  rvRail.scrollTo({ left: cards[rvI].offsetLeft - rvRail.offsetLeft, behavior: "smooth" }); $("#rvPos").textContent = `${rvI + 1}/${cards.length}`;
+}
+$("#rvPrev").addEventListener("click", () => rvGo(-1)); $("#rvNext").addEventListener("click", () => rvGo(1));
+
+/* ----- founder reel */
+const reel = $("#reel");
+new IntersectionObserver(([e]) => { e.isIntersecting ? reel.play().catch(() => {}) : reel.pause(); }, { threshold: .4 }).observe(reel);
+$("#soundBtn").addEventListener("click", () => {
+  reel.muted = !reel.muted; if (!reel.muted) { reel.currentTime = 0; reel.play().catch(() => {}); }
+  $("#soundBtn").setAttribute("aria-pressed", String(!reel.muted)); $("#soundLbl").textContent = reel.muted ? "Play with sound" : "Mute";
+});
+if (fine) { const rb = $("#reelBox"); rb.addEventListener("pointermove", e => { const r = rb.getBoundingClientRect(); rb.style.transform = `perspective(1200px) rotateY(${((e.clientX - r.left) / r.width - .5) * 16}deg) rotateX(${(.5 - (e.clientY - r.top) / r.height) * 10}deg)`; }); rb.addEventListener("pointerleave", () => rb.style.transform = ""); }
 
 /* ----- cart */
-let cart = store.get("glosskn-cart", { lines: {}, gift: false, note: "" });
+let cart = keep.get("glosskn-cart-v2", { lines: {}, wrap: false, note: "" });
 const drawer = $("#drawer"), scrim = $("#scrim");
-function openCart() { drawer.classList.add("open"); scrim.classList.add("open"); drawer.setAttribute("aria-hidden", "false"); $("#closeCart").focus(); }
-function closeCart() { drawer.classList.remove("open"); scrim.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); $("#cartBtn").focus(); }
-$("#cartBtn").addEventListener("click", openCart);
-$("#closeCart").addEventListener("click", closeCart);
-scrim.addEventListener("click", closeCart);
-addEventListener("keydown", e => { if (e.key === "Escape" && drawer.classList.contains("open")) closeCart(); });
-
-const bottleIcon = `<svg viewBox="0 0 40 80"><rect x="16" y="2" width="9" height="7" rx="2" fill="#fff" stroke="#c9b5d2"/><rect x="25" y="4" width="9" height="3" rx="1.5" fill="#fff" stroke="#c9b5d2"/><rect x="17" y="9" width="7" height="8" fill="#fff" stroke="#c9b5d2"/><path d="M8 30q0-12 12-12t12 12v42q0 6-6 6H14q-6 0-6-6Z" fill="#fff" stroke="#c9b5d2"/><rect x="11" y="38" width="18" height="26" fill="none" stroke="#b9b2bd" stroke-width=".8"/><text x="20" y="48" font-size="3.6" text-anchor="middle" font-family="Inter" letter-spacing=".6" fill="#555">GLOSSKN</text></svg>`;
+const openCart = () => { drawer.classList.add("open"); scrim.classList.add("open"); drawer.setAttribute("aria-hidden", "false"); $("#closeCart").focus(); };
+const closeCart = () => { drawer.classList.remove("open"); scrim.classList.remove("open"); drawer.setAttribute("aria-hidden", "true"); };
+$("#cartBtn").addEventListener("click", openCart); $("#closeCart").addEventListener("click", closeCart); scrim.addEventListener("click", closeCart);
+addEventListener("keydown", e => { if (e.key === "Escape") closeCart(); });
 function renderCart() {
-  const ids = Object.keys(cart.lines).filter(id => cart.lines[id] > 0);
-  const n = ids.reduce((a, id) => a + cart.lines[id], 0);
-  const cnt = $("#cartCount"); cnt.textContent = n;
+  const ids = Object.keys(cart.lines).filter(id => cart.lines[id] > 0 && P[id]);
+  const n = ids.reduce((a, id) => a + cart.lines[id], 0), sub = ids.reduce((a, id) => a + P[id].price * cart.lines[id], 0);
+  $("#count").textContent = n; $("#cartTitle").textContent = `Your Cart (${n})`; $("#subtotal").textContent = rs(sub);
+  const left = Math.max(0, FREE_SHIP - sub);
+  $("#shipMsg").innerHTML = left > 0 ? `Spend <b style="font-weight:500">${rs(left)}</b> more for free shipping` : "Congratulations! Your order qualifies for free shipping";
+  $("#shipBar").style.width = Math.min(100, sub / FREE_SHIP * 100) + "%";
   const body = $("#cartBody");
-  if (!ids.length) {
-    body.innerHTML = `<div class="empty-cart"><div class="thumb" style="width:90px;height:110px">${bottleIcon}</div><p>Your cart is empty.</p><a class="btn btn-dark" href="#shop" id="emptyShop">Shop Power Cleanse</a></div>`;
-    $("#emptyShop").addEventListener("click", closeCart);
-  } else {
-    body.innerHTML = ids.map(id => { const p = STORE.products[id]; return `
-      <div class="line"><div class="thumb">${bottleIcon}</div>
-        <div><h3>${p.name}</h3><div class="s">${p.type}</div>
-          <div class="qty"><button type="button" data-dec="${id}" aria-label="Decrease">−</button><output>${cart.lines[id]}</output><button type="button" data-inc="${id}" aria-label="Increase">+</button></div></div>
-        <button class="rm" type="button" data-rm="${id}">Remove</button></div>`; }).join("") + `
-      <div class="extras">
-        <label class="toggle"><input type="checkbox" id="gift" ${cart.gift ? "checked" : ""}> Add gift wrapping</label>
-        <label for="note" style="font-weight:600;font-size:.9rem">Order note</label>
-        <textarea id="note" placeholder="Anything we should know?">${cart.note.replace(/</g, "&lt;")}</textarea>
-      </div>`;
-    $("#gift").addEventListener("change", e => { cart.gift = e.target.checked; store.set("glosskn-cart", cart); });
-    $("#note").addEventListener("input", e => { cart.note = e.target.value; store.set("glosskn-cart", cart); });
-  }
-  const known = ids.every(id => STORE.products[id].price != null);
-  $("#subtotal").textContent = !ids.length ? fmt(0) : known ? fmt(ids.reduce((a, id) => a + STORE.products[id].price * cart.lines[id], 0)) : fmt(null);
-  $("#checkout").disabled = !ids.length;
-  $("#checkout").style.opacity = ids.length ? 1 : .45;
+  if (!ids.length) { body.innerHTML = `<div class="empty"><p>Your cart is empty</p><button class="btn btn-ink" type="button" id="goShop">Continue shopping</button></div>`; $("#goShop").onclick = () => { closeCart(); $("#featured").scrollIntoView(); }; return; }
+  const up = ["bands", "melt", "cleanse"].find(id => !cart.lines[id]);
+  body.innerHTML = ids.map(id => { const p = P[id]; return `<div class="ln"><img src="${p.img}" alt=""><div><h3>${p.name}</h3>
+    <div class="qty"><button type="button" data-q="${id}" data-d="-1" aria-label="Decrease">−</button><span>${cart.lines[id]}</span><button type="button" data-q="${id}" data-d="1" aria-label="Increase">+</button></div></div>
+    <div style="text-align:right"><span class="price" style="font-size:var(--t-sm)">${rs(p.price * cart.lines[id])}</span><br><button class="rm" type="button" data-rm="${id}">Remove</button></div></div>`; }).join("") +
+    (up ? `<div class="upsell"><span class="eyebrow">Buy it with</span><div class="up"><img src="${P[up].img}" alt=""><div><h4>${P[up].short}</h4><span class="price" style="font-size:var(--t-sm)">${rs(P[up].price)}</span></div><button type="button" data-add="${up}" aria-label="Add ${P[up].short}">${plusIcon}</button></div></div>` : "") +
+    `<label class="opt"><input type="checkbox" id="wrapOpt" ${cart.wrap ? "checked" : ""}> Gift wrap this order</label>
+     <label for="noteBox" style="font-size:var(--t-sm)">Add order note</label><textarea class="note-box" id="noteBox" placeholder="How can we help you?"></textarea>`;
+  $("#noteBox").value = cart.note;
+  $("#wrapOpt").onchange = e => { cart.wrap = e.target.checked; keep.set("glosskn-cart-v2", cart); };
+  $("#noteBox").oninput = e => { cart.note = e.target.value; keep.set("glosskn-cart-v2", cart); };
 }
 $("#cartBody").addEventListener("click", e => {
   const b = e.target.closest("button"); if (!b) return;
-  if (b.dataset.inc) cart.lines[b.dataset.inc]++;
-  if (b.dataset.dec) cart.lines[b.dataset.dec] = Math.max(0, cart.lines[b.dataset.dec] - 1);
-  if (b.dataset.rm) delete cart.lines[b.dataset.rm];
-  store.set("glosskn-cart", cart); renderCart();
+  if (b.dataset.q) cart.lines[b.dataset.q] = Math.max(0, cart.lines[b.dataset.q] + +b.dataset.d);
+  else if (b.dataset.rm) delete cart.lines[b.dataset.rm]; else return;
+  keep.set("glosskn-cart-v2", cart); renderCart();
 });
-$("#checkout").addEventListener("click", () => { $("#checkoutNote").textContent = "Prototype: checkout connects to Shopify when this design goes live."; });
-function addToCart(id, q = 1) {
-  cart.lines[id] = (cart.lines[id] || 0) + q; store.set("glosskn-cart", cart); renderCart();
-  const c = $("#cartCount"); c.classList.remove("bump"); void c.offsetWidth; c.classList.add("bump"); setTimeout(() => c.classList.remove("bump"), 400);
-  window.dispatchEvent(new CustomEvent("glosskn:add"));
-  openCart();
+function addToCart(id) {
+  cart.lines[id] = (cart.lines[id] || 0) + 1; keep.set("glosskn-cart-v2", cart); renderCart();
+  const c = $("#count"); c.classList.add("pop"); setTimeout(() => c.classList.remove("pop"), 350);
+  dispatchEvent(new CustomEvent("glosskn:add", { detail: id })); openCart();
 }
-let qty = 1;
-$("#qMinus").addEventListener("click", () => { qty = Math.max(1, qty - 1); $("#qVal").textContent = qty; });
-$("#qPlus").addEventListener("click", () => { qty = Math.min(9, qty + 1); $("#qVal").textContent = qty; });
-$("#addMain").addEventListener("click", () => addToCart("power-cleanse", qty));
-$("#addSticky").addEventListener("click", () => addToCart("power-cleanse", 1));
+document.addEventListener("click", e => { const b = e.target.closest("[data-add]"); if (b) { e.preventDefault(); addToCart(b.dataset.add); } });
+let toastT;
+$("#checkout").addEventListener("click", () => { const t = $("#toast"); t.textContent = "Design prototype: checkout runs on your Shopify store."; t.classList.add("show"); clearTimeout(toastT); toastT = setTimeout(() => t.classList.remove("show"), 2600); });
 renderCart();
 
-/* ----- sticky buy bar: after the hero, hidden while the product panel is on screen */
-const sticky = $("#stickyBuy"), shopPanel = $("#shop"), heroEl = $(".hero");
-let panelVisible = false;
-new IntersectionObserver(([e]) => { panelVisible = e.isIntersecting; updSticky(); }).observe(shopPanel);
-function updSticky() {
-  const show = scrollY > heroEl.offsetHeight * .8 && !panelVisible && document.documentElement.scrollHeight - scrollY - innerHeight > 700;
-  sticky.classList.toggle("show", show); sticky.setAttribute("aria-hidden", String(!show)); $("#addSticky").tabIndex = show ? 0 : -1;
-}
-addEventListener("scroll", updSticky, { passive: true });
-
-/* ----- routine tabs */
-function renderRoutine(key) {
-  const r = STORE.routines[key];
-  $("#routinePanel").innerHTML = `
-    <div class="rcard"><span class="when">${r.when}</span><h3>${r.title}</h3><p>${r.body}</p></div>
-    <div class="slots">${r.slots.map((id, i) => id ? `
-      <div class="slot real"><span class="stepn">Step ${i + 1}</span><h4>${STORE.products[id].name}</h4><p style="color:var(--dusk);font-size:.9rem">${STORE.products[id].type}</p>
-        <button class="mini-add" type="button" data-add="${id}">Add to cart</button></div>` : `
-      <div class="slot empty"><span class="stepn">Step ${i + 1}</span><span>Your next GLOSSKN product goes here</span></div>`).join("")}</div>`;
-  $("#routinePanel").setAttribute("aria-labelledby", "t-" + key);
-}
-document.querySelectorAll(".tab").forEach(t => t.addEventListener("click", () => {
-  document.querySelectorAll(".tab").forEach(x => x.setAttribute("aria-selected", String(x === t)));
-  renderRoutine(t.dataset.r);
-}));
-$("#routinePanel").addEventListener("click", e => { const b = e.target.closest("[data-add]"); if (b) addToCart(b.dataset.add); });
-renderRoutine("night");
-
-/* ----- before / after */
-const ba = $("#ba");
-$("#baRange").addEventListener("input", e => ba.style.setProperty("--pos", e.target.value + "%"));
-function lashes(g, n, len, w, color) {
-  const P0 = [150, 262], P1 = [400, 120], P2 = [650, 258]; let d = "";
-  for (let i = 1; i < n; i++) {
-    const t = i / n, u = 1 - t;
-    const x = u * u * P0[0] + 2 * u * t * P1[0] + t * t * P2[0], y = u * u * P0[1] + 2 * u * t * P1[1] + t * t * P2[1];
-    const tx = 2 * u * (P1[0] - P0[0]) + 2 * t * (P2[0] - P1[0]), ty = 2 * u * (P1[1] - P0[1]) + 2 * t * (P2[1] - P1[1]);
-    const m = Math.hypot(tx, ty), nx = ty / m, ny = -tx / m;
-    const L = len * (0.7 + 0.5 * Math.sin(Math.PI * t)) * (0.85 + Math.random() * .3), lean = (t - .5) * 34;
-    d += `M${x.toFixed(1)} ${y.toFixed(1)} Q${(x + nx * L * .5).toFixed(1)} ${(y + ny * L * .5 - 4).toFixed(1)} ${(x + nx * L + lean).toFixed(1)} ${(y + ny * L - 6).toFixed(1)} `;
-  }
-  g.innerHTML = `<path d="${d}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linecap="round"/>`;
-}
-lashes($("#lashesAfter"), 34, 38, 2.6, "#3b2418");
-lashes($("#lashesBefore"), 46, 66, 6, "#0d0608");
-
-/* ----- reviews coverflow */
-const flow = $("#flow"); let fi = 0;
-flow.innerHTML = STORE.reviews.map(r => `<figure class="flow-card" style="margin-block:0"><span class="stars" aria-label="5 out of 5">★★★★★</span><blockquote>“${r.q}”</blockquote><figcaption class="who"><span>${r.who}</span><span class="sample" title="Replace with real reviews from your store">Sample</span></figcaption></figure>`).join("");
-const cards = [...flow.children];
-function layoutFlow() {
-  const narrow = innerWidth < 700;
-  cards.forEach((c, i) => {
-    let o = i - fi; const N = cards.length; if (o > N / 2) o -= N; if (o < -N / 2) o += N;
-    const a = Math.abs(o);
-    c.style.transform = `translateX(${o * (narrow ? 70 : 62)}%) translateZ(${-a * 160}px) rotateY(${-o * 28}deg)`;
-    c.style.opacity = a > 2 ? 0 : 1 - a * .3;
-    c.style.zIndex = 10 - a; c.style.filter = a ? "saturate(.7) brightness(.8)" : "none";
-    c.setAttribute("aria-hidden", String(a !== 0));
-  });
-}
-$("#prev").addEventListener("click", () => { fi = (fi - 1 + cards.length) % cards.length; layoutFlow(); });
-$("#next").addEventListener("click", () => { fi = (fi + 1) % cards.length; layoutFlow(); });
-let fx0 = null;
-flow.addEventListener("pointerdown", e => fx0 = e.clientX);
-flow.addEventListener("pointerup", e => { if (fx0 == null) return; const d = e.clientX - fx0; if (Math.abs(d) > 40) { fi = (fi + (d < 0 ? 1 : -1) + cards.length) % cards.length; layoutFlow(); } fx0 = null; });
-addEventListener("resize", layoutFlow); layoutFlow();
-
-/* ----- tilt cards + phone */
-const fine = matchMedia("(pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches;
-if (fine) {
-  document.querySelectorAll("[data-tilt], [data-tilt-strong]").forEach(el => {
-    const k = el.hasAttribute("data-tilt-strong") ? 16 : 10;
-    const base = el.hasAttribute("data-tilt-strong") ? getComputedStyle(el).transform : "";
-    el.addEventListener("pointermove", e => {
-      const r = el.getBoundingClientRect(), x = (e.clientX - r.left) / r.width - .5, y = (e.clientY - r.top) / r.height - .5;
-      el.style.transform = `perspective(1000px) rotateY(${x * k}deg) rotateX(${-y * k}deg) translateZ(10px)`;
-    });
-    el.addEventListener("pointerleave", () => el.style.transform = "");
-  });
-}
-
-/* ----- founder video: plays muted when in view, sound on request */
-const reel = $("#reel"), soundBtn = $("#soundBtn");
-new IntersectionObserver(([e]) => { if (e.isIntersecting) reel.play().catch(() => {}); else reel.pause(); }, { threshold: .35 }).observe(reel);
-soundBtn.addEventListener("click", () => {
-  reel.muted = !reel.muted; if (!reel.muted) { reel.currentTime = 0; reel.play().catch(() => {}); }
-  soundBtn.setAttribute("aria-pressed", String(!reel.muted));
-  $("#soundLbl").textContent = reel.muted ? "Play with sound" : "Sound on";
-  $("#sndWave").setAttribute("opacity", reel.muted ? ".35" : "1");
-});
-
-/* ----- signup (prototype only, nothing is sent) */
-$("#signup").addEventListener("submit", e => {
-  e.preventDefault(); const v = $("#email").value.trim();
-  $("#signupMsg").textContent = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) ? "You’re on the list. Watch your inbox for the next launch." : "Enter a valid email address, like name@example.com.";
-});
+/* ----- club signup (prototype only, nothing is sent) */
+$("#club").addEventListener("submit", e => { e.preventDefault(); const v = $("#email").value.trim();
+  $("#clubMsg").textContent = /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v) ? "Welcome to the GLOSSKN Club." : "Enter a valid email, like name@example.com."; });
 </script>
 
 <script type="importmap">
@@ -821,212 +837,120 @@ $("#signup").addEventListener("submit", e => {
 } }
 </script>
 <script type="module">
+/* Real-time Power Cleanse bottle with the brand's floating texture cut-outs, scoped to the spotlight section */
 import * as THREE from "three";
 import { RoomEnvironment } from "three/addons/environments/RoomEnvironment.js";
 
-const canvas = document.getElementById("stage");
+const host = document.getElementById("stage3d");
 const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
-const isMobile = () => innerWidth < 820;
-
-let renderer;
-try { renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true, powerPreference: "high-performance" }); }
-catch (e) { canvas.remove(); throw e; }
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
 renderer.setPixelRatio(Math.min(devicePixelRatio, 1.75));
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.toneMapping = THREE.ACESFilmicToneMapping;
 renderer.toneMappingExposure = 1.05;
+host.prepend(renderer.domElement);
+document.getElementById("fallbackImg").hidden = true;
 
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(30, innerWidth / innerHeight, 0.1, 100);
-camera.position.set(0, 0, 8);
+const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
+camera.position.set(0, 0.15, 8);
 const pmrem = new THREE.PMREMGenerator(renderer);
 scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+const key = new THREE.DirectionalLight(0xffffff, 1.4); key.position.set(3, 4, 5); scene.add(key);
+const rim = new THREE.DirectionalLight(0xf3e6f7, 2.6); rim.position.set(-4, 2, -3); scene.add(rim);
 
-const key = new THREE.DirectionalLight(0xffffff, 1.6); key.position.set(3, 4, 5); scene.add(key);
-const rim = new THREE.DirectionalLight(0xd7b6e2, 3.2); rim.position.set(-4, 2, -3); scene.add(rim);
-const fill = new THREE.PointLight(0x8e6aa1, 6, 12); fill.position.set(2, -2, 3); scene.add(fill);
-
-/* ---------- label texture, drawn from the real Power Cleanse label */
-const LW = 1400, LH = 1000;
-const lc = document.createElement("canvas"); lc.width = LW; lc.height = LH;
-const labelTex = new THREE.CanvasTexture(lc);
-labelTex.colorSpace = THREE.SRGBColorSpace; labelTex.anisotropy = 8;
+/* label, redrawn from the real Power Cleanse packaging (gold foil frame) */
+const LW = 1400, LH = 1000, lc = document.createElement("canvas"); lc.width = LW; lc.height = LH;
+const labelTex = new THREE.CanvasTexture(lc); labelTex.colorSpace = THREE.SRGBColorSpace; labelTex.anisotropy = 8;
 function drawLabel() {
-  const g = lc.getContext("2d");
-  g.fillStyle = "#fbfaf8"; g.fillRect(0, 0, LW, LH);
-  const grd = g.createLinearGradient(0, 0, LW, 0);
-  grd.addColorStop(0, "#d8d2da"); grd.addColorStop(.5, "#f4f1f5"); grd.addColorStop(1, "#bdb6c0");
-  g.strokeStyle = grd; g.lineWidth = 5; g.strokeRect(360, 60, 680, 880);
-  g.fillStyle = "#4d4a4f"; g.textAlign = "center";
-  g.font = "500 84px Inter, Helvetica, Arial, sans-serif";
-  if ("letterSpacing" in g) g.letterSpacing = "14px";
-  g.fillText("GLOSSKN", 707, 270);
-  if ("letterSpacing" in g) g.letterSpacing = "3px";
-  g.font = "600 58px Inter, Helvetica, Arial, sans-serif"; g.fillStyle = "#3b383d";
-  g.fillText("POWER", 702, 500); g.fillText("CLEANSE", 702, 566);
-  g.font = "500 28px Inter, Helvetica, Arial, sans-serif"; g.fillStyle = "#77727a";
-  if ("letterSpacing" in g) g.letterSpacing = "2px";
-  g.fillText("MAKE-UP REMOVING", 702, 640); g.fillText("FACE WASH", 702, 678);
-  g.fillText("GENTLE ON EYES • EYELASH FRIENDLY", 702, 780);
-  // lilac side strip, a quiet brand mark on the back of the bottle
-  g.fillStyle = "#e8d6ef"; g.fillRect(1180, 0, 40, LH);
+  const g = lc.getContext("2d"), ls = v => { if ("letterSpacing" in g) g.letterSpacing = v; };
+  g.fillStyle = "#fcfbfa"; g.fillRect(0, 0, LW, LH);
+  const foil = g.createLinearGradient(380, 0, 1020, 0); foil.addColorStop(0, "#a8884f"); foil.addColorStop(.5, "#e3cf9e"); foil.addColorStop(1, "#9c7d47");
+  g.strokeStyle = foil; g.lineWidth = 6; g.strokeRect(380, 70, 640, 860);
+  g.textAlign = "center"; g.fillStyle = "#2b2a2c";
+  g.font = "400 86px Outfit, Helvetica, Arial, sans-serif"; ls("16px"); g.fillText("GLOSSKN", 708, 260);
+  g.font = "500 54px Outfit, Helvetica, Arial, sans-serif"; ls("4px"); g.fillStyle = "#3a383c"; g.fillText("POWER", 702, 500); g.fillText("CLEANSE", 702, 562);
+  g.font = "400 26px Outfit, Helvetica, Arial, sans-serif"; ls("3px"); g.fillStyle = "#6f6a72"; g.fillText("MAKE-UP REMOVING", 702, 630); g.fillText("FACE WASH", 702, 666);
+  g.font = "500 22px Outfit, Helvetica, Arial, sans-serif"; ls("2px"); g.fillText("GENTLE ON EYES • EYELASH FRIENDLY", 702, 790); g.fillText("FOR ALL SKIN TYPES", 702, 826);
   labelTex.needsUpdate = true;
 }
-drawLabel();
-document.fonts?.load("600 44px Inter").then(drawLabel).catch(() => {});
+drawLabel(); document.fonts?.load("400 86px Outfit").then(drawLabel).catch(() => {});
 
-/* ---------- bottle: Boston round, clear PET shell, white cream, white pump */
-function lathe(pts, segs = 96) {
-  const curve = new THREE.SplineCurve(pts.map(p => new THREE.Vector2(p[0], p[1])));
-  return new THREE.LatheGeometry(curve.getPoints(90), segs);
-}
 const Y = 1.25, LIFT = 1.74 * (Y - 1);
-const shellProfile = [[0, 0], [0.48, 0], [0.58, 0.02], [0.62, 0.09], [0.625, 0.3], [0.625, 1.1], [0.6, 1.28], [0.5, 1.44], [0.33, 1.55], [0.22, 1.6], [0.2, 1.66], [0.2, 1.74]].map(([r, y]) => [r, y * Y]);
-const bottle = new THREE.Group(), inner = new THREE.Group();
-bottle.add(inner); inner.position.y = -1.45; scene.add(bottle);
-
-const shell = new THREE.Mesh(lathe(shellProfile), new THREE.MeshPhysicalMaterial({
-  color: 0xffffff, roughness: 0.06, metalness: 0, transparent: true, opacity: 0.32, clearcoat: 1, clearcoatRoughness: 0.04,
-  envMapIntensity: 1.6, depthWrite: false, side: THREE.DoubleSide }));
+const lathe = pts => new THREE.LatheGeometry(new THREE.SplineCurve(pts.map(([r, y]) => new THREE.Vector2(r, y * Y))).getPoints(90), 96);
+const bottle = new THREE.Group(), inner = new THREE.Group(); bottle.add(inner); inner.position.y = -1.42; scene.add(bottle);
+const shell = new THREE.Mesh(lathe([[0, 0], [0.48, 0], [0.58, 0.02], [0.62, 0.09], [0.625, 0.3], [0.625, 1.1], [0.6, 1.28], [0.5, 1.44], [0.33, 1.55], [0.22, 1.6], [0.2, 1.66], [0.2, 1.74]]),
+  new THREE.MeshPhysicalMaterial({ color: 0xffffff, roughness: 0.05, transparent: true, opacity: 0.3, clearcoat: 1, clearcoatRoughness: 0.04, envMapIntensity: 1.6, depthWrite: false, side: THREE.DoubleSide }));
 shell.renderOrder = 3;
-const cream = new THREE.Mesh(lathe([[0, 0.03], [0.5, 0.03], [0.585, 0.08], [0.6, 0.3], [0.6, 1.1], [0.585, 1.22], [0.5, 1.3], [0.2, 1.33], [0, 1.33]].map(([r, y]) => [r, y * Y])),
-  new THREE.MeshPhysicalMaterial({ color: 0xfaf6f4, roughness: 0.42, sheen: 0.6, sheenColor: new THREE.Color(0xe9d7f1), sheenRoughness: 0.5, envMapIntensity: 1 }));
-const LTHETA = 2.15;
-const label = new THREE.Mesh(new THREE.CylinderGeometry(0.632, 0.632, 0.98 * Y, 96, 1, true, -LTHETA / 2, LTHETA),
-  new THREE.MeshPhysicalMaterial({ map: labelTex, roughness: 0.38, clearcoat: 0.5, clearcoatRoughness: 0.25, envMapIntensity: 0.8 }));
+const cream = new THREE.Mesh(lathe([[0, 0.03], [0.5, 0.03], [0.585, 0.08], [0.6, 0.3], [0.6, 1.1], [0.585, 1.22], [0.5, 1.3], [0.2, 1.33], [0, 1.33]]),
+  new THREE.MeshPhysicalMaterial({ color: 0xfbf8f6, roughness: 0.45, sheen: 0.5, sheenColor: new THREE.Color(0xeedff3), envMapIntensity: 1 }));
+const LT = 2.15, label = new THREE.Mesh(new THREE.CylinderGeometry(0.632, 0.632, 0.98 * Y, 96, 1, true, -LT / 2, LT),
+  new THREE.MeshPhysicalMaterial({ map: labelTex, roughness: 0.4, clearcoat: 0.4, envMapIntensity: 0.8 }));
 label.position.y = 0.66 * Y; label.renderOrder = 2;
-const pumpMat = new THREE.MeshPhysicalMaterial({ color: 0xfdfcfc, roughness: 0.28, clearcoat: 0.8, clearcoatRoughness: 0.12, envMapIntensity: 1.1 });
-const collar = new THREE.Mesh(new THREE.CylinderGeometry(0.255, 0.265, 0.24, 64), pumpMat); collar.position.y = 1.82;
-const ribs = new THREE.Mesh(new THREE.TorusGeometry(0.262, 0.012, 8, 64), pumpMat); ribs.rotation.x = Math.PI / 2; ribs.position.y = 1.74;
-const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.22, 32), pumpMat); stem.position.y = 2.03;
-const head = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.21, 0.32, 64), pumpMat); head.position.y = 2.28;
-const cap = new THREE.Mesh(new THREE.CylinderGeometry(0.2, 0.2, 0.03, 64), pumpMat); cap.position.y = 2.45;
-const nozzle = new THREE.Mesh(new THREE.CylinderGeometry(0.065, 0.07, 0.42, 32), pumpMat);
-nozzle.rotation.z = Math.PI / 2; nozzle.position.set(0.36, 2.37, 0);
-const tip = new THREE.Mesh(new THREE.SphereGeometry(0.065, 24, 16), pumpMat); tip.position.set(0.57, 2.37, 0);
-[collar, ribs, stem, head, cap, nozzle, tip].forEach(m => m.position.y += LIFT);
-inner.add(cream, label, shell, collar, ribs, stem, head, cap, nozzle, tip);
-inner.rotation.y = 0;
-
-// soft contact shadow
+inner.add(cream, label, shell);
+const pm = new THREE.MeshPhysicalMaterial({ color: 0xfdfcfc, roughness: 0.28, clearcoat: 0.8, clearcoatRoughness: 0.12 });
+const part = (geo, y, x = 0, rz = 0) => { const m = new THREE.Mesh(geo, pm); m.position.set(x, y + LIFT, 0); m.rotation.z = rz; inner.add(m); return m; };
+part(new THREE.CylinderGeometry(0.255, 0.265, 0.24, 64), 1.82);
+part(new THREE.TorusGeometry(0.262, 0.012, 8, 64), 1.74).rotation.x = Math.PI / 2;
+part(new THREE.CylinderGeometry(0.1, 0.1, 0.22, 32), 2.03);
+part(new THREE.CylinderGeometry(0.2, 0.21, 0.32, 64), 2.28);
+part(new THREE.CylinderGeometry(0.2, 0.2, 0.03, 64), 2.45);
+part(new THREE.CylinderGeometry(0.065, 0.07, 0.42, 32), 2.37, 0.36, Math.PI / 2);
+part(new THREE.SphereGeometry(0.065, 24, 16), 2.37, 0.57);
 const sc = document.createElement("canvas"); sc.width = sc.height = 128;
-{ const g = sc.getContext("2d"), r = g.createRadialGradient(64, 64, 0, 64, 64, 64);
-  r.addColorStop(0, "rgba(40,10,55,.55)"); r.addColorStop(1, "rgba(40,10,55,0)"); g.fillStyle = r; g.fillRect(0, 0, 128, 128); }
-const shadow = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 2.4), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, depthWrite: false }));
-shadow.rotation.x = -Math.PI / 2; shadow.position.y = -0.02; inner.add(shadow);
+{ const g = sc.getContext("2d"), r = g.createRadialGradient(64, 64, 0, 64, 64, 64); r.addColorStop(0, "rgba(70,40,85,.45)"); r.addColorStop(1, "rgba(70,40,85,0)"); g.fillStyle = r; g.fillRect(0, 0, 128, 128); }
+const shadow = new THREE.Mesh(new THREE.PlaneGeometry(2.6, 2.6), new THREE.MeshBasicMaterial({ map: new THREE.CanvasTexture(sc), transparent: true, depthWrite: false }));
+shadow.rotation.x = -Math.PI / 2; shadow.position.y = -0.01; inner.add(shadow);
 
-/* ---------- iridescent bubbles */
-const N = isMobile() ? 34 : 80;
-const bubbleMat = new THREE.ShaderMaterial({
-  transparent: true, depthWrite: false, uniforms: { uTime: { value: 0 } },
-  vertexShader: `varying vec3 vN; varying vec3 vV;
-    void main() {
-      vec4 wp = modelMatrix * instanceMatrix * vec4(position, 1.0);
-      vN = normalize(mat3(modelMatrix * instanceMatrix) * normal);
-      vV = normalize(cameraPosition - wp.xyz);
-      gl_Position = projectionMatrix * viewMatrix * wp;
-    }`,
-  fragmentShader: `uniform float uTime; varying vec3 vN; varying vec3 vV;
-    void main() {
-      vec3 n = normalize(vN), v = normalize(vV);
-      float f = 1.0 - abs(dot(n, v));
-      float rim = pow(f, 2.4);
-      vec3 film = 0.5 + 0.5 * cos(6.2831 * (f * 1.6 + n.y * 0.25 + uTime * 0.04 + vec3(0.0, 0.33, 0.67)));
-      vec3 col = mix(vec3(0.84, 0.71, 0.89), film, 0.6);
-      vec3 L = normalize(vec3(-0.45, 0.7, 0.6));
-      float spec = pow(max(dot(reflect(-L, n), v), 0.0), 60.0);
-      float spec2 = pow(max(dot(reflect(-normalize(vec3(0.6, -0.3, 0.7)), n), v), 0.0), 18.0) * 0.25;
-      float a = clamp(rim * 0.9 + spec + spec2 + 0.025, 0.0, 1.0);
-      gl_FragColor = vec4(col * (rim + 0.15) + vec3(spec + spec2), a);
-    }`
+/* floating texture cut-outs: the brand's own cream swirl, cream and oil drop */
+const loader = new THREE.TextureLoader();
+const floaters = [["assets/tex-swirl.webp", -1.75, 0.9, 0.6, 0.95], ["assets/tex-cream.webp", 1.7, -0.75, 0.9, 0.85], ["assets/tex-oil.webp", 1.45, 1.15, -1.2, 0.6], ["assets/tex-swirl.webp", -1.35, -1.05, -1.4, 0.55]].map(([src, x, y, z, s], i) => {
+  const t = loader.load(src); t.colorSpace = THREE.SRGBColorSpace;
+  const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: t, transparent: true, depthWrite: false }));
+  sp.scale.setScalar(s); sp.position.set(x, y, z); sp.userData = { x, y, z, p: i * 1.7 }; scene.add(sp); return sp;
 });
-const bubbles = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 32, 20), bubbleMat, N);
-bubbles.renderOrder = 4; scene.add(bubbles);
-const B = Array.from({ length: N }, () => ({
-  x: (Math.random() * 2 - 1) * 7, y: (Math.random() * 2 - 1) * 7, z: -5 + Math.random() * 6.5,
-  r: 0.05 + Math.pow(Math.random(), 2.4) * 0.38, s: 0.08 + Math.random() * 0.22, p: Math.random() * 6.28, burst: 0 }));
-const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v = new THREE.Vector3(), sv = new THREE.Vector3();
 
-/* ---------- scroll choreography: each section declares where the bottle sits */
-let anchors = [];
-function measure() {
-  const attr = isMobile() ? "data-bottle-m" : "data-bottle";
-  anchors = [...document.querySelectorAll("[data-bottle]")].map(el => {
-    const r = el.getBoundingClientRect(), top = r.top + scrollY;
-    const [x, y, ry, s, rz] = (el.getAttribute(attr) || el.dataset.bottle).split(" ").map(Number);
-    // the hero's anchor sits at the top of the page so the first frame is exact
-    const at = el.classList.contains("hero") ? innerHeight / 2 : top + Math.min(r.height, innerHeight * 1.4) / 2;
-    return { at, x, y, ry, s, rz };
-  });
-}
-const ease = t => t * t * (3 - 2 * t);
-function targetAt(c) {
-  if (c <= anchors[0].at) return anchors[0];
-  for (let i = 0; i < anchors.length - 1; i++) {
-    const a = anchors[i], b = anchors[i + 1];
-    if (c < b.at) { const t = ease((c - a.at) / (b.at - a.at)); const o = {}; for (const k of ["x", "y", "ry", "s", "rz"]) o[k] = a[k] + (b[k] - a[k]) * t; return o; }
-  }
-  return anchors[anchors.length - 1];
-}
+/* a few soap-film bubbles */
+const NB = 14, bubbleMat = new THREE.ShaderMaterial({ transparent: true, depthWrite: false, uniforms: { uT: { value: 0 } },
+  vertexShader: `varying vec3 vN; varying vec3 vV; void main(){ vec4 wp = modelMatrix * instanceMatrix * vec4(position,1.); vN = normalize(mat3(modelMatrix*instanceMatrix)*normal); vV = normalize(cameraPosition - wp.xyz); gl_Position = projectionMatrix*viewMatrix*wp; }`,
+  fragmentShader: `uniform float uT; varying vec3 vN; varying vec3 vV; void main(){ vec3 n=normalize(vN), v=normalize(vV); float f=1.-abs(dot(n,v)); float rim=pow(f,2.4);
+    vec3 film=.5+.5*cos(6.2831*(f*1.6+n.y*.25+uT*.04+vec3(0.,.33,.67))); vec3 col=mix(vec3(1.),film,.55);
+    float sp=pow(max(dot(reflect(-normalize(vec3(-.45,.7,.6)),n),v),0.),60.); gl_FragColor=vec4(col*(rim+.2)+vec3(sp), clamp(rim*.8+sp+.03,0.,1.)); }` });
+const bubbles = new THREE.InstancedMesh(new THREE.SphereGeometry(1, 32, 20), bubbleMat, NB); bubbles.renderOrder = 4; scene.add(bubbles);
+const B = Array.from({ length: NB }, () => ({ x: (Math.random() * 2 - 1) * 2.6, y: (Math.random() * 2 - 1) * 2.2, z: -2 + Math.random() * 3, r: 0.04 + Math.pow(Math.random(), 2) * 0.16, s: 0.1 + Math.random() * 0.2, p: Math.random() * 6.28 }));
+const m4 = new THREE.Matrix4(), q = new THREE.Quaternion(), v3 = new THREE.Vector3(), s3 = new THREE.Vector3();
 
-/* pointer: subtle parallax everywhere, drag-to-rotate over the product stage */
-const mouse = { x: 0, y: 0, tx: 0, ty: 0 };
-addEventListener("pointermove", e => { mouse.tx = e.clientX / innerWidth * 2 - 1; mouse.ty = e.clientY / innerHeight * 2 - 1; }, { passive: true });
-let dragRot = 0, dragVel = 0, dragging = false, lastX = 0;
-const pdp = document.getElementById("pdpStage");
-pdp.style.cursor = "grab"; pdp.style.touchAction = "pan-y";
-pdp.addEventListener("pointerdown", e => { dragging = true; lastX = e.clientX; pdp.setPointerCapture(e.pointerId); pdp.style.cursor = "grabbing"; });
-pdp.addEventListener("pointermove", e => { if (!dragging) return; const d = (e.clientX - lastX) * 0.012; dragRot += d; dragVel = d; lastX = e.clientX; });
-const endDrag = () => { dragging = false; pdp.style.cursor = "grab"; };
-pdp.addEventListener("pointerup", endDrag); pdp.addEventListener("pointercancel", endDrag);
+/* interaction: drag to rotate, pointer parallax, spin on add-to-cart */
+let rot = -0.5, vel = 0, drag = false, lx = 0, spin = 0, px = 0, py = 0, tpx = 0, tpy = 0;
+host.addEventListener("pointerdown", e => { drag = true; lx = e.clientX; host.setPointerCapture(e.pointerId); });
+host.addEventListener("pointermove", e => {
+  const r = host.getBoundingClientRect(); tpx = (e.clientX - r.left) / r.width - .5; tpy = (e.clientY - r.top) / r.height - .5;
+  if (drag) { const d = (e.clientX - lx) * 0.012; rot += d; vel = d; lx = e.clientX; }
+});
+const end = () => { drag = false; }; host.addEventListener("pointerup", end); host.addEventListener("pointercancel", end);
+host.addEventListener("pointerleave", () => { tpx = tpy = 0; });
+addEventListener("glosskn:add", e => { if (e.detail === "cleanse") spin += Math.PI * 2; });
 
-let spin = 0;
-addEventListener("glosskn:add", () => { spin += Math.PI * 2; B.forEach(b => b.burst = 1); });
+function size() { const w = host.clientWidth, h = host.clientHeight; renderer.setSize(w, h, false); camera.aspect = w / h; camera.position.z = w / h < .8 ? 9.6 : 8; camera.updateProjectionMatrix(); }
+new ResizeObserver(size).observe(host); size();
 
-function resize() {
-  renderer.setSize(innerWidth, innerHeight, false);
-  camera.aspect = innerWidth / innerHeight; camera.updateProjectionMatrix(); measure();
-}
-addEventListener("resize", resize); resize();
-new ResizeObserver(measure).observe(document.body);
-
-const cur = { x: 0, y: 0, ry: 0, s: 0, rz: 0 }; let first = true, intro = 0;
-const clock = new THREE.Clock();
+const clock = new THREE.Clock(); let visible = false, intro = 0;
+new IntersectionObserver(([e]) => { visible = e.isIntersecting; if (visible) clock.getDelta(); }, { rootMargin: "100px" }).observe(host);
 function frame() {
-  const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
-  const tgt = targetAt(scrollY + innerHeight / 2);
-  if (first) { Object.assign(cur, tgt); first = false; }
-  const k = 1 - Math.pow(0.0025, dt);
-  for (const key of ["x", "y", "ry", "s", "rz"]) cur[key] += (tgt[key] - cur[key]) * k;
-  mouse.x += (mouse.tx - mouse.x) * k; mouse.y += (mouse.ty - mouse.y) * k;
-
-  intro = Math.min(1, intro + dt / 1.6);
-  const ie = 1 - Math.pow(1 - intro, 3);
-  const halfH = Math.tan(THREE.MathUtils.degToRad(camera.fov / 2)) * camera.position.z, halfW = halfH * camera.aspect;
-  if (!dragging) { dragVel *= 0.94; dragRot += dragVel; dragRot *= 0.985; }
-  spin *= 0.94;
-  const bob = reduce ? 0 : Math.sin(t * 1.1) * 0.06;
-  bottle.position.set(cur.x * halfW + mouse.x * 0.12, cur.y * halfH + bob - (1 - ie) * 1.5 - mouse.y * 0.08, 0);
-  bottle.scale.setScalar(cur.s * (0.6 + 0.4 * ie));
-  bottle.rotation.set(0.08 + mouse.y * 0.1, cur.ry + dragRot + (1 - ie) * -2.4 + mouse.x * 0.25 + (reduce ? 0 : Math.sin(t * .4) * .12), cur.rz - mouse.x * 0.04);
-  inner.rotation.y = spin;
-
-  const sp = scrollY * 0.0022;
-  for (let i = 0; i < N; i++) {
-    const b = B[i];
-    const depth = 1 + (b.z + 5) * 0.12;
-    let y = b.y + (reduce ? 0 : t * b.s) + sp * depth;
-    y = ((y + 8) % 16 + 16) % 16 - 8;
-    b.burst *= 0.96;
-    const x = b.x + Math.sin(t * 0.5 + b.p) * 0.25 + mouse.x * 0.15 * depth + b.burst * Math.sign(b.x) * 0.8;
-    const wob = 1 + Math.sin(t * 2 + b.p) * 0.04;
-    v.set(x, y, b.z); sv.set(b.r * wob, b.r / wob, b.r);
-    m4.compose(v, q, sv); bubbles.setMatrixAt(i, m4);
-  }
-  bubbles.instanceMatrix.needsUpdate = true;
-  bubbleMat.uniforms.uTime.value = t;
-  renderer.render(scene, camera);
   requestAnimationFrame(frame);
+  if (!visible) return;
+  const dt = Math.min(clock.getDelta(), 0.05), t = clock.elapsedTime;
+  const r = host.getBoundingClientRect(), prog = THREE.MathUtils.clamp(1 - (r.top + r.height / 2) / innerHeight, 0, 1);
+  if (!drag) { vel *= 0.94; rot += vel + (reduce ? 0 : dt * 0.18); }
+  spin *= 0.93; intro = Math.min(1, intro + dt / 1.4); const ie = 1 - Math.pow(1 - intro, 3);
+  px += (tpx - px) * 0.06; py += (tpy - py) * 0.06;
+  bottle.rotation.set(0.06 + py * 0.15, rot + prog * 1.2 + spin, -px * 0.05);
+  bottle.position.y = (reduce ? 0 : Math.sin(t * 1.1) * 0.05) - (1 - ie) * 0.8;
+  bottle.scale.setScalar(0.85 + 0.15 * ie);
+  floaters.forEach(sp => { const u = sp.userData; sp.position.set(u.x + px * (0.4 + u.z * 0.2), u.y + Math.sin(t * 0.8 + u.p) * 0.12 + (prog - .5) * u.z * 0.5, u.z); sp.material.rotation = Math.sin(t * 0.5 + u.p) * 0.25; });
+  B.forEach((b, i) => { let y = b.y + (reduce ? 0 : t * b.s); y = ((y + 2.6) % 5.2 + 5.2) % 5.2 - 2.6; v3.set(b.x + Math.sin(t * .6 + b.p) * .1, y, b.z); s3.setScalar(b.r); m4.compose(v3, q, s3); bubbles.setMatrixAt(i, m4); });
+  bubbles.instanceMatrix.needsUpdate = true; bubbleMat.uniforms.uT.value = t;
+  renderer.render(scene, camera);
 }
 requestAnimationFrame(frame);
 </script>
