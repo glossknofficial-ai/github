@@ -40,7 +40,7 @@ floor.receiveShadow = true;
 scene.add(floor);
 
 const key = new THREE.DirectionalLight(0xffffff, 1.8);
-key.position.set(-9, 7, 7);
+key.position.set(8, 6, 7);
 key.castShadow = true;
 key.shadow.mapSize.set(2048, 2048);
 key.shadow.radius = 14;
@@ -59,9 +59,9 @@ const [tubeTex, shadowTex] = await Promise.all([load("tube.png"), load("tube-sha
 tubeTex.colorSpace = THREE.SRGBColorSpace; tubeTex.anisotropy = 8;
 shadowTex.colorSpace = THREE.SRGBColorSpace;
 
-const TW = 3.3, TH = TW * 1526 / 731;
-const theta = THREE.MathUtils.degToRad(-12);
-const capEnd = new THREE.Vector2(1.25, -0.25);                 // centre of the cap's end face
+const TW = 5.7, TH = TW * 1526 / 731;
+const theta = THREE.MathUtils.degToRad(178.3);   // cap pointing up, as in the reference
+const capEnd = new THREE.Vector2(2.85, 0.05);                 // centre of the cap's end face
 const axisUp = new THREE.Vector2(-Math.sin(theta), Math.cos(theta));  // cap → crimp
 const centre = capEnd.clone().add(axisUp.clone().multiplyScalar(TH / 2));
 
@@ -74,26 +74,26 @@ scene.add(tube);
 const SW = TW * 891 / 731, SH = TH * 1686 / 1526;
 const tubeShadow = new THREE.Mesh(new THREE.PlaneGeometry(SW, SH),
   new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, toneMapped: false }));
-tubeShadow.position.set(centre.x + 0.28, centre.y - 0.32, 0.01);
+tubeShadow.position.set(centre.x - 0.3, centre.y - 0.25, 0.01);
 tubeShadow.rotation.z = theta;
 scene.add(tubeShadow);
 
 // ---------- the balm: a flattened, variable-radius sweep that folds back and forth ----------
-const pts = [
-  [1.25, -0.22], [1.18, -0.75], [0.55, -1.18], [-0.6, -1.32], [-1.42, -1.62], [-1.5, -2.12],
-  [-0.85, -2.45], [0.45, -2.45], [1.55, -2.7], [1.82, -3.2], [1.25, -3.6], [-0.15, -3.62],
-  [-1.25, -3.92], [-1.42, -4.45], [-0.75, -4.85], [0.55, -4.88], [1.42, -5.25], [1.38, -5.8],
-  [0.82, -6.12], [0.25, -6.05], [0.12, -5.78],
-].map(([x, y]) => new THREE.Vector3(x, y, 0));
+const N = [
+  [0.755, 0.50], [0.745, 0.452], [0.70, 0.418], [0.625, 0.395], [0.605, 0.360], [0.66, 0.338],
+  [0.80, 0.330], [0.93, 0.318], [0.955, 0.285], [0.89, 0.257], [0.74, 0.246], [0.635, 0.230],
+  [0.605, 0.195], [0.67, 0.160], [0.83, 0.146], [0.945, 0.122], [0.94, 0.082], [0.84, 0.058],
+  [0.74, 0.035], [0.71, -0.02], [0.72, -0.08],
+];
+const pts = N.map(([nx, ny]) => new THREE.Vector3((nx - 0.5) * W / 100, (0.5 - ny) * H / 100, 0));
 const curve = new THREE.CatmullRomCurve3(pts, false, "centripetal");
 
 const SEG = 900, RAD = 20;
 const R0 = 0.56;
 function radius(t) {
-  const start = 0.36 + (R0 - 0.36) * THREE.MathUtils.smoothstep(t, 0, 0.06);
-  const tail = t > 0.86 ? Math.pow(Math.max(0, 1 - (t - 0.86) / 0.14), 0.6) : 1;
-  const swell = 1 + 0.05 * Math.sin(t * 62);           // gentle irregularity, like real piping
-  return start * tail * swell;
+  const start = 0.55 + (0.8 - 0.55) * THREE.MathUtils.smoothstep(t, 0, 0.06);
+  const swell = 1 + 0.04 * Math.sin(t * 58);           // gentle irregularity, like real piping
+  return start * swell;                                 // runs out of frame, no tail
 }
 const frames = curve.computeFrenetFrames(SEG, false);
 const pos = [], nor = [], idx = [];
@@ -105,7 +105,7 @@ for (let i = 0; i <= SEG; i++) {
   const side = new THREE.Vector3().crossVectors(up, T).normalize();   // horizontal normal
   const r = radius(t);
   const h = r * 0.78;                                                  // squashed: balm settles
-  const lift = 0.03 + 0.11 * t;                                        // later folds sit on earlier ones
+  const lift = 0.03 + 0.25 * t;                                        // later folds sit on earlier ones
   for (let j = 0; j <= RAD; j++) {
     const a = (j / RAD) * Math.PI * 2;
     const c = Math.cos(a), s = Math.sin(a);
