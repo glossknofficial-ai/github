@@ -1,0 +1,151 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Power Melt balm swirl</title>
+<style>html,body{margin:0;background:#d1b8e3}canvas{display:block}</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+<script type="module">
+import * as THREE from "three";
+import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
+
+const W = 1080, H = 1350, DPR = 2;
+const renderer = new THREE.WebGLRenderer({ antialias: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(DPR);
+renderer.setSize(W, H);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.8;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.VSMShadowMap;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+scene.background = new THREE.Color("#d1b8e3");
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 1.0;
+
+// Top-down orthographic camera: 1 unit = 100 px.
+const cam = new THREE.OrthographicCamera(-W / 200, W / 200, H / 200, -H / 200, 0.1, 100);
+cam.position.set(0, 0, 30);
+cam.lookAt(0, 0, 0);
+
+// Floor that only receives shadow (background colour stays exactly #d1b8e3).
+const floor = new THREE.Mesh(new THREE.PlaneGeometry(40, 40),
+  new THREE.ShadowMaterial({ color: 0x4a2f5a, opacity: 0.26 }));
+floor.receiveShadow = true;
+scene.add(floor);
+
+const key = new THREE.DirectionalLight(0xffffff, 1.8);
+key.position.set(-9, 7, 7);
+key.castShadow = true;
+key.shadow.mapSize.set(2048, 2048);
+key.shadow.radius = 14;
+key.shadow.blurSamples = 24;
+Object.assign(key.shadow.camera, { left: -9, right: 9, top: 9, bottom: -9, near: 0.5, far: 40 });
+scene.add(key);
+const fill = new THREE.DirectionalLight(0xf3e9ff, 0.6);
+fill.position.set(6, -4, 8);
+scene.add(fill);
+scene.add(new THREE.HemisphereLight(0xffffff, 0xb79ccc, 0.25));
+
+// ---------- the real product photo, lying flat (uniform scale + rotation only) ----------
+const loader = new THREE.TextureLoader();
+const load = (u) => new Promise((r) => loader.load(u, r));
+const [tubeTex, shadowTex] = await Promise.all([load("tube.png"), load("tube-shadow.png")]);
+tubeTex.colorSpace = THREE.SRGBColorSpace; tubeTex.anisotropy = 8;
+shadowTex.colorSpace = THREE.SRGBColorSpace;
+
+const TW = 3.3, TH = TW * 1526 / 731;
+const theta = THREE.MathUtils.degToRad(-12);
+const capEnd = new THREE.Vector2(1.25, -0.25);                 // centre of the cap's end face
+const axisUp = new THREE.Vector2(-Math.sin(theta), Math.cos(theta));  // cap → crimp
+const centre = capEnd.clone().add(axisUp.clone().multiplyScalar(TH / 2));
+
+const tube = new THREE.Mesh(new THREE.PlaneGeometry(TW, TH),
+  new THREE.MeshBasicMaterial({ map: tubeTex, transparent: true, toneMapped: false }));
+tube.position.set(centre.x, centre.y, 0.02);
+tube.rotation.z = theta;
+scene.add(tube);
+
+const SW = TW * 891 / 731, SH = TH * 1686 / 1526;
+const tubeShadow = new THREE.Mesh(new THREE.PlaneGeometry(SW, SH),
+  new THREE.MeshBasicMaterial({ map: shadowTex, transparent: true, depthWrite: false, toneMapped: false }));
+tubeShadow.position.set(centre.x + 0.28, centre.y - 0.32, 0.01);
+tubeShadow.rotation.z = theta;
+scene.add(tubeShadow);
+
+// ---------- the balm: a flattened, variable-radius sweep that folds back and forth ----------
+const pts = [
+  [1.25, -0.22], [1.18, -0.75], [0.55, -1.18], [-0.6, -1.32], [-1.42, -1.62], [-1.5, -2.12],
+  [-0.85, -2.45], [0.45, -2.45], [1.55, -2.7], [1.82, -3.2], [1.25, -3.6], [-0.15, -3.62],
+  [-1.25, -3.92], [-1.42, -4.45], [-0.75, -4.85], [0.55, -4.88], [1.42, -5.25], [1.38, -5.8],
+  [0.82, -6.12], [0.25, -6.05], [0.12, -5.78],
+].map(([x, y]) => new THREE.Vector3(x, y, 0));
+const curve = new THREE.CatmullRomCurve3(pts, false, "centripetal");
+
+const SEG = 900, RAD = 20;
+const R0 = 0.56;
+function radius(t) {
+  const start = 0.36 + (R0 - 0.36) * THREE.MathUtils.smoothstep(t, 0, 0.06);
+  const tail = t > 0.86 ? Math.pow(Math.max(0, 1 - (t - 0.86) / 0.14), 0.6) : 1;
+  const swell = 1 + 0.05 * Math.sin(t * 62);           // gentle irregularity, like real piping
+  return start * tail * swell;
+}
+const frames = curve.computeFrenetFrames(SEG, false);
+const pos = [], nor = [], idx = [];
+const up = new THREE.Vector3(0, 0, 1);
+for (let i = 0; i <= SEG; i++) {
+  const t = i / SEG;
+  const p = curve.getPointAt(t);
+  const T = curve.getTangentAt(t).normalize();
+  const side = new THREE.Vector3().crossVectors(up, T).normalize();   // horizontal normal
+  const r = radius(t);
+  const h = r * 0.78;                                                  // squashed: balm settles
+  const lift = 0.03 + 0.11 * t;                                        // later folds sit on earlier ones
+  for (let j = 0; j <= RAD; j++) {
+    const a = (j / RAD) * Math.PI * 2;
+    const c = Math.cos(a), s = Math.sin(a);
+    const v = new THREE.Vector3().copy(p)
+      .addScaledVector(side, c * r)
+      .addScaledVector(up, Math.max(s, -0.25) * h + h * 0.95 + lift);
+    pos.push(v.x, v.y, v.z);
+    const n = new THREE.Vector3().addScaledVector(side, c / r).addScaledVector(up, s / h).normalize();
+    nor.push(n.x, n.y, n.z);
+  }
+}
+for (let i = 0; i < SEG; i++) for (let j = 0; j < RAD; j++) {
+  const a = i * (RAD + 1) + j, b = a + RAD + 1;
+  idx.push(a, a + 1, b, b, a + 1, b + 1);
+}
+const geo = new THREE.BufferGeometry();
+geo.setAttribute("position", new THREE.Float32BufferAttribute(pos, 3));
+geo.setAttribute("normal", new THREE.Float32BufferAttribute(nor, 3));
+geo.setIndex(idx);
+
+const balm = new THREE.Mesh(geo, new THREE.MeshPhysicalMaterial({
+  color: 0xfffaf4,              // ivory-milky balm
+  roughness: 0.18,
+  metalness: 0,
+  transmission: 0.85,           // translucent: light passes through the balm body
+  thickness: 0.45,
+  ior: 1.46,
+  attenuationColor: new THREE.Color("#efe2cf"),
+  attenuationDistance: 2.4,
+  clearcoat: 1,
+  clearcoatRoughness: 0.04,
+  sheen: 0.15,
+  sheenColor: new THREE.Color("#ffffff"),
+  envMapIntensity: 1.0,
+}));
+balm.castShadow = true;
+scene.add(balm);
+
+renderer.render(scene, cam);
+window.__done = true;
+</script>
+</body>
+</html>
