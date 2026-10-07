@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>GLOSSKN carousels</title>
+<style>
+  @font-face { font-family: "Futura Sub"; src: url(assets/fonts/jost-latin-400-normal.woff2); font-weight: 400; }
+  @font-face { font-family: "Futura Sub"; src: url(assets/fonts/jost-latin-500-normal.woff2); font-weight: 500; }
+  @font-face { font-family: "Futura Sub"; src: url(assets/fonts/jost-latin-600-normal.woff2); font-weight: 600; }
+  @font-face { font-family: "Futura Sub"; src: url(assets/fonts/jost-latin-700-normal.woff2); font-weight: 700; }
+  @font-face { font-family: "Futura Sub"; src: url(assets/fonts/jost-latin-400-italic.woff2); font-weight: 400; font-style: italic; }
+  @font-face { font-family: "Times Sub"; src: url(assets/fonts/LiberationSerif-Regular.ttf); font-weight: 400; }
+  @font-face { font-family: "Times Sub"; src: url(assets/fonts/LiberationSerif-Italic.ttf); font-weight: 400; font-style: italic; }
+  @font-face { font-family: "Times Sub"; src: url(assets/fonts/LiberationSerif-Bold.ttf); font-weight: 700; }
+  @font-face { font-family: "Times Sub"; src: url(assets/fonts/LiberationSerif-BoldItalic.ttf); font-weight: 700; font-style: italic; }
+
+  :root {
+    --lav: #d1b8e3;
+    --ink: #404040;
+    --white: #ffffff;
+    --lav-deep: #c3a5d8;   /* tint of the brand lavender for depth */
+    --lav-soft: #e6d8ef;   /* lavender mixed with white */
+    --sans: "Futura", "Futura PT", "Futura Sub", sans-serif;
+    --serif: "Times New Roman", "Times Sub", serif;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: #2a2a2a; font-family: var(--sans); color: var(--ink); }
+  .slide {
+    position: relative; width: 1080px; height: 1350px; overflow: hidden;
+    background:
+      radial-gradient(ellipse 70% 55% at 50% 58%, rgba(255,255,255,0.28), rgba(255,255,255,0) 70%),
+      var(--lav);
+    padding: 96px 90px 90px;
+    margin: 0 0 40px;
+  }
+  /* chrome */
+  .top { display: flex; justify-content: space-between; align-items: center; }
+  .eyebrow { font-weight: 500; font-size: 21px; letter-spacing: 0.28em; text-transform: uppercase; }
+  .count { font-family: var(--serif); font-style: italic; font-size: 26px; }
+  .count b { font-family: var(--sans); font-style: normal; font-weight: 600; font-size: 22px; letter-spacing: .08em; }
+  .rule { width: 64px; height: 3px; background: var(--white); margin: 34px 0 30px; }
+  .wordmark { position: absolute; left: 0; right: 0; bottom: 56px; text-align: center;
+    font-weight: 500; font-size: 26px; letter-spacing: 0.42em; padding-left: .42em; }
+  .ref { position: absolute; left: 90px; right: 90px; bottom: 112px; font-size: 16px; line-height: 1.45; opacity: .72; }
+
+  h1 { font-weight: 600; font-size: 84px; line-height: 1.02; letter-spacing: -0.012em; text-transform: lowercase; }
+  h1 em, .serif-i { font-family: var(--serif); font-style: italic; font-weight: 400; letter-spacing: -0.01em; }
+  h1 em { font-size: 1.08em; }
+  h1 .w { color: var(--white); }
+  .lede { font-size: 31px; line-height: 1.42; max-width: 860px; }
+  .lede strong { font-weight: 600; }
+  .lede em { font-family: var(--serif); font-style: italic; font-size: 1.1em; }
+
+  /* packshots */
+  .pack { position: absolute; filter: drop-shadow(18px 26px 28px rgba(64,64,64,0.22)); }
+  .floor { position: absolute; height: 40px; border-radius: 50%;
+    background: radial-gradient(closest-side, rgba(64,64,64,.28), rgba(64,64,64,0)); }
+
+  /* cards & pills */
+  .card { background: var(--white); border-radius: 28px; padding: 34px 36px; }
+  .pill { display: inline-block; border: 1.5px solid var(--ink); border-radius: 999px; padding: 10px 22px;
+    font-size: 19px; letter-spacing: .14em; text-transform: uppercase; font-weight: 500; }
+  .pills { display: flex; gap: 14px; flex-wrap: wrap; }
+
+  /* steps (the melt) */
+  .steps { display: flex; flex-direction: column; gap: 34px; margin-top: 54px; }
+  .step { display: flex; align-items: center; gap: 40px; }
+  .orb { flex: none; width: 210px; height: 210px; border-radius: 50%; position: relative;
+    box-shadow: inset 0 0 0 10px rgba(255,255,255,.75), 0 16px 34px rgba(64,64,64,.16); overflow: hidden; }
+  .step .num { font-family: var(--serif); font-style: italic; font-size: 44px; }
+  .step h3 { font-size: 38px; font-weight: 600; text-transform: lowercase; margin: 2px 0 8px; }
+  .step p { font-size: 27px; line-height: 1.4; max-width: 560px; }
+  .balm { background:
+      radial-gradient(circle at 35% 30%, #fff 0 18%, transparent 19%),
+      conic-gradient(from 30deg at 52% 55%, #fff, #f1eaf6, #fff, #ece2f2, #fff, #f4eef8, #fff); }
+  .balm::after { content: ""; position: absolute; inset: 30px; border-radius: 50%;
+    background: repeating-radial-gradient(circle at 55% 58%, rgba(209,184,227,.0) 0 14px, rgba(195,165,216,.35) 15px 17px); }
+  .oil { background:
+      radial-gradient(circle at 34% 30%, rgba(255,255,255,.95) 0 9%, transparent 10%),
+      radial-gradient(circle at 62% 70%, rgba(255,255,255,.55) 0 5%, transparent 6%),
+      radial-gradient(circle at 50% 50%, #f7ecd0 0%, #ecd8a6 55%, #d9bd7c 100%); }
+  .milk { background:
+      radial-gradient(circle at 30% 34%, rgba(255,255,255,1) 0 12%, transparent 13%),
+      radial-gradient(circle at 66% 62%, rgba(255,255,255,.9) 0 8%, transparent 9%),
+      radial-gradient(circle at 45% 70%, rgba(255,255,255,.8) 0 6%, transparent 7%),
+      radial-gradient(circle at 50% 50%, #fbf9fc 0%, #efe7f4 70%, #e2d3ec 100%); }
+
+  /* ingredient dishes */
+  .dishes { display: grid; gap: 30px 34px; margin-top: 46px; }
+  .dish-row { display: flex; align-items: center; gap: 30px; }
+  .dish { flex: none; width: 168px; height: 168px; border-radius: 50%; position: relative; overflow: hidden;
+    background: radial-gradient(circle at 50% 45%, #fff 0 62%, #f3ecf7 100%);
+    box-shadow: inset 0 0 0 7px rgba(255,255,255,1), inset 0 0 0 9px rgba(195,165,216,.6), 0 14px 30px rgba(64,64,64,.15); }
+  .dish > * { position: absolute; }
+  .dish-row h3 { font-size: 33px; font-weight: 600; text-transform: lowercase; }
+  .dish-row h3 em { font-family: var(--serif); font-style: italic; font-weight: 400; }
+  .dish-row p { font-size: 24px; line-height: 1.38; margin-top: 6px; }
+
+  ul.list { list-style: none; }
+  ul.list li { font-size: 30px; line-height: 1.3; padding: 20px 0 20px 46px; position: relative;
+    border-bottom: 1.5px solid rgba(64,64,64,.18); }
+  ul.list li:last-child { border-bottom: 0; }
+  ul.list li::before { content: ""; position: absolute; left: 0; top: 30px; width: 18px; height: 18px; border-radius: 50%;
+    background: var(--white); box-shadow: 0 0 0 1.5px var(--ink); }
+  ul.list li em { font-family: var(--serif); font-style: italic; font-size: 1.08em; }
+</style>
+</head>
+<body>
+
+<!-- ============================ POWER MELT ============================ -->
+
+<!-- MELT 1 — hook -->
+<section class="slide" id="melt-1">
+  <div class="top"><span class="eyebrow">Power Melt · Cleansing Balm</span><span class="count"><b>01</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>waterproof<br />mascara?<br /><em class="w">gone in seconds.</em></h1>
+  <div class="floor" style="left:430px; width:460px; top:1166px;"></div>
+  <img class="pack" src="assets/power-melt.png" style="left:470px; top:500px; height:690px;" alt="" />
+  <div class="card" style="position:absolute; left:90px; top:820px; width:400px; padding:34px 34px 30px;">
+    <div style="font-family:var(--serif); font-size:96px; line-height:.6; height:42px;">&ldquo;</div>
+    <p style="font-size:29px; line-height:1.36; font-family:var(--serif); font-style:italic;">Waterproof mascara gone in seconds. No rubbing!</p>
+    <p style="font-size:18px; letter-spacing:.2em; text-transform:uppercase; margin-top:18px; font-weight:500;">— Simran K.</p>
+  </div>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+<!-- MELT 2 — the melt -->
+<section class="slide" id="melt-2">
+  <div class="top"><span class="eyebrow">How it works</span><span class="count"><b>02</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>the <em>melt.</em></h1>
+  <div class="steps">
+    <div class="step"><div class="orb balm"></div>
+      <div><span class="num">01</span><h3>massage</h3><p>The balm turns into a silky oil the moment it meets your skin.</p></div></div>
+    <div class="step"><div class="orb oil"></div>
+      <div><span class="num">02</span><h3>dissolve</h3><p>Oils bind long-wear makeup, waterproof mascara &amp; SPF — <em class="serif-i">like dissolves like.</em></p></div></div>
+    <div class="step"><div class="orb milk"></div>
+      <div><span class="num">03</span><h3>rinse or wipe</h3><p>A built-in emulsifier turns it milky with water, so it rinses clean. No greasy film.</p></div></div>
+  </div>
+  <p class="lede" style="position:absolute; left:90px; bottom:150px;"><em>Tired night?</em> Melt, rinse, done — no second cleanse needed.</p>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+<!-- MELT 3 — eyes -->
+<section class="slide" id="melt-3">
+  <div class="top"><span class="eyebrow">Why less rubbing matters</span><span class="count"><b>03</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>your eyes deserve<br /><em class="w">zero tug.</em></h1>
+  <div class="card" style="margin-top:56px; padding:44px 44px 40px;">
+    <div style="display:flex; align-items:flex-end; gap:46px;">
+      <div style="flex:1;">
+        <div style="height:16px; border-radius:8px; background:var(--lav);"></div>
+        <p style="font-size:24px; margin-top:20px;"><span style="font-weight:600;">eye-area skin</span><br /><span class="serif-i" style="font-size:30px;">≈ 0.5 mm</span></p>
+      </div>
+      <div style="flex:1;">
+        <div style="height:64px; border-radius:10px; background:linear-gradient(var(--lav-deep), var(--lav));"></div>
+        <p style="font-size:24px; margin-top:20px;"><span style="font-weight:600;">rest of the face</span><br /><span class="serif-i" style="font-size:30px;">≈ 2 mm</span></p>
+      </div>
+    </div>
+    <p style="font-size:28px; line-height:1.42; margin-top:34px;">The skin around your eyes is up to <strong style="font-weight:600;">4× thinner</strong>. Daily rubbing can show up as dark circles, pigmentation and lash fall.</p>
+  </div>
+  <svg width="300" height="90" viewBox="0 0 300 90" style="margin:58px 0 0 -6px;" aria-hidden="true">
+    <path d="M10 30 Q150 110 290 30" fill="none" stroke="#404040" stroke-width="4" stroke-linecap="round"/>
+    <g stroke="#404040" stroke-width="3.5" stroke-linecap="round">
+      <line x1="58" y1="55" x2="44" y2="80"/><line x1="100" y1="66" x2="92" y2="90"/><line x1="150" y1="70" x2="150" y2="90"/>
+      <line x1="200" y1="66" x2="208" y2="90"/><line x1="242" y1="55" x2="256" y2="80"/>
+    </g>
+  </svg>
+  <p class="lede" style="margin-top:28px;">Power Melt does the work, not your fingers. <em>Gentle enough to use with eyes open</em> — and the eyelash conditioning formula leaves lashes soft.</p>
+  <p class="ref">Skin thickness &amp; rubbing-related pigmentation: periorbital hyperpigmentation review, PMC7992473.</p>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+<!-- MELT 4 — chemistry inside -->
+<section class="slide" id="melt-4">
+  <div class="top"><span class="eyebrow">4 skin-loving oils</span><span class="count"><b>04</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>chemistry <em>inside.</em></h1>
+  <div class="dishes" style="gap:24px; margin-top:40px;">
+    <div class="dish-row"><div class="dish"><!-- moringa: golden-green oil with fine powder specks -->
+        <div style="inset:26px; border-radius:50%; background:radial-gradient(circle at 36% 32%, rgba(255,255,255,.9) 0 8%, transparent 9%), radial-gradient(circle at 50% 50%, #d6d27a, #a9ad45 70%, #8d9a36);"></div>
+        <svg style="inset:26px" width="116" height="116" viewBox="0 0 116 116"><g fill="#5d7a26" opacity=".55"><circle cx="70" cy="40" r="2"/><circle cx="40" cy="70" r="1.6"/><circle cx="80" cy="76" r="2.2"/><circle cx="58" cy="88" r="1.4"/><circle cx="30" cy="48" r="1.8"/><circle cx="88" cy="56" r="1.5"/></g></svg>
+      </div><div><h3>moringa <em>oil</em></h3><p>Oleic-rich &amp; antioxidant; shown to boost skin hydration.</p></div></div>
+    <div class="dish-row"><div class="dish"><!-- jojoba: pearly wax beads -->
+        <div style="left:30px; top:44px; width:58px; height:58px; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff 0 14%, #f7dd96 36%, #dfac4f 100%);"></div>
+        <div style="left:84px; top:30px; width:46px; height:46px; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff 0 14%, #f7dd96 36%, #dfac4f 100%);"></div>
+        <div style="left:80px; top:88px; width:52px; height:52px; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff 0 14%, #f7dd96 36%, #dfac4f 100%);"></div>
+        <div style="left:44px; top:104px; width:30px; height:30px; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff 0 14%, #f7dd96 36%, #dfac4f 100%);"></div>
+      </div><div><h3>jojoba <em>oil</em></h3><p>A liquid wax that mimics your skin's own sebum; supports the barrier.</p></div></div>
+    <div class="dish-row"><div class="dish"><!-- plum kernel: amber pool with bubbles -->
+        <div style="inset:24px; border-radius:50%; background:radial-gradient(circle at 36% 30%, rgba(255,255,255,.85) 0 7%, transparent 8%), radial-gradient(circle at 50% 50%, #f0a24c, #d9782c 60%, #ad4a1b);"></div>
+        <svg style="inset:24px" width="120" height="120" viewBox="0 0 120 120"><g fill="none" stroke="#ffe2bd" stroke-width="1.6" opacity=".9"><circle cx="76" cy="70" r="5"/><circle cx="58" cy="86" r="3"/><circle cx="86" cy="48" r="3.5"/><circle cx="40" cy="64" r="2.5"/></g></svg>
+      </div><div><h3>plum kernel <em>oil</em></h3><p>Omega 9 + 6 with natural vitamin E, for soft, cushioned skin.</p></div></div>
+    <div class="dish-row"><div class="dish" style="background:radial-gradient(circle at 50% 45%, #e6d8ef 0 60%, #d9c6e8 100%);"><!-- squalane: crystal clear drop -->
+        <div style="left:40px; top:34px; width:88px; height:100px; border-radius:50% 50% 50% 50% / 58% 58% 42% 42%; background:radial-gradient(circle at 36% 30%, #fff 0 12%, rgba(255,255,255,.2) 30%, rgba(209,184,227,.35) 70%, rgba(150,120,170,.45) 100%); box-shadow: inset -6px -8px 14px rgba(255,255,255,.8), 0 6px 10px rgba(64,64,64,.12);"></div>
+      </div><div><h3>squalane</h3><p>A skin-identical lipid: lightweight, never greasy, never stripped.</p></div></div>
+  </div>
+  <p style="font-size:22px; line-height:1.45; margin-top:26px; max-width:860px;">+ vitamin E · water-free formula · a gentle non-ionic cleanser from the same family used in tear-free baby formulas</p>
+  <p class="ref">Refs: moringa — Cosmetics 2021, 8(1):2 · jojoba — Lin et al., Int J Mol Sci 2018 · plum kernel oil — Biomolecules 2020 · squalane — Cosmetics 2025.</p>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+<!-- MELT 5 — why you'll love it -->
+<section class="slide" id="melt-5">
+  <div class="top"><span class="eyebrow">Power Melt · Cleansing Balm</span><span class="count"><b>05</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>why you'll<br /><em class="w">love it.</em></h1>
+  <div class="floor" style="left:40px; width:420px; top:1150px;"></div>
+  <img class="pack" src="assets/power-melt.png" style="left:80px; top:500px; height:660px;" alt="" />
+  <ul class="list" style="position:absolute; left:470px; right:90px; top:470px;">
+    <li>Melts waterproof makeup &amp; SPF</li>
+    <li>Less rubbing, <em>gentle on eyes</em></li>
+    <li>Rinse or wipe — no greasy residue</li>
+    <li>Non-comedogenic, eyelash conditioning</li>
+    <li>Water-free, travel-ready tube</li>
+  </ul>
+  <div class="pills" style="position:absolute; left:90px; right:90px; bottom:130px; justify-content:center;">
+    <span class="pill">Cruelty-free</span><span class="pill">Made in India</span><span class="pill">Created by a beauty pro</span>
+  </div>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+<!-- ============================ POWER CLEANSE ============================ -->
+
+<!-- CLEANSE 1 — hook -->
+<section class="slide" id="cleanse-1">
+  <div class="top"><span class="eyebrow">Power Cleanse · Make-up removing face wash</span><span class="count"><b>01</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>makeup off.<br />face clean.<br /><em class="w">one wash.</em></h1>
+  <div class="floor" style="left:470px; width:420px; top:1170px;"></div>
+  <img class="pack" src="assets/power-cleanse.png" style="left:520px; top:470px; height:720px;" alt="" />
+  <div style="position:absolute; left:90px; top:860px; width:400px;">
+    <p style="font-family:var(--serif); font-style:italic; font-size:44px; line-height:1.15;">No double cleansing required.</p>
+    <p style="font-size:21px; letter-spacing:.24em; text-transform:uppercase; margin-top:26px; font-weight:500;">Massage · Rinse · Done</p>
+  </div>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+<!-- CLEANSE 2 — sulfate-free & hard water -->
+<section class="slide" id="cleanse-2">
+  <div class="top"><span class="eyebrow">Made for real tap water</span><span class="count"><b>02</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>sulfate-free &amp;<br /><em class="w">hard-water ready.</em></h1>
+  <p class="lede" style="margin-top:34px;">Hard tap water is common across India. Its calcium &amp; magnesium make <strong>sulfate cleansers cling to skin</strong> — and that residue weakens your barrier.</p>
+  <div style="display:flex; gap:26px; margin-top:44px;">
+    <div class="card" style="flex:1; padding:30px 30px 28px;">
+      <p class="eyebrow" style="font-size:17px;">Sulfate wash + hard water</p>
+      <svg viewBox="0 0 380 210" width="100%" style="margin:18px 0 6px;" aria-hidden="true">
+        <!-- cracked brick barrier with residue -->
+        <g fill="#d1b8e3"><rect x="10" y="110" width="110" height="40" rx="6"/><rect x="132" y="104" width="110" height="40" rx="6" transform="rotate(4 187 124)"/><rect x="254" y="110" width="116" height="40" rx="6"/>
+          <rect x="60" y="158" width="110" height="40" rx="6"/><rect x="182" y="160" width="110" height="40" rx="6" transform="rotate(-3 237 180)"/></g>
+        <g fill="#404040"><circle cx="40" cy="96" r="7"/><circle cx="96" cy="90" r="5"/><circle cx="160" cy="88" r="8"/><circle cx="226" cy="94" r="5"/><circle cx="280" cy="88" r="7"/><circle cx="336" cy="95" r="5"/></g>
+        <g font-family="Futura Sub, sans-serif" font-size="17" fill="#404040"><text x="18" y="44">Ca²⁺</text><text x="300" y="40">Mg²⁺</text><text x="160" y="30">Ca²⁺</text></g>
+      </svg>
+      <p style="font-size:22px; line-height:1.38;">Residue stays on skin, barrier stressed.</p>
+    </div>
+    <div class="card" style="flex:1; padding:30px 30px 28px;">
+      <p class="eyebrow" style="font-size:17px;">Power Cleanse</p>
+      <svg viewBox="0 0 380 210" width="100%" style="margin:18px 0 6px;" aria-hidden="true">
+        <g fill="#d1b8e3"><rect x="10" y="110" width="110" height="40" rx="6"/><rect x="132" y="110" width="110" height="40" rx="6"/><rect x="254" y="110" width="116" height="40" rx="6"/>
+          <rect x="60" y="158" width="110" height="40" rx="6"/><rect x="182" y="158" width="110" height="40" rx="6"/></g>
+        <g fill="none" stroke="#404040" stroke-width="2.5"><circle cx="60" cy="40" r="28"/><circle cx="190" cy="34" r="28"/><circle cx="320" cy="40" r="28"/></g>
+        <g font-family="Futura Sub, sans-serif" font-size="16" fill="#404040" text-anchor="middle"><text x="60" y="46">Ca²⁺</text><text x="190" y="40">Mg²⁺</text><text x="320" y="46">Ca²⁺</text></g>
+      </svg>
+      <p style="font-size:22px; line-height:1.38;">No sulfates + EDTA binds minerals, so it rinses clean.</p>
+    </div>
+  </div>
+  <p class="ref">Ref: Danby et al., "The effect of water hardness on surfactant deposition after washing and subsequent skin irritation", J Invest Dermatol 2018.</p>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+<!-- CLEANSE 3 — pH -->
+<section class="slide" id="cleanse-3">
+  <div class="top"><span class="eyebrow">The acid mantle</span><span class="count"><b>03</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>ph-balanced<br />to <em class="w">your skin.</em></h1>
+  <div class="card" style="margin-top:60px; padding:56px 50px 50px;">
+    <div style="position:relative; height:150px;">
+      <div style="position:absolute; left:0; right:0; top:70px; height:26px; border-radius:13px; background:linear-gradient(90deg, #ffffff 0%, #e6d8ef 25%, #d1b8e3 50%, #a98fbd 75%, #404040 100%); box-shadow: inset 0 0 0 1.5px rgba(64,64,64,.25);"></div>
+      <!-- healthy skin marker at 4.7/14 -->
+      <div style="position:absolute; left:calc(4.7/14*100%); top:0; transform:translateX(-50%); text-align:center;">
+        <p style="font-size:20px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap;">healthy skin</p>
+        <div style="width:3px; height:58px; background:#404040; margin:8px auto 0;"></div>
+      </div>
+      <div style="position:absolute; left:calc(9.5/14*100%); top:108px; transform:translateX(-50%); text-align:center;">
+        <div style="width:3px; height:30px; background:#404040; margin:0 auto 8px; opacity:.6;"></div>
+        <p style="font-size:20px; letter-spacing:.12em; text-transform:uppercase; white-space:nowrap; opacity:.75;">harsh soaps</p>
+      </div>
+    </div>
+    <div style="display:flex; justify-content:space-between; font-size:20px; margin-top:52px; opacity:.7;"><span>pH 0</span><span>7</span><span>14</span></div>
+    <p style="margin-top:34px;"><span class="serif-i" style="font-size:64px;">≈ 4.7</span><span style="font-size:24px; margin-left:16px;">is where healthy skin sits</span></p>
+  </div>
+  <p class="lede" style="margin-top:50px;">Alkaline washes push skin's pH up, leaving it tight and unsettling its barrier &amp; natural flora. Power Cleanse is pH-balanced to <em>work with your skin, not against it.</em></p>
+  <p class="ref">Ref: Lambers et al., "Natural skin surface pH is on average below 5, which is beneficial for its resident flora", Int J Cosmet Sci 2006.</p>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+<!-- CLEANSE 4 — chemistry inside -->
+<section class="slide" id="cleanse-4">
+  <div class="top"><span class="eyebrow">5 gentle heroes</span><span class="count"><b>04</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>chemistry <em>inside.</em></h1>
+  <div class="dishes" style="gap:22px; margin-top:40px;">
+    <div class="dish-row"><div class="dish" style="width:150px;height:150px; background:radial-gradient(circle at 50% 45%, #e6d8ef 0 60%, #d9c6e8 100%);"><!-- glycerin: viscous clear drop -->
+        <div style="left:34px; top:30px; width:82px; height:92px; border-radius:50% 50% 50% 50% / 60% 60% 40% 40%; background:radial-gradient(circle at 36% 30%, #fff 0 12%, rgba(255,255,255,.35) 32%, rgba(209,184,227,.45) 75%, rgba(150,120,170,.55) 100%); box-shadow: inset -5px -7px 12px rgba(255,255,255,.85), 0 6px 10px rgba(64,64,64,.12);"></div>
+      </div><div><h3>glycerin</h3><p>Draws water into skin &amp; supports barrier recovery.</p></div></div>
+    <div class="dish-row"><div class="dish" style="width:150px;height:150px; background:radial-gradient(circle at 50% 45%, #e6d8ef 0 60%, #d9c6e8 100%);"><!-- squalane: thin clear film -->
+        <div style="inset:28px; border-radius:50%; background:radial-gradient(circle at 34% 30%, #fff 0 10%, rgba(255,255,255,.2) 26%, rgba(209,184,227,.25) 70%, rgba(195,165,216,.4)); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.9);"></div>
+      </div><div><h3>squalane</h3><p>Skin-identical softness, so skin never feels stripped.</p></div></div>
+    <div class="dish-row"><div class="dish" style="width:150px;height:150px;"><!-- aloe: translucent gel cubes -->
+        <div style="left:30px; top:44px; width:46px; height:46px; border-radius:10px; transform:rotate(-12deg); background:linear-gradient(135deg, rgba(240,250,230,.95), rgba(190,220,170,.75)); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.9);"></div>
+        <div style="left:76px; top:34px; width:42px; height:42px; border-radius:10px; transform:rotate(14deg); background:linear-gradient(135deg, rgba(240,250,230,.95), rgba(190,220,170,.75)); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.9);"></div>
+        <div style="left:60px; top:84px; width:48px; height:48px; border-radius:10px; transform:rotate(6deg); background:linear-gradient(135deg, rgba(240,250,230,.95), rgba(190,220,170,.75)); box-shadow: inset 0 0 0 1.5px rgba(255,255,255,.9);"></div>
+      </div><div><h3>aloe <em>vera</em></h3><p>A soothing, hydrating plant gel.</p></div></div>
+    <div class="dish-row"><div class="dish" style="width:150px;height:150px;"><!-- moringa seeds -->
+        <svg style="inset:0" width="150" height="150" viewBox="0 0 150 150"><g fill="#8a7a5c"><ellipse cx="58" cy="62" rx="15" ry="13"/><ellipse cx="92" cy="56" rx="14" ry="12"/><ellipse cx="74" cy="92" rx="15" ry="13"/><ellipse cx="104" cy="92" rx="12" ry="11"/></g>
+          <g fill="#f2ecdf" opacity=".9"><ellipse cx="53" cy="57" rx="4" ry="3"/><ellipse cx="87" cy="51" rx="4" ry="3"/><ellipse cx="69" cy="87" rx="4" ry="3"/><ellipse cx="100" cy="88" rx="3" ry="2.5"/></g></svg>
+      </div><div><h3>moringa <em>seed</em></h3><p>Antioxidant-rich; its seeds are traditionally used to clarify water.</p></div></div>
+    <div class="dish-row"><div class="dish" style="width:150px;height:150px;"><!-- rice grains -->
+        <svg style="inset:0" width="150" height="150" viewBox="0 0 150 150"><g fill="#f7f3ea" stroke="#d8cbb4" stroke-width="1.2">
+          <ellipse cx="60" cy="58" rx="13" ry="5" transform="rotate(-30 60 58)"/><ellipse cx="88" cy="54" rx="13" ry="5" transform="rotate(20 88 54)"/><ellipse cx="74" cy="76" rx="13" ry="5" transform="rotate(70 74 76)"/>
+          <ellipse cx="52" cy="90" rx="13" ry="5" transform="rotate(10 52 90)"/><ellipse cx="98" cy="86" rx="13" ry="5" transform="rotate(-50 98 86)"/><ellipse cx="78" cy="104" rx="13" ry="5" transform="rotate(-10 78 104)"/>
+          <ellipse cx="106" cy="66" rx="12" ry="5" transform="rotate(80 106 66)"/><ellipse cx="44" cy="70" rx="12" ry="5" transform="rotate(-70 44 70)"/></g></svg>
+      </div><div><h3>rice <em>extract</em></h3><p>Ferulic acid &amp; γ-oryzanol, antioxidants prized in Asian skincare.</p></div></div>
+  </div>
+  <p class="ref">Refs: glycerin — Darlenski, Fluhr &amp; Surber, Br J Dermatol 2008 · aloe — Aloe vera in dermatology: a brief review · rice — γ-oryzanol &amp; ferulic acid literature.</p>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+<!-- CLEANSE 5 — gentle on eyes + love it -->
+<section class="slide" id="cleanse-5">
+  <div class="top"><span class="eyebrow">Gentle on eyes · Eyelash friendly</span><span class="count"><b>05</b> / 05</span></div>
+  <div class="rule"></div>
+  <h1>so gentle,<br /><em class="w">eyes open.</em></h1>
+  <p class="lede" style="margin-top:34px; max-width:880px;">Made with a mild non-ionic cleanser from the <strong>same family used in tear-free baby formulas</strong> — gentle enough to use with eyes open.</p>
+  <div class="floor" style="left:30px; width:400px; top:1150px;"></div>
+  <img class="pack" src="assets/power-cleanse.png" style="left:80px; top:580px; height:590px;" alt="" />
+  <ul class="list" style="position:absolute; left:470px; right:90px; top:620px;">
+    <li>Makeup off + clean, <em>one wash</em></li>
+    <li>No cotton pads, no rubbing</li>
+    <li>Sulfate-free &amp; pH-balanced</li>
+    <li>Soft, fresh, never stripped</li>
+  </ul>
+  <div class="pills" style="position:absolute; left:90px; right:90px; bottom:130px; justify-content:center;">
+    <span class="pill">Cruelty-free</span><span class="pill">Made in India</span><span class="pill">Created by a beauty pro</span>
+  </div>
+  <div class="wordmark">GLOSSKN</div>
+</section>
+
+</body>
+</html>
