@@ -36,3 +36,13 @@ becomes the real Power Melt packshot. Premium, calm, ASMR.
 - No on-screen text at all ("15 seconds...no text"). Brand appears only on the product label.
 - Background solid #d7b6e2.
 - Set: seamless lavender sweep (#d7b6e2 base) — tube stands on a tabletop with soft left key light, contact + cast shadow to the right, like the reference ("take care of the background").
+
+## Revision 2 (requested 2026-10-08) — physical ingredient sources
+
+- Like the reference (hand squeezing a lime above the tube), each ingredient appears in its PHYSICAL form above the tube and feeds it:
+  - Moringa: a fresh moringa leaf sprig; fine green moringa powder falls from the leaves into the tube
+  - Jojoba: a cracked jojoba seed dripping golden oil
+  - Plum kernel: a halved plum showing its kernel, dripping amber oil
+  - Squalane: a green olive dripping a clear, glassy thread (user chose olive over sugarcane)
+- The same sources also sit on the tabletop as props (like the limes in the reference).
+- Photoreal ingredient cut-outs to be generated with Gemini image generation (user approved; GEMINI_API_KEY to be added to the environment). The product is never generated: the real packshot stays untouched.
