@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Our Story | GLOSSKN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600&family=Libre+Baskerville:ital@1&display=swap">
+<link rel="stylesheet" href="site.css">
+<style>
+/* Our Story: the whole page sits on lilac #D5C3E6 */
+.story { background: var(--lilac); }
+.s-hero { padding-block: clamp(60px, 9vw, 130px) clamp(40px, 6vw, 80px); display: grid; gap: 26px; justify-items: center; text-align: center; }
+.s-hero h1 { font: 500 clamp(2.4rem, 1.4rem + 4.4vw, 5rem)/1.02 var(--sans); letter-spacing: -.025em; max-width: 14ch; }
+.s-hero .lede { font-size: var(--t-lg); max-width: 60ch; }
+.s-block { display: grid; grid-template-columns: minmax(0, .9fr) minmax(0, 1.1fr); gap: clamp(28px, 6vw, 96px); align-items: center; padding-block: clamp(40px, 6vw, 90px); }
+.s-photo { border-radius: 6px; overflow: hidden; box-shadow: 0 50px 80px -46px rgba(64, 64, 64, .6); transform: perspective(1200px) rotateY(6deg); transition: transform .8s var(--ease); max-width: 100%; }
+.s-photo img { width: 100%; height: auto; }
+.s-copy { display: grid; gap: 18px; max-width: 60ch; }
+.s-copy p { font-size: var(--t-md); }
+.qs { padding-block: clamp(30px, 5vw, 70px); }
+.qs-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin-top: 30px; perspective: 1200px; }
+.q { background: var(--offwhite); border-radius: 6px; padding: 28px 24px 32px; display: grid; gap: 16px; align-content: start; min-height: 220px; transition: transform .6s var(--ease); }
+.q span { font: italic 400 2.4rem/1 var(--serif); opacity: .5; }
+.q p { font: 500 var(--t-lg)/1.3 var(--sans); }
+@media (max-width: 960px) { .qs-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 860px) { .s-block { grid-template-columns: 1fr; } .s-photo { transform: none; } }
+.ritual { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; padding-block: clamp(30px, 5vw, 70px); }
+.ritual > div { background: var(--white); border-radius: 6px; padding: clamp(26px, 4vw, 48px); display: grid; gap: 14px; align-content: start; }
+@media (max-width: 760px) { .ritual { grid-template-columns: 1fr; } }
+.s-video { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(28px, 6vw, 96px); align-items: center; padding-block: clamp(40px, 6vw, 90px) clamp(70px, 9vw, 130px); }
+.reel { position: relative; justify-self: center; width: min(340px, 80vw); aspect-ratio: 9 / 16; border-radius: 26px; overflow: hidden; background: var(--charcoal); box-shadow: 0 50px 80px -40px rgba(64, 64, 64, .6); transform: perspective(1200px) rotateY(-8deg) rotateX(3deg); transition: transform .8s var(--ease); }
+.reel video { width: 100%; height: 100%; object-fit: cover; }
+.sound { position: absolute; left: 50%; bottom: 16px; transform: translateX(-50%); display: inline-flex; gap: 8px; align-items: center; border: 0; border-radius: 50px; padding: 10px 16px; background: rgba(255, 255, 255, .92); font: 500 var(--t-xs)/1 var(--sans); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; }
+.sound svg { width: 15px; }
+.s-video .s-copy { justify-items: start; }
+.btn-on-lilac { background: var(--white); }
+.btn-on-lilac:hover { background: var(--charcoal); }
+@media (max-width: 860px) { .s-video { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div id="site-header"></div>
+
+<main class="story">
+  <section class="wrap s-hero">
+    <span class="eyebrow">Our story</span>
+    <h1>The Why Behind <span class="it">GLOSSKN</span></h1>
+    <p class="lede">GLOSSKN was created from a simple observation: women's lives were becoming busier while beauty routines were becoming longer. More products. More steps. More information.</p>
+    <p class="lede">We believed there had to be a better way.</p>
+  </section>
+
+  <section class="wrap">
+    <div class="s-copy" style="margin-inline:auto;text-align:center;justify-items:center">
+      <p>GLOSSKN is a problem-solving beauty brand creating gentle, high-performance, multi-functional products that simplify everyday routines without compromising the experience.</p>
+      <p>We don't believe in launching products simply because a category is trending. We start with a real consumer problem and ask:</p>
+    </div>
+  </section>
+
+  <section class="wrap qs">
+    <div class="qs-grid">
+      <div class="q reveal" data-tilt="8"><span>i.</span><p>Can we solve this better?</p></div>
+      <div class="q reveal" data-tilt="8"><span>ii.</span><p>Can we remove a step?</p></div>
+      <div class="q reveal" data-tilt="8"><span>iii.</span><p>Can we make it gentler?</p></div>
+      <div class="q reveal" data-tilt="8"><span>iv.</span><p>Can we make it easier to live with?</p></div>
+    </div>
+  </section>
+
+  <section class="wrap s-block">
+    <div class="s-photo" id="founderPhoto"><img src="assets/founder.webp" alt="Jaspreet Ghai Kapoor, Founder and Creative Director of GLOSSKN" loading="lazy"></div>
+    <div class="s-copy">
+      <span class="eyebrow">Where it all began</span>
+      <h2 class="h2">The woman behind <span class="it">your gloss</span></h2>
+      <p>GLOSSKN was founded by Jaspreet Ghai Kapoor, a certified beauty professional with over 12 years of industry experience. Trained in Mumbai, London and New York, she has worked with brides, models and consumers, trained beauty professionals, and served as Visiting Faculty at NIFT Delhi.</p>
+      <p>Her love for beauty began long before her career. From exploring beauty stores around the world to understanding products and formulations, curiosity became expertise. Her Hotel Management background also shaped GLOSSKN’s customer-first philosophy — because every detail matters.</p>
+      <p>Becoming a mother brought another perspective: women need beauty solutions that respect their time, skin and changing lifestyles.</p>
+    </div>
+  </section>
+
+  <section class="wrap ritual">
+    <div class="reveal"><span class="eyebrow">Our approach</span><h2 class="h3">Perfecting one ritual <span class="it">at a time.</span></h2>
+      <p>We don't aim to build the biggest catalogue — only the most thoughtful one. Every GLOSSKN product should remove an unnecessary step, solve a real frustration, or make an everyday ritual more enjoyable.</p></div>
+    <div class="reveal"><span class="eyebrow">Our vision</span><h2 class="h3">Own Your <span class="it">Radiance.</span></h2>
+      <p>We envision GLOSSKN as an Indian problem-solving beauty brand with global relevance — making beauty and self-care simpler, more thoughtful and enjoyable.</p>
+      <p>Because self-care should feel good, not overwhelming.</p></div>
+  </section>
+
+  <section class="wrap s-video">
+    <div class="reel" id="reelBox">
+      <video id="reel" src="media/founder-story.mp4" poster="media/founder-poster.jpg" muted loop playsinline preload="metadata"></video>
+      <button class="sound" id="soundBtn" type="button" aria-pressed="false"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 9h4l5-4v14l-5-4H4z"/></svg><span id="soundLbl">Play with sound</span></button>
+    </div>
+    <div class="s-copy">
+      <span class="eyebrow">In her words</span>
+      <p class="h3 it" style="font-size:var(--t-xl)">“If it stung even a little, we went back to the lab. We kept refining until it truly felt gentle.”</p>
+      <p>That's what Power Cleanse is all about: gentle yet effective cleansing.</p>
+      <a class="btn btn-on-lilac" href="power-cleanse.html">Shop Power Cleanse</a>
+    </div>
+  </section>
+</main>
+
+<div id="site-footer"></div>
+<script src="site.js"></script>
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const fine = matchMedia("(pointer: fine)").matches && !matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const reel = $("#reel");
+  new IntersectionObserver(([e]) => { e.isIntersecting ? reel.play().catch(() => {}) : reel.pause(); }, { threshold: .4 }).observe(reel);
+  $("#soundBtn").addEventListener("click", () => {
+    reel.muted = !reel.muted; if (!reel.muted) { reel.currentTime = 0; reel.play().catch(() => {}); }
+    $("#soundBtn").setAttribute("aria-pressed", String(!reel.muted)); $("#soundLbl").textContent = reel.muted ? "Play with sound" : "Mute";
+  });
+  if (fine) for (const el of [$("#reelBox"), $("#founderPhoto")]) {
+    el.addEventListener("pointermove", e => { const r = el.getBoundingClientRect(); el.style.transform = `perspective(1200px) rotateY(${((e.clientX - r.left) / r.width - .5) * 12}deg) rotateX(${(.5 - (e.clientY - r.top) / r.height) * 8}deg)`; });
+    el.addEventListener("pointerleave", () => el.style.transform = "");
+  }
+})();
+</script>
+</body>
+</html>
