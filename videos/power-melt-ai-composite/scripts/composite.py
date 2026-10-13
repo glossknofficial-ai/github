@@ -23,9 +23,11 @@ clip = sys.argv[1]
 bg = np.asarray(Image.open(ROOT / "assets" / "set-bg.png").convert("RGB")).astype(np.float32)
 overlays = sorted(glob.glob(str(ROOT / "renders" / "overlay" / "*.png")))
 
-# Upper band mask: full strength above y=600, fading to zero at the tube mouth (~680).
+# The AI clip is shifted up so its pours end at the (larger) tube mouth at y~560.
+SHIFT = 130
+# Upper band mask: full strength above y=470, fading to zero at the tube mouth (~550).
 y = np.arange(H, dtype=np.float32)[:, None]
-band = np.clip((680 - y) / 80, 0, 1)
+band = np.clip((550 - y) / 80, 0, 1)
 band = (band * band * (3 - 2 * band))[..., None]
 
 def decoder():
@@ -54,6 +56,7 @@ while True:
         samples.append(f)
     idx += 1
 plate = np.median(np.stack(samples), axis=0)
+plate = np.roll(plate, -SHIFT, axis=0)
 dec.terminate()
 dec = decoder()                                     # pass 2
 enc = subprocess.Popen(
@@ -67,12 +70,12 @@ for i in range(frames_needed):
     if f is None:
         f = last
     last = f
-    d = f - plate
+    d = np.roll(f, -SHIFT, axis=0) - plate
     # soft noise gate: ignore tiny lighting flicker so the set stays perfectly clean
     mag = np.abs(d).max(axis=2, keepdims=True)
     gate = np.clip((mag - 4) / 10, 0, 1)
     t = i / FPS
-    fade = np.clip((8.55 - t) / 0.2, 0, 1)          # AI layer bows out after the squalane pour
+    fade = np.clip((7.6 - t) / 0.2, 0, 1)           # AI layer bows out once the plum has left (before its fake label box appears)
     out = bg + band * gate * d * fade
     ov = np.asarray(Image.open(overlays[i]).convert("RGBA")).astype(np.float32)
     a = ov[..., 3:4] / 255.0

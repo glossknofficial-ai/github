@@ -67,7 +67,7 @@
         "moringa": { "pourStart": 0.88, "pourEnd": 2.55, "fillStart": 1.0, "fillEnd": 2.9 },
         "jojoba": { "drops": [3.32, 3.56, 3.8, 4.22, 4.62] },
         "plum": { "pourStart": 5.5, "pourEnd": 7.3, "fillStart": 5.6, "fillEnd": 7.55 },
-        "squalane": { "pourStart": 7.72, "pourEnd": 8.45, "fillStart": 7.8, "fillEnd": 8.6 },
+        "squalane": { "pourStart": 7.45, "pourEnd": 8.4, "fillStart": 7.7, "fillEnd": 8.6 },
         "reveal": { "start": 8.6, "end": 9.1 }
       }
     </script>
@@ -90,9 +90,9 @@
         [ctx, liq, pho].forEach(function (c) { c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high"; });
 
         // Tube placement — uniform scale only, so the label is never distorted.
-        var IMG_W = 731, IMG_H = 1526, S = 0.588;   // sized to stand exactly where the AI clip's glass stood
+        var IMG_W = 731, IMG_H = 1526, S = 0.8;   // sized to stand exactly where the AI clip's glass stood
         var TW = IMG_W * S, TH = IMG_H * S;
-        var FLOOR = 1588;
+        var FLOOR = 1781;
         var TX = (W - TW) / 2, TY = FLOOR - TH;
         var CX = W / 2;
         var FILL_BOTTOM = TY + 1518 * S; // inside of cap
@@ -162,7 +162,7 @@
         for (i = 0; i < 30; i++) sqSplash.push({ t: Q.fillStart + rnd() * (Q.pourEnd - Q.fillStart + 0.2), vx: (rnd() - 0.5) * 300, vy: -(150 + rnd() * 260), r: 1.2 + rnd() * 1.8, ph: rnd() * 6.28 });
 
         // ---- drawing --------------------------------------------------------
-        var TOPY = 690; // streams continue from the AI clip at the tube mouth
+        var TOPY = 560; // streams continue from the AI clip at the tube mouth
 
         function camera(c, t) {
           var k = 1; // locked camera, to stay aligned with the AI plate
@@ -285,10 +285,11 @@
         }
 
         // Continuous pour: head falls under gravity from pourStart, tail from pourEnd.
-        function pourSpan(t, start, end, surfaceY, g) {
+        function pourSpan(t, start, end, surfaceY, g, top) {
+          if (top === undefined) top = TOPY;
           if (t < start) return null;
-          var head = TOPY + 0.5 * g * Math.pow(t - start, 2);
-          var tail = t > end ? TOPY + 0.5 * g * Math.pow(t - end, 2) : TOPY;
+          var head = top + 0.5 * g * Math.pow(t - start, 2);
+          var tail = t > end ? top + 0.5 * g * Math.pow(t - end, 2) : top;
           head = Math.min(head, surfaceY);
           if (tail >= surfaceY) return null;
           return [tail, head];
@@ -327,7 +328,7 @@
         }
 
         function drawSqualane(t, surfaceY) {
-          var span = pourSpan(t, Q.pourStart, Q.pourEnd, surfaceY, 26000);
+          var span = pourSpan(t, Q.pourStart, Q.pourEnd, surfaceY, 26000, -40); // squalane falls from the top of frame (drawn here, not from the AI clip)
           if (span) {
             ctx.lineCap = "round";
             var path = function () {
@@ -345,7 +346,7 @@
           // sparkling micro-droplets shed by the thread
           sqDroplets.forEach(function (d) {
             var dt = t - d.t; if (dt < 0) return;
-            var y = TOPY + 120 + 0.5 * 26000 * dt * dt;
+            var y = 80 + 0.5 * 26000 * dt * dt;
             if (y > surfaceY) return;
             var x = CX + d.dx * Math.min(1, dt * 4);
             sparkle(x, y, d.r, t, d.ph);

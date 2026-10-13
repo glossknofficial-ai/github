@@ -13,7 +13,7 @@ from PIL import Image, ImageDraw, ImageFilter
 
 ROOT = Path(__file__).resolve().parent.parent
 W, H = 1080, 1920
-S, FLOOR = 0.588, 1588          # matches the AI clip glass position
+S, FLOOR = 0.8, 1781          # large tube, as in the original reel
 BASE = np.array([0xD7, 0xB6, 0xE2], float)
 
 y = np.arange(H)[:, None] / H
