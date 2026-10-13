@@ -1,0 +1,6 @@
+renders/overlay/
+renders/final-video-only.mp4
+renders/foley-mix.wav
+node_modules/
+snapshots/
+.hyperframes/
