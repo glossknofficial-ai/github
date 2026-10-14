@@ -1,0 +1,79 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Olive</title>
+<style>html,body{margin:0;background:transparent}canvas{display:block}</style>
+<script type="importmap">{ "imports": { "three": "./vendor/three.module.js" } }</script>
+</head>
+<body>
+<script type="module">
+// A single glossy green olive, lit like the reel (soft key from the upper left),
+// rendered on a transparent background for compositing.
+import * as THREE from "three";
+import { RoomEnvironment } from "./vendor/RoomEnvironment.js";
+
+const W = 600, H = 760;
+const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true, preserveDrawingBuffer: true });
+renderer.setPixelRatio(2);
+renderer.setSize(W, H);
+renderer.setClearColor(0x000000, 0);
+renderer.toneMapping = THREE.ACESFilmicToneMapping;
+renderer.toneMappingExposure = 0.9;
+renderer.outputColorSpace = THREE.SRGBColorSpace;
+document.body.appendChild(renderer.domElement);
+
+const scene = new THREE.Scene();
+const pmrem = new THREE.PMREMGenerator(renderer);
+scene.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
+scene.environmentIntensity = 0.75;   // long, bright softbox reflections like the references
+
+const cam = new THREE.PerspectiveCamera(22, W / H, 0.1, 100);
+cam.position.set(0, 0, 13);
+
+const key = new THREE.DirectionalLight(0xfff3d6, 2.2); key.position.set(-5, 6, 6); scene.add(key);
+const rim = new THREE.DirectionalLight(0xf2e6ff, 1.2); rim.position.set(5, 2, -4); scene.add(rim);
+scene.add(new THREE.HemisphereLight(0xfffbe8, 0x1a1408, 0.15));
+
+// --- skin: smooth, glossy yellow-green, darker toward the bottom (no speckles) ---
+const tc = document.createElement("canvas"); tc.width = 512; tc.height = 512;
+const g = tc.getContext("2d");
+const grad = g.createLinearGradient(0, 0, 0, 512);   // v=0 bottom tip … v=1 stem end (lathe UVs)
+grad.addColorStop(0, "#4a5c06"); grad.addColorStop(0.3, "#6f8410"); grad.addColorStop(0.7, "#7f9612"); grad.addColorStop(1, "#5a7008");
+g.fillStyle = grad; g.fillRect(0, 0, 512, 512);
+const skin = new THREE.CanvasTexture(tc); skin.colorSpace = THREE.SRGBColorSpace;
+
+// --- olive body: slightly asymmetric egg shape via a lathe profile ---
+const prof = [];
+for (let i = 0; i <= 64; i++) {
+  const v = i / 64;                       // 0 = bottom tip, 1 = top (stem end)
+  const a = v * Math.PI;
+  let rad = Math.sin(a) * (1 + 0.09 * Math.cos(a));   // fuller near the stem end
+  rad *= 1 - 0.06 * Math.pow(1 - v, 3);                // gently pointed bottom
+  prof.push(new THREE.Vector2(Math.max(rad, 0.001), -Math.cos(a) * 1.38));
+}
+const body = new THREE.Mesh(new THREE.LatheGeometry(prof, 96), new THREE.MeshPhysicalMaterial({
+  map: skin, roughness: 0.18, clearcoat: 1, clearcoatRoughness: 0.02, specularIntensity: 1,
+}));
+scene.add(body);
+
+// stem scar at the top
+const scar = new THREE.Mesh(new THREE.CircleGeometry(0.09, 32), new THREE.MeshStandardMaterial({ color: 0x5a4a22, roughness: 0.8 }));
+scar.position.set(0, 1.379, 0); scar.rotation.x = -Math.PI / 2; // no stem: smooth, clean hero olive like the references
+const stem = new THREE.Mesh(new THREE.CylinderGeometry(0.035, 0.045, 0.32, 12), new THREE.MeshStandardMaterial({ color: 0x6b5a2a, roughness: 0.7 }));
+stem.visible = false; scar.visible = false;
+
+// a bead of oil forming at the tip
+const bead = new THREE.Mesh(new THREE.SphereGeometry(0.12, 32, 32), new THREE.MeshPhysicalMaterial({
+  color: 0xf4d27a, roughness: 0.04, transmission: 0.5, thickness: 0.3, clearcoat: 1, transparent: true, opacity: 0.92,
+}));
+bead.position.set(0, -1.45, 0.02); bead.scale.set(1, 1.25, 1); scene.add(bead);
+
+const grp = new THREE.Group(); [body, scar, stem, bead].forEach((m) => grp.add(m)); scene.add(grp);
+grp.rotation.set(0.18, -0.5, -0.12);      // a natural, slightly turned three-quarter view
+
+renderer.render(scene, cam);
+window.__done = true;
+</script>
+</body>
+</html>

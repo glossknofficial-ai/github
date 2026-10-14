@@ -54,6 +54,7 @@
 
       <img id="img-tube" class="preload" src="assets/tube.png" alt="" />
       <img id="img-ghost" class="preload" src="assets/tube-ghost.png" alt="" />
+      <img id="img-olive" class="preload" src="assets/olive.png" alt="" />
       <img id="img-set" class="preload" src="assets/set-bg.png" alt="" />
       <img id="img-shadow" class="preload" src="assets/set-shadow.png" alt="" />
 
@@ -67,7 +68,8 @@
         "moringa": { "pourStart": 0.88, "pourEnd": 2.55, "fillStart": 1.0, "fillEnd": 2.9 },
         "jojoba": { "drops": [3.32, 3.56, 3.8, 4.22, 4.62] },
         "plum": { "pourStart": 5.5, "pourEnd": 7.3, "fillStart": 5.6, "fillEnd": 7.55 },
-        "squalane": { "pourStart": 7.45, "pourEnd": 8.4, "fillStart": 7.7, "fillEnd": 8.6 },
+        "squalane": { "pourStart": 7.6, "pourEnd": 8.35, "fillStart": 7.72, "fillEnd": 8.55 },
+        "olive": { "in": 7.15, "settle": 7.55, "leave": 8.4, "gone": 8.85 },
         "reveal": { "start": 8.6, "end": 9.1 }
       }
     </script>
@@ -80,6 +82,7 @@
         var ctx = canvas.getContext("2d");
         var tubeImg = document.getElementById("img-tube");
         var ghostImg = document.getElementById("img-ghost");
+        var oliveImg = document.getElementById("img-olive");
         var setImg = document.getElementById("img-set");
         var shadowImg = document.getElementById("img-shadow");
 
@@ -327,8 +330,26 @@
           if (span[1] >= surfaceY - 1) drawRipple(t, surfaceY, 34 + 6 * Math.sin(t * 14), "rgba(255,210,150,0.55)");
         }
 
+        // ---- olive (source of squalene): lowers in, drips, lifts out ----
+        var O = CUES.olive;
+        var OW = 200, OH = OW * 960 / 603, OLIVE_TOP = 150;
+        var OLIVE_DRIP_Y = OLIVE_TOP + OH * 0.985;
+        function drawOlive(t) {
+          if (t < O.in || t > O.gone) return;
+          var top;
+          if (t < O.settle) top = -OH - 30 + (OLIVE_TOP + OH + 30) * easeOut((t - O.in) / (O.settle - O.in));
+          else if (t < O.leave) top = OLIVE_TOP + 4 * Math.sin((t - O.settle) * 3.2);
+          else { var u = clamp((t - O.leave) / (O.gone - O.leave), 0, 1); top = OLIVE_TOP - (OLIVE_TOP + OH + 30) * u * u; }
+          var rot = 0.035 * Math.sin(t * 2.1);
+          ctx.save();
+          ctx.translate(CX, top + OH / 2); ctx.rotate(rot);
+          ctx.shadowColor = "rgba(64,40,80,0.28)"; ctx.shadowBlur = 34; ctx.shadowOffsetX = 16; ctx.shadowOffsetY = 22;
+          ctx.drawImage(oliveImg, -OW / 2, -OH / 2, OW, OH);
+          ctx.restore();
+        }
+
         function drawSqualane(t, surfaceY) {
-          var span = pourSpan(t, Q.pourStart, Q.pourEnd, surfaceY, 26000, -40); // squalane falls from the top of frame (drawn here, not from the AI clip)
+          var span = pourSpan(t, Q.pourStart, Q.pourEnd, surfaceY, 26000, OLIVE_DRIP_Y); // squalene drips from the olive's tip
           if (span) {
             ctx.lineCap = "round";
             var path = function () {
@@ -338,15 +359,15 @@
                 y === span[0] ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
               }
             };
-            path(); ctx.strokeStyle = "rgba(122,84,146,0.28)"; ctx.lineWidth = 13; ctx.stroke();
-            path(); ctx.strokeStyle = "rgba(255,255,255,0.6)"; ctx.lineWidth = 8; ctx.stroke();
-            path(); ctx.strokeStyle = "rgba(255,255,255,1)"; ctx.lineWidth = 3; ctx.stroke();
+            path(); ctx.strokeStyle = "rgba(150,110,40,0.30)"; ctx.lineWidth = 11; ctx.stroke();
+            path(); ctx.strokeStyle = "rgba(240,205,120,0.65)"; ctx.lineWidth = 7; ctx.stroke();
+            path(); ctx.strokeStyle = "rgba(255,248,225,1)"; ctx.lineWidth = 2.5; ctx.stroke();
             if (span[1] >= surfaceY - 1) drawRipple(t, surfaceY, 22 + 4 * Math.sin(t * 20), "rgba(255,255,255,0.7)");
           }
           // sparkling micro-droplets shed by the thread
           sqDroplets.forEach(function (d) {
             var dt = t - d.t; if (dt < 0) return;
-            var y = 80 + 0.5 * 26000 * dt * dt;
+            var y = OLIVE_DRIP_Y + 0.5 * 26000 * dt * dt;
             if (y > surfaceY) return;
             var x = CX + d.dx * Math.min(1, dt * 4);
             sparkle(x, y, d.r, t, d.ph);
@@ -475,6 +496,7 @@
           drawJojoba(t, surfaceY);
           drawPlum(t, surfaceY);
           drawSqualane(t, surfaceY);
+          drawOlive(t);
 
           // Real packshot, untouched, revealed from the cap upward.
           drawPhoto(t, revealY);
@@ -497,7 +519,7 @@
         function ready(img) {
           return img.complete && img.naturalWidth ? Promise.resolve() : new Promise(function (res) { img.onload = res; img.onerror = res; });
         }
-        Promise.all([ready(tubeImg), ready(ghostImg), ready(setImg), ready(shadowImg)]).then(build);
+        Promise.all([ready(tubeImg), ready(ghostImg), ready(setImg), ready(shadowImg), ready(oliveImg)]).then(build);
       })();
     </script>
   </body>
