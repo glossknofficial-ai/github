@@ -15,7 +15,8 @@ OUT = Path(__file__).resolve().parent.parent / "sfx" / "mix.wav"
 rng = np.random.default_rng(7)
 
 # ---- timeline (keep in sync with index.html)
-NOTIFS = [0.30, 0.72, 1.12, 1.52, 1.92, 2.32, 2.72]
+NOTIFS = [0.12, 0.62, 1.08, 1.52, 1.96]
+FLOOD = (2.30, 3.15)  # quieter chimes speeding up while the counter races
 DROP = 3.30
 TYPED = [("IT'S CLOSER", 3.75, 0.075), ("THAN YOU THINK", 4.75, 0.070), ("STAY TUNED.", 6.25, 0.085)]
 LOGO = 8.40
@@ -184,6 +185,11 @@ def main():
     ch = chime()
     for at in NOTIFS:
         place(sfx, ch, at, 0.9)
+    at, gap = FLOOD[0], 0.16
+    while at < FLOOD[1]:
+        place(sfx, ch, at, 0.28)
+        at += gap
+        gap = max(0.06, gap * 0.85)
     for text, start, step in TYPED:
         for i, c in enumerate(text):
             if c != " ":

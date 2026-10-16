@@ -9,60 +9,66 @@
       @font-face { font-family: "GK Futura"; font-weight: 400; src: local("Futura Book"), local("Futura-Book"), local("Futura PT Book"), url(fonts/jost-latin-400-normal.woff2) format("woff2"); }
       @font-face { font-family: "GK Futura"; font-weight: 500; src: local("Futura Medium"), local("Futura-Medium"), local("Futura PT Medium"), url(fonts/jost-latin-500-normal.woff2) format("woff2"); }
       @font-face { font-family: "GK Futura"; font-weight: 600; src: local("Futura Bold"), local("Futura-Bold"), local("Futura PT Demi"), url(fonts/jost-latin-600-normal.woff2) format("woff2"); }
-      :root { --plum: #2f1840; --deep: #8e6aa1; --lilac: #d7b6e2; --mist: #f3e4f8; --ink: #22162b; }
+      /* GLOSSKN palette: lavender, deep lilac accent, site ink */
+      :root { --lav: #d7b6e2; --deep: #8e6aa1; --mist: #f3e4f8; --ink: #181310; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--plum); }
-      body { font-family: "GK Futura", sans-serif; color: #fff; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--lav); }
+      body { font-family: "GK Futura", sans-serif; color: var(--ink); }
       #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
 
       /* ---------- background */
-      #bg { position: absolute; inset: -10%; background: linear-gradient(180deg, #2a1439 0%, #553366 32%, #7b5594 64%, #9f78b3 100%); }
-      .glow { position: absolute; border-radius: 50%; filter: blur(140px); }
-      #g1 { width: 900px; height: 900px; left: -250px; top: 900px; background: #e6cdef; opacity: .28; }
-      #g2 { width: 800px; height: 800px; right: -300px; top: 250px; background: #b58ac9; opacity: .4; }
-      #g3 { width: 1000px; height: 700px; left: 40px; top: 620px; background: #e7a9f5; opacity: 0; }
-      #vig { position: absolute; inset: 0; background: radial-gradient(ellipse 85% 70% at 50% 52%, transparent 50%, rgba(24, 10, 34, .6) 100%); }
-      #grain { position: absolute; inset: 0; opacity: .12; mix-blend-mode: overlay; }
+      #bg { position: absolute; inset: 0; background: var(--lav); }
+      .glow { position: absolute; border-radius: 50%; filter: blur(150px); }
+      #g1 { width: 1000px; height: 1000px; left: -380px; top: 1000px; background: var(--mist); opacity: .9; }
+      #g2 { width: 900px; height: 900px; right: -420px; top: 120px; background: var(--deep); opacity: .28; }
+      #g3 { width: 1100px; height: 800px; left: -10px; top: 560px; background: #fff; opacity: 0; }
+      #grain { position: absolute; inset: 0; opacity: .10; mix-blend-mode: soft-light; }
 
-      /* ---------- scene 1: lock-screen notifications */
+      /* ---------- scene 1: lock-screen DMs */
       #lock { position: absolute; inset: 0; }
-      .date { position: absolute; left: 0; right: 0; top: 190px; text-align: center; font: 500 34px/1 "GK Futura", sans-serif; letter-spacing: 1px; color: rgba(255, 255, 255, .85); }
-      .time { position: absolute; left: 0; right: 0; top: 250px; text-align: center; font: 500 186px/1 "GK Futura", sans-serif; letter-spacing: -2px; color: rgba(255, 255, 255, .92); }
-      .n { position: absolute; left: 70px; width: 940px; display: flex; align-items: center; gap: 26px; padding: 24px 32px 24px 24px;
-           border-radius: 38px; background: rgba(255, 255, 255, .93); box-shadow: 0 18px 50px rgba(30, 10, 44, .28); color: var(--ink); opacity: 0; }
-      .ic { flex: none; width: 84px; height: 84px; border-radius: 22px; display: grid; place-items: center;
-            background: linear-gradient(145deg, #c79bd9, #8e6aa1); }
-      .ic svg { width: 46px; height: 46px; }
+      #screen { position: absolute; inset: 0; transform-origin: 50% 40%; }
+      .pov { position: absolute; left: 0; right: 0; top: 200px; text-align: center; }
+      .pov span { display: inline-block; padding: 18px 40px 20px; border-radius: 60px; background: var(--ink); color: #fff;
+                  font: 600 50px/1 "GK Futura", sans-serif; letter-spacing: 1px; }
+      .date { position: absolute; left: 0; right: 0; top: 352px; text-align: center; font: 500 40px/1 "GK Futura", sans-serif; color: var(--ink); opacity: .8; }
+      .time { position: absolute; left: 0; right: 0; top: 404px; text-align: center; font: 500 170px/1 "GK Futura", sans-serif; letter-spacing: -2px; color: var(--ink); }
+      .n { position: absolute; left: 50px; top: 640px; width: 980px; display: flex; align-items: center; gap: 28px; padding: 28px 36px 28px 28px;
+           border-radius: 44px; background: #fff; box-shadow: 0 22px 60px rgba(90, 50, 110, .22); opacity: 0; }
+      .ic { flex: none; width: 104px; height: 104px; border-radius: 26px; display: grid; place-items: center; background: var(--deep); }
+      .ic svg { width: 56px; height: 56px; }
       .tx { flex: 1; min-width: 0; }
       .r1 { display: flex; justify-content: space-between; align-items: baseline; }
-      .who { font: 600 31px/1.2 "GK Futura", sans-serif; }
-      .now { font: 400 26px/1 "GK Futura", sans-serif; color: #85798c; }
-      .msg { margin-top: 4px; font: 400 33px/1.35 "GK Futura", sans-serif; color: #2e2436; padding-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+      .who { font: 600 38px/1.2 "GK Futura", sans-serif; }
+      .now { font: 400 32px/1 "GK Futura", sans-serif; color: #7c6f80; }
+      .msg { margin-top: 4px; font: 400 44px/1.3 "GK Futura", sans-serif; white-space: nowrap; }
+      .more { position: absolute; left: 0; right: 0; top: 1660px; text-align: center; opacity: 0; }
+      .more span { display: inline-flex; align-items: center; gap: 18px; padding: 20px 40px; border-radius: 60px; background: rgba(255, 255, 255, .6);
+                   font: 600 44px/1 "GK Futura", sans-serif; }
+      .more i { width: 20px; height: 20px; border-radius: 50%; background: #e76b5f; }
 
       /* ---------- scene 2: typed tease */
       #tease { position: absolute; inset: 0; text-align: center; }
       .kick { position: absolute; left: 0; right: 0; top: 560px; display: flex; justify-content: center; align-items: center; gap: 28px;
-              font: 500 30px/1 "GK Futura", sans-serif; letter-spacing: 12px; color: var(--lilac); opacity: 0; }
-      .kick i { display: block; width: 90px; height: 2px; background: var(--lilac); opacity: .8; }
+              font: 600 34px/1 "GK Futura", sans-serif; letter-spacing: 12px; color: var(--ink); opacity: 0; }
+      .kick i { display: block; width: 90px; height: 3px; background: var(--deep); }
       .kick span { padding-left: 12px; }
       .lines { position: absolute; left: 0; right: 0; top: 790px; }
-      .tl { display: block; white-space: pre; font: 500 92px/1.3 "GK Futura", sans-serif; letter-spacing: 6px; padding-left: 6px;
-            text-shadow: 0 6px 34px rgba(30, 10, 44, .35); }
-      .tl.st { margin-top: 120px; font: 500 54px/1 "GK Futura", sans-serif; letter-spacing: 18px; padding-left: 18px; color: var(--mist); }
+      .tl { display: block; white-space: pre; font: 500 96px/1.28 "GK Futura", sans-serif; letter-spacing: 5px; padding-left: 5px; }
+      .tl.st { margin-top: 120px; font: 600 60px/1 "GK Futura", sans-serif; letter-spacing: 18px; padding-left: 18px; color: var(--ink); }
       .ch { position: relative; display: inline-block; opacity: 0; }
-      .cur { position: absolute; right: -9px; top: 12%; width: 4px; height: 76%; background: var(--lilac); opacity: 0; }
+      .cur { position: absolute; right: -8px; top: 12%; width: 5px; height: 76%; background: var(--deep); opacity: 0; }
       .tl.st .cur { right: -14px; }
-      .rule { position: absolute; left: 50%; top: 1128px; width: 140px; height: 2px; margin-left: -70px; background: var(--lilac); }
-      .url { position: absolute; left: 0; right: 0; top: 1640px; font: 500 26px/1 "GK Futura", sans-serif; letter-spacing: 9px; padding-left: 9px; color: var(--mist); opacity: 0;
-             text-shadow: 0 2px 12px rgba(30, 10, 44, .6); }
+      .rule { position: absolute; left: 50%; top: 1132px; width: 140px; height: 3px; margin-left: -70px; background: var(--deep); }
+      .url { position: absolute; left: 0; right: 0; top: 1640px; font: 600 28px/1 "GK Futura", sans-serif; letter-spacing: 9px; padding-left: 9px; opacity: 0; }
 
       /* ---------- scene 3: logo */
       #end { position: absolute; inset: 0; }
       .lockup { position: absolute; left: 140px; top: 850px; width: 800px; height: 198px; }
-      .lockup img { position: absolute; inset: 0; width: 800px; height: 198px; filter: drop-shadow(0 10px 40px rgba(30, 10, 44, .35)); }
-      .sheen { position: absolute; inset: 0; -webkit-mask: url(assets/glosskn-logo-white.png) center/800px 198px no-repeat; mask: url(assets/glosskn-logo-white.png) center/800px 198px no-repeat; overflow: hidden; }
-      .sheen b { position: absolute; top: -40px; left: -300px; width: 220px; height: 280px; transform: skewX(-20deg);
-                 background: linear-gradient(90deg, transparent, rgba(231, 169, 245, .95), transparent); }
+      .logo, .sheen { position: absolute; inset: 0; -webkit-mask: url(assets/glosskn-logo-white.png) center/800px 198px no-repeat; mask: url(assets/glosskn-logo-white.png) center/800px 198px no-repeat; }
+      .logo { background: var(--ink); }
+      .sheen { overflow: hidden; }
+      .sheen b { position: absolute; top: -40px; left: -300px; width: 200px; height: 280px; transform: skewX(-20deg);
+                 background: linear-gradient(90deg, transparent, rgba(243, 228, 248, .95), transparent); }
     </style>
   </head>
   <body>
@@ -72,14 +78,17 @@
         <div class="glow" id="g1"></div>
         <div class="glow" id="g2"></div>
         <div class="glow" id="g3"></div>
-        <div id="vig"></div>
         <svg id="grain" width="1080" height="1920"><filter id="nz"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(#nz)"/></svg>
       </div>
 
-      <!-- scene 1: DMs landing on a lock screen -->
+      <!-- scene 1: DMs flooding a lock screen -->
       <div id="lock" class="clip" data-start="0" data-duration="3.45" data-track-index="2">
-        <div class="date" id="date">Friday, 16 October</div>
-        <div class="time" id="clock">9:41</div>
+        <div id="screen">
+          <div class="pov" id="pov"><span>POV: our DMs this week</span></div>
+          <div class="date" id="date">Monday, 19 October</div>
+          <div class="time" id="clock">9:41</div>
+          <div class="more" id="more"><span><i></i><b id="count">+0</b>more messages</span></div>
+        </div>
       </div>
 
       <!-- scene 2: the tease, typed out -->
@@ -96,8 +105,8 @@
 
       <!-- scene 3: the GLOSSKN logo -->
       <div id="end" class="clip" data-start="8.35" data-duration="2.45" data-track-index="4">
-        <div class="lockup" id="lockup">
-          <img src="assets/glosskn-logo-white.png" alt="GLOSSKN" />
+        <div class="lockup" id="lockup" role="img" aria-label="GLOSSKN">
+          <div class="logo"></div>
           <div class="sheen"><b id="sheen"></b></div>
         </div>
       </div>
@@ -110,28 +119,26 @@
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
 
-      // ---- build notification cards (times mirror NOTIFS in audio/make_audio.py)
+      // ---- notification cards (times mirror NOTIFS in audio/make_audio.py); newest lands on top, the rest push down
       const NOTIFS = [
-        ["riya.sharma", "Wait… is the birthday sale finally here?", 0.30],
-        ["makeupbyanaya", "Been waiting all year for this!", 0.72],
-        ["tanvi_k", "Just tell us the date already", 1.12],
-        ["glowwithmeher", "Is it this week??", 1.52],
-        ["ishita.mehra", "My cart is literally ready", 1.92],
-        ["nehaa.b", "Please say it's soon", 2.32],
-        ["kavya_s", "Ready when you are!", 2.72],
+        ["riya.sharma", "Birthday sale?? Is it happening?", 0.12],
+        ["makeupbyanaya", "Been waiting all year for this!", 0.62],
+        ["tanvi_k", "Just tell us the date already", 1.08],
+        ["ishita.mehra", "My cart is literally ready", 1.52],
+        ["nehaa.b", "Please say it's this week!", 1.96],
       ];
-      const icon = '<svg viewBox="0 0 24 24" fill="none"><path d="M12 3.5c-4.9 0-8.75 3.4-8.75 7.75 0 2.3 1.1 4.35 2.9 5.750L5.6 20.5l3.9-1.9c.8.2 1.65.3 2.5.3 4.9 0 8.750-3.4 8.750-7.65S16.9 3.5 12 3.5z" fill="#fff"/></svg>';
-      const lock = document.getElementById("lock");
+      const PITCH = 196;
+      const icon = '<svg viewBox="0 0 24 24"><path d="M12 3.5c-4.9 0-8.75 3.4-8.75 7.75 0 2.3 1.1 4.35 2.9 5.75L5.6 20.5l3.9-1.9c.8.2 1.65.3 2.5.3 4.9 0 8.75-3.4 8.75-7.65S16.9 3.5 12 3.5z" fill="#fff"/></svg>';
+      const screen = document.getElementById("screen");
       NOTIFS.forEach(([who, msg], i) => {
         const el = document.createElement("div");
         el.className = "n";
         el.id = "n" + i;
-        el.style.top = 520 + i * 152 + "px";
         el.innerHTML = `<div class="ic">${icon}</div><div class="tx"><div class="r1"><span class="who">${who}</span><span class="now">now</span></div><div class="msg">${msg}</div></div>`;
-        lock.appendChild(el);
+        screen.appendChild(el);
       });
 
-      // ---- split typed lines into characters, each with its own caret
+      // ---- typed lines split into characters, each with its own caret
       const typed = [];
       document.querySelectorAll(".tl").forEach((line) => {
         const at = parseFloat(line.dataset.at), step = parseFloat(line.dataset.step);
@@ -144,27 +151,35 @@
         });
       });
 
-      // ---- background drift + beat pulse once the music drops (100 BPM from 3.30s)
-      tl.fromTo("#bg", { y: 0, scale: 1 }, { y: -60, scale: 1.04, duration: 10.8, ease: "none" }, 0);
-      tl.fromTo("#g1", { x: 0, y: 0 }, { x: 260, y: -240, duration: 10.8, ease: "sine.inOut" }, 0);
-      tl.fromTo("#g2", { x: 0, y: 0 }, { x: -220, y: 300, duration: 10.8, ease: "sine.inOut" }, 0);
+      // ---- background drift + glow pulse on the beat (100 BPM from 3.30s)
+      tl.fromTo("#g1", { x: 0, y: 0 }, { x: 300, y: -260, duration: 10.8, ease: "sine.inOut" }, 0);
+      tl.fromTo("#g2", { x: 0, y: 0 }, { x: -240, y: 320, duration: 10.8, ease: "sine.inOut" }, 0);
       for (let k = 0; k < 9; k++) {
-        tl.fromTo("#g3", { opacity: 0.32 }, { opacity: 0.08, duration: 1.1, ease: "power2.out", immediateRender: false }, 3.3 + k * 1.2);
+        tl.fromTo("#g3", { opacity: 0.55 }, { opacity: 0.1, duration: 1.1, ease: "power2.out", immediateRender: false }, 3.3 + k * 1.2);
       }
 
-      // ---- scene 1
-      tl.fromTo("#date", { opacity: 0, y: 10 }, { opacity: 1, y: 0, duration: 0.4, ease: "power2.out" }, 0);
-      tl.fromTo("#clock", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 0.04);
+      // ---- scene 1: hook lands on frame one, then DMs pile in
+      tl.fromTo("#pov", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 0);
+      tl.fromTo("#date", { opacity: 0 }, { opacity: 0.8, duration: 0.3 }, 0);
+      tl.fromTo("#clock", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 0);
       NOTIFS.forEach((n, i) => {
-        tl.fromTo("#n" + i, { opacity: 0, y: -46, scale: 0.92 }, { opacity: 1, y: 0, scale: 1, duration: 0.42, ease: "back.out(1.8)" }, n[2]);
-        tl.fromTo("#lock", { x: 0 }, { keyframes: { x: [0, -5, 5, -3, 0] }, duration: 0.18, ease: "none", immediateRender: false }, n[2] + 0.02);
+        const t = n[2];
+        tl.fromTo("#n" + i, { opacity: 0, y: -70, scale: 0.9 }, { opacity: 1, y: 0, scale: 1, duration: 0.4, ease: "back.out(1.7)" }, t);
+        for (let j = 0; j < i; j++) {
+          const slot = i - j;
+          tl.fromTo("#n" + j, { y: (slot - 1) * PITCH }, { y: slot * PITCH, duration: 0.34, ease: "power3.out", immediateRender: false }, t);
+        }
+        tl.fromTo("#screen", { scale: 1, x: 0 }, { keyframes: { scale: [1, 1.025, 1], x: [0, -6, 6, -3, 0] }, duration: 0.24, ease: "none", immediateRender: false }, t + 0.02);
       });
-      tl.to("#lock .n", { y: -80, opacity: 0, duration: 0.3, ease: "power2.in", stagger: 0.025 }, 3.05);
-      tl.to("#date, #clock", { opacity: 0, duration: 0.25 }, 3.05);
+      tl.fromTo("#more", { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 2.25);
+      const counter = { v: 0 };
+      const countEl = document.getElementById("count");
+      tl.fromTo(counter, { v: 0 }, { v: 248, duration: 0.85, ease: "power2.in", onUpdate: () => { countEl.textContent = "+" + Math.round(counter.v); } }, 2.3);
+      tl.to("#screen", { scale: 1.12, opacity: 0, duration: 0.3, ease: "power2.in" }, 3.12);
 
       // ---- scene 2
-      tl.fromTo("#kick", { opacity: 0, y: -14 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 3.35);
-      tl.fromTo("#url", { opacity: 0 }, { opacity: 0.9, duration: 0.6 }, 3.5);
+      tl.fromTo("#kick", { opacity: 0, y: -14 }, { opacity: 1, y: 0, duration: 0.5, ease: "power2.out" }, 3.35);
+      tl.fromTo("#url", { opacity: 0 }, { opacity: 0.75, duration: 0.6 }, 3.5);
       typed.forEach(({ ch, cur, t }, i) => {
         tl.set(ch, { opacity: 1 }, t);
         tl.set(cur, { opacity: 1 }, t);
