@@ -63,9 +63,10 @@
 
       /* ---------- scene 3: logo */
       #end { position: absolute; inset: 0; }
-      .lockup { position: absolute; left: 140px; top: 850px; width: 800px; height: 198px; }
+      .lockup { position: absolute; left: 140px; top: 800px; width: 800px; height: 198px; }
+      .tagline { position: absolute; left: 0; right: 0; top: 1010px; text-align: center; font: 400 44px/1 "GK Futura", sans-serif; letter-spacing: 14px; padding-left: 14px; color: #000; opacity: 0; }
       .logo, .sheen { position: absolute; inset: 0; -webkit-mask: url(assets/glosskn-logo-white.png) center/800px 198px no-repeat; mask: url(assets/glosskn-logo-white.png) center/800px 198px no-repeat; }
-      .logo { background: var(--ink); }
+      .logo { background: #000; }
       .sheen { overflow: hidden; }
       .sheen b { position: absolute; top: -40px; left: -300px; width: 200px; height: 280px; transform: skewX(-20deg);
                  background: linear-gradient(90deg, transparent, rgba(243, 228, 248, .95), transparent); }
@@ -93,7 +94,7 @@
 
       <!-- scene 2: the tease, typed out -->
       <div id="tease" class="clip" data-start="3.3" data-duration="5.2" data-track-index="3">
-        <div class="kick" id="kick"><i></i><span>BIRTHDAY SALE</span><i></i></div>
+        <div class="kick" id="kick"><i></i><span>WE ARE TURNING ONE</span><i></i></div>
         <div class="lines">
           <span class="tl" data-type="IT'S CLOSER" data-at="3.75" data-step="0.075"></span>
           <span class="tl" data-type="THAN YOU THINK" data-at="4.75" data-step="0.070"></span>
@@ -109,6 +110,7 @@
           <div class="logo"></div>
           <div class="sheen"><b id="sheen"></b></div>
         </div>
+        <div class="tagline" id="tagline">OWN YOUR RADIANCE</div>
       </div>
 
       <!-- soundtrack: chimes, keystrokes and beat, built by audio/make_audio.py -->
@@ -204,6 +206,8 @@
       tl.fromTo("#lockup", { opacity: 0, scale: 0.94, clipPath: "inset(0 100% 0 0)" },
         { opacity: 1, scale: 1, clipPath: "inset(0 0% 0 0)", duration: 0.75, ease: "power3.out" }, 8.4);
       tl.fromTo("#lockup", { y: 0 }, { y: -8, duration: 2.2, ease: "sine.inOut", immediateRender: false }, 8.6);
+      tl.fromTo("#tagline", { opacity: 0, y: 18 }, { opacity: 1, y: 0, duration: 0.6, ease: "power2.out" }, 8.95);
+      tl.fromTo("#tagline", { scale: 1 }, { scale: 1.015, duration: 1.85, ease: "none", immediateRender: false }, 8.95);
       tl.fromTo("#sheen", { x: 0 }, { x: 1400, duration: 1.0, ease: "power2.inOut" }, 9.05);
 
       tl.set({}, {}, 10.8);
