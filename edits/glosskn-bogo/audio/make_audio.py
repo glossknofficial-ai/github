@@ -1,7 +1,8 @@
 """Synthesize the BOGO reel soundtrack into sfx/mix.wav.
 
-A bright 120 BPM party beat from frame one, a soft tick on every tile shuffle,
-a riser + hit when the grid snaps to the full photo, and a sparkle on the final reveal.
+Like the reference: a crisp shutter-style click on every tile swap (a rapid burst while
+the tiles click back into the full photo), a light 120 BPM pulse underneath, a soft hit
+when the photo completes, and a sparkle on the final offer.
 Timings mirror the constants in index.html — change them in both places.
 """
 import wave
@@ -10,14 +11,14 @@ from pathlib import Path
 import numpy as np
 
 SR = 48000
-DUR = 12.0
+DUR = 9.0
 OUT = Path(__file__).resolve().parent.parent / "sfx" / "mix.wav"
 rng = np.random.default_rng(11)
 
 # ---- timeline (keep in sync with index.html)
-STEP = 0.25
-SHUFFLE = [(0.0, 3.75), (4.75, 7.75)]  # tile shuffles happen every STEP inside these spans
-SNAPS = [4.0, 8.0]                     # grid snaps to the full photo
+SCATTER, SCATTER_STEP = [(0.0, 2.4), (3.35, 5.6)], 0.12  # random tile swaps
+BUILD, TILES = [(2.4, 3.0), (5.6, 6.2)], 15               # tiles click into place one by one
+SNAPS = [3.0, 6.2]                                         # full photo complete
 
 
 def t(n):
@@ -94,10 +95,16 @@ def bass(f, d):
     return (np.sin(2 * np.pi * f * tt) + 0.25 * np.sin(2 * np.pi * 2 * f * tt)) * (1 - np.exp(-tt * 150)) * np.exp(-tt * 3)
 
 
-def tick():
-    tt = t(0.03)
-    n = rng.standard_normal(len(tt))
-    return (n - onepole_lp(n, 4000)) * np.exp(-tt * 200) * 0.5 + np.sin(2 * np.pi * 2400 * tt) * np.exp(-tt * 160) * 0.3
+def shutter(var):
+    """Two quick filtered noise snaps (blade open/close) with a little body."""
+    c = np.zeros(int(0.07 * SR))
+    for k, at in enumerate((0.0, 0.018 + 0.01 * var)):
+        tt = t(0.03)
+        n = rng.standard_normal(len(tt))
+        snap = (n - onepole_lp(n, 2500 + 2500 * var)) * np.exp(-tt * (260 if k == 0 else 200))
+        body = np.sin(2 * np.pi * (900 + 500 * var) * tt) * np.exp(-tt * 220) * 0.4
+        place(c, snap + body, at, 1.0 if k == 0 else 0.7)
+    return c
 
 
 def bell(f, d=0.9):
@@ -113,15 +120,15 @@ def music():
     # C – G – Am – F, bright and celebratory, one chord per bar (2 s)
     prog = [(36, [60, 64, 67, 72]), (43, [59, 62, 67, 71]), (45, [57, 60, 64, 69]), (41, [57, 60, 65, 69])]
     riff = [72, 76, 79, 76, 81, 79, 76, 74]
-    for bar in range(6):
+    for bar in range(5):
         t0 = bar * 4 * beat
         root, chord = prog[bar % 4]
         for m in chord:
-            place(keys, pad(hz(m), 2.2), t0, 0.05)
+            place(keys, pad(hz(m), 2.2), t0, 0.03)
         for s in range(8):
-            place(keys, pluck(hz(riff[(s + bar * 2) % 8])), t0 + s * beat / 2, 0.09)
+            place(keys, pluck(hz(riff[(s + bar * 2) % 8])), t0 + s * beat / 2, 0.05)
             place(out, bass(hz(root + (12 if s % 4 == 3 else 0)), 0.22), t0 + s * beat / 2, 0.33)
-        last = bar == 5
+        last = bar == 4
         for q in range(4):
             if last and q > 0:
                 break
@@ -153,16 +160,20 @@ def music():
 def main():
     mix = music()
     sfx = np.zeros_like(mix)
-    for a, b in SHUFFLE:
+    for a, b in SCATTER:
         k = 0
-        while a + k * STEP <= b + 1e-6:
-            place(sfx, tick(), a + k * STEP, 0.55)
+        while a + k * SCATTER_STEP < b - 1e-6:
+            place(sfx, shutter(rng.random()), a + k * SCATTER_STEP, 0.9)
             k += 1
+    for a, b in BUILD:
+        dt = (b - a) / TILES
+        for k in range(TILES):
+            place(sfx, shutter(0.3 + 0.7 * k / TILES), a + k * dt, 0.6)
     sp = np.zeros(int(1.6 * SR))
     for k, m in enumerate([84, 88, 91, 96]):
         place(sp, bell(hz(m)), k * 0.06, 0.2)
-    place(sfx, reverb(sp, 1.2, 0.4), SNAPS[-1] + 0.05)
-    mix = mix * 0.8 + sfx
+    place(sfx, reverb(sp, 1.2, 0.4), SNAPS[-1] + 0.3)
+    mix = mix * 0.45 + sfx
     mix /= max(1e-9, np.max(np.abs(mix))) / 0.89
     data = (np.stack([mix, mix], axis=1) * 32767).astype("<i2").tobytes()
     OUT.parent.mkdir(parents=True, exist_ok=True)

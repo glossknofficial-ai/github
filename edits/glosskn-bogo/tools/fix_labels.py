@@ -48,9 +48,19 @@ def main():
         xs = [p[0] for p in quad]; ys = [p[1] for p in quad]
         x0, x1, y0, y1 = int(min(xs)), int(max(xs)) + 1, int(min(ys)), int(max(ys)) + 1
         inside = mask[y0:y1, x0:x1, 0] > 0.9
-        # lighting of the generated product with its fake text smoothed away
-        tgt = hero.crop((x0, y0, x1, y1)).filter(ImageFilter.MedianFilter(9)).filter(ImageFilter.GaussianBlur(10))
-        tgt = np.asarray(tgt).astype(float)
+        # lighting of the generated product without its garbled text: fit a smooth quadratic
+        # surface to the bright (paper) pixels only, so old lettering leaves no grey halo
+        reg = np.asarray(hero.crop((x0, y0, x1, y1))).astype(float)
+        hh, ww = reg.shape[:2]
+        yy, xx = np.mgrid[0:hh, 0:ww]
+        u, v = xx / ww - 0.5, yy / hh - 0.5
+        lum = reg.mean(axis=2)
+        paper_px = inside & (lum >= np.percentile(lum[inside], 55))
+        X = np.stack([np.ones_like(u), u, v, u * u, v * v, u * v], axis=-1)
+        tgt = np.empty_like(reg)
+        for ch in range(3):
+            coef, *_ = np.linalg.lstsq(X[paper_px], reg[..., ch][paper_px], rcond=None)
+            tgt[..., ch] = X @ coef
         src_reg = warped[y0:y1, x0:x1]
         # match the paper colour: brightest-quartile means of source vs target
         def paper(a):
