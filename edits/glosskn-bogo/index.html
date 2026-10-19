@@ -20,6 +20,7 @@
       .tile { position: absolute; width: 360px; height: 384px; overflow: hidden; }
       .L { position: absolute; inset: 0; opacity: 0; background-repeat: no-repeat; }
       .L.a { background-image: url(assets/hero.png); background-size: 1080px 1933px; }
+      .tile { transform-origin: 50% 50%; }
       .L.b1, .L.b2 { background-image: url(assets/hero.png); background-size: 2160px 3866px; }
       .L.c, .L.d { display: flex; align-items: center; justify-content: center; text-align: center; background: var(--bg); }
       .L.c span { font: 500 52px/1.1 "GK Futura", sans-serif; }
@@ -27,6 +28,11 @@
       .L.d span b { display: block; font: 600 30px/1 "GK Futura", sans-serif; font-style: normal; letter-spacing: 5px; padding-left: 5px; margin-top: 14px; }
       #lines { position: absolute; inset: 0; pointer-events: none; }
       #lines i { position: absolute; background: rgba(255, 255, 255, .7); }
+      #flash { position: absolute; inset: 0; background: #fff; opacity: 0; pointer-events: none; }
+      #confetti { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+      #confetti i { position: absolute; top: -60px; display: block; border-radius: 3px; }
+      .bogo span { display: inline-block; }
+      .pre u { position: absolute; left: 50%; bottom: -14px; width: 560px; margin-left: -280px; height: 3px; background: var(--magenta); text-decoration: none; }
 
       /* final headline */
       #head { position: absolute; inset: 0; text-align: center; }
@@ -38,35 +44,36 @@
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="9" data-width="1080" data-height="1920">
-      <div id="grid" class="clip" data-start="0" data-duration="9" data-track-index="1" style="position:absolute;inset:0">
+    <div id="root" data-composition-id="main" data-start="0" data-duration="10" data-width="1080" data-height="1920">
+      <div id="grid" class="clip" data-start="0" data-duration="10" data-track-index="1" style="position:absolute;inset:0">
         <div id="stage"></div>
         <div id="lines"></div>
+        <div id="flash"></div>
+        <div id="confetti"></div>
       </div>
-      <div id="head" class="clip" data-start="6.2" data-duration="2.8" data-track-index="2">
+      <div id="head" class="clip" data-start="5.8" data-duration="4.2" data-track-index="2">
         <div class="logo" id="logo" role="img" aria-label="GLOSSKN"></div>
         <div class="sub" id="sub">THE BIRTHDAY SALE</div>
-        <div class="bogo" id="bogo">BUY 1 GET 1</div>
-        <div class="pre" id="pre">+ 5% off on prepaid orders</div>
+        <div class="bogo" id="bogo"></div>
+        <div class="pre" id="pre">+ 5% off on prepaid orders<u id="rule"></u></div>
       </div>
       <!-- soundtrack built by audio/make_audio.py -->
-      <audio id="mix" src="sfx/mix.wav" data-start="0" data-duration="9" data-track-index="10"></audio>
+      <audio id="mix" src="sfx/mix.wav" data-start="0" data-duration="10" data-track-index="10"></audio>
     </div>
 
     <script>
       window.__timelines = window.__timelines || {};
       const tl = gsap.timeline({ paused: true });
 
-      // ---- timeline constants (mirror audio/make_audio.py)
-      const SCATTER = [[0.0, 2.4], [3.35, 5.6]], SCATTER_STEP = 0.12;
-      const BUILD = [[2.4, 3.0], [5.6, 6.2]];   // tiles click into place one by one
+      // ---- timeline constants (mirror audio/make_audio.py) — the reel plays once, 10 s
+      const INTRO = [0.0, 0.6], SCATTER = [0.6, 4.8], STEP = 0.12, BUILD = [4.8, 5.6], DROP = 5.6, POP = 6.15, END = 10;
       const COLS = 3, ROWS = 5, TW = 360, TH = 384, YOFF = 6;
 
       let seed = 1019;
       const rand = () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let x = Math.imul(seed ^ (seed >>> 15), 1 | seed);
         x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
 
-      // close-up focus points in the 1080x1933 hero (products, candles, box, slice, piping)
+      // close-up focus points in the hero (1080-wide coordinates): products, candles, box, slice, piping
       const FOCUS = [[520, 985], [660, 1080], [540, 520], [275, 1450], [800, 1660], [300, 760], [430, 1060]];
       const COPY_C = ["Buy 1<br>Get 1.", "Buy 1<br>Get 1 free."];
       const COPY_D = "+5% off<b>PREPAID</b>";
@@ -87,55 +94,95 @@
           `<div class="L c"><span>${COPY_C[i % 2]}</span></div>` +
           `<div class="L d"><span>${COPY_D}</span></div>`;
         stage.appendChild(el);
-        tiles.push({ layers: [...el.children], state: -1 });
+        tiles.push({ el, r, c, layers: [...el.children], state: -1 });
       }
       const lines = document.getElementById("lines");
       for (let c = 1; c < COLS; c++) { const l = document.createElement("i"); l.style.cssText = `left:${c * TW - 1}px;top:0;width:2px;height:1920px`; lines.appendChild(l); }
       for (let r = 1; r < ROWS; r++) { const l = document.createElement("i"); l.style.cssText = `left:0;top:${r * TH - 1}px;width:1080px;height:2px`; lines.appendChild(l); }
 
+      // ---- tile state changes, each with its own transition: cut, slide or zoom
       // states: 0 photo piece in place, 1/2 close-ups, 3 "Buy 1 Get 1.", 4 "+5% off prepaid"
       const pick = () => { const v = rand(); return v < 0.3 ? 0 : v < 0.5 ? 1 : v < 0.7 ? 2 : v < 0.88 ? 3 : 4; };
-      const show = (tile, s, at) => {
+      let z = 1;
+      const show = (tile, s, at, fx) => {
         if (tile.state === s) return;
-        tile.layers.forEach((L, k) => tl.set(L, { opacity: k === s ? 1 : 0 }, at));
+        const L = tile.layers[s], d = 0.1;
+        tl.set(L, { opacity: 1, zIndex: ++z, x: 0, y: 0, scale: 1 }, at);
+        if (fx === "slide") {
+          const dir = Math.floor(rand() * 4);
+          const from = [{ x: TW }, { x: -TW }, { y: TH }, { y: -TH }][dir];
+          tl.fromTo(L, from, { x: 0, y: 0, duration: d, ease: "power2.out", immediateRender: false }, at);
+        } else if (fx === "zoom") {
+          tl.fromTo(L, { scale: 1.3 }, { scale: 1, duration: 0.16, ease: "power3.out", immediateRender: false }, at);
+        }
+        const hideAt = fx === "slide" ? at + d : at;
+        tile.layers.forEach((o, k) => { if (k !== s) tl.set(o, { opacity: 0 }, hideAt); });
         tile.state = s;
       };
+      const fxPick = () => { const v = rand(); return v < 0.55 ? "cut" : v < 0.82 ? "slide" : "zoom"; };
 
-      const scatter = ([a, b], first) => {
-        tl.set("#lines", { opacity: 1 }, a);
-        if (first) tiles.forEach((tile, i) => show(tile, [3, 1, 0, 2, 4, 0, 1, 3, 2, 0, 2, 4, 3, 0, 1][i], a));
-        for (let t = a + (first ? SCATTER_STEP : 0); t < b - 1e-6; t += SCATTER_STEP) {
-          const n = 1 + Math.floor(rand() * 3);
-          for (let k = 0; k < n; k++) {
-            const tile = tiles[Math.floor(rand() * tiles.length)];
-            let s = pick();
-            if (s === tile.state) s = (s + 1) % 5;
-            show(tile, s, +t.toFixed(3));
-          }
+      // 1) intro: tiles cascade in diagonally, already showing the collage (the hook)
+      const startStates = [3, 1, 0, 2, 4, 0, 1, 3, 2, 0, 2, 4, 3, 0, 1];
+      const diag = tiles.map((_, i) => i).sort((p, q) => (tiles[p].r + tiles[p].c) - (tiles[q].r + tiles[q].c) || p - q);
+      diag.forEach((i, k) => {
+        const at = +(INTRO[0] + k * (INTRO[1] - INTRO[0]) / tiles.length).toFixed(3);
+        show(tiles[i], startStates[i], 0, "cut");
+        tl.fromTo(tiles[i].el, { opacity: 0, scale: 0.7 }, { opacity: 1, scale: 1, duration: 0.22, ease: "back.out(2)" }, at);
+      });
+      tl.fromTo("#lines", { opacity: 0 }, { opacity: 1, duration: 0.3 }, 0.2);
+
+      // 2) fast swaps
+      for (let t = SCATTER[0]; t < SCATTER[1] - 1e-6; t += STEP) {
+        const n = 1 + Math.floor(rand() * 3);
+        for (let k = 0; k < n; k++) {
+          const tile = tiles[Math.floor(rand() * tiles.length)];
+          let s = pick();
+          if (s === tile.state) s = (s + 1) % 5;
+          show(tile, s, +t.toFixed(3), fxPick());
         }
-      };
-      const build = ([a, b]) => {
-        const order = tiles.map((_, i) => i).sort(() => rand() - 0.5);
-        const dt = (b - a) / order.length;
-        order.forEach((i, k) => show(tiles[i], 0, +(a + k * dt).toFixed(3)));
-        tiles.forEach((tile) => show(tile, 0, b));
-        tl.set("#lines", { opacity: 0 }, b);
-        tl.fromTo("#stage", { scale: 1.05 }, { scale: 1, duration: 0.35, ease: "power3.out", immediateRender: false }, b);
-      };
+      }
 
-      scatter(SCATTER[0], true);
-      build(BUILD[0]);
-      scatter(SCATTER[1], false);
-      build(BUILD[1]);
+      // 3) tiles click into place in a snake order, each with a tiny pop
+      const snake = [];
+      for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) snake.push(r * COLS + (r % 2 ? COLS - 1 - c : c));
+      snake.forEach((i, k) => {
+        const at = +(BUILD[0] + k * (BUILD[1] - BUILD[0]) / tiles.length).toFixed(3);
+        tiles[i].state = -1;
+        show(tiles[i], 0, at, "cut");
+        tl.fromTo(tiles[i].el, { scale: 1.08 }, { scale: 1, duration: 0.14, ease: "power2.out", immediateRender: false }, at);
+      });
 
-      // final reveal with the offer
-      tl.fromTo("#stage", { y: 0 }, { y: 50, duration: 2.45, ease: "sine.inOut", immediateRender: false }, 6.55);
-      tl.fromTo("#logo", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 6.3);
-      tl.fromTo("#sub", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 6.4);
-      tl.fromTo("#bogo", { opacity: 0, scale: 1.5 }, { opacity: 1, scale: 1, duration: 0.4, ease: "back.out(2.2)" }, 6.5);
-      tl.fromTo("#pre", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 6.9);
+      // 4) the full photo lands
+      tl.set("#lines", { opacity: 0 }, DROP);
+      tl.fromTo("#flash", { opacity: 0.55 }, { opacity: 0, duration: 0.35, ease: "power2.out", immediateRender: false }, DROP);
+      tl.fromTo("#stage", { scale: 1.07 }, { scale: 1, duration: 0.5, ease: "power3.out", immediateRender: false }, DROP);
+      tl.fromTo("#stage", { y: 0 }, { y: 50, duration: END - DROP - 0.5, ease: "sine.inOut", immediateRender: false }, DROP + 0.5);
 
-      tl.set({}, {}, 9);
+      // 5) the offer
+      const bogo = document.getElementById("bogo");
+      [..."BUY 1 GET 1"].forEach((ch) => { const sp = document.createElement("span"); sp.innerHTML = ch === " " ? "&nbsp;" : ch; bogo.appendChild(sp); });
+      tl.set("#bogo", { opacity: 1 }, POP);
+      tl.fromTo("#logo", { opacity: 0, y: -20 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 5.85);
+      tl.fromTo("#sub", { opacity: 0, y: -10 }, { opacity: 1, y: 0, duration: 0.3, ease: "power2.out" }, 5.95);
+      tl.fromTo("#bogo span", { opacity: 0, y: 70, rotation: 8 }, { opacity: 1, y: 0, rotation: 0, duration: 0.36, ease: "back.out(2.4)", stagger: 0.035 }, POP);
+      tl.fromTo("#bogo", { scale: 1 }, { keyframes: { scale: [1, 1.04, 1] }, duration: 0.9, ease: "sine.inOut", repeat: 2, immediateRender: false }, POP + 0.8);
+      tl.fromTo("#pre", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 6.7);
+      tl.fromTo("#rule", { scaleX: 0 }, { scaleX: 1, duration: 0.45, ease: "power2.out" }, 6.95);
+
+      // 6) birthday confetti drifting down over the final frame
+      const conf = document.getElementById("confetti");
+      const COLORS = ["#ff5fa2", "#b98cff", "#e8b84a", "#7fd6c8", "#ffffff", "#ff9ac6"];
+      for (let k = 0; k < 46; k++) {
+        const el = document.createElement("i");
+        const w = 12 + rand() * 14, h = w * (0.4 + rand() * 0.8);
+        el.style.cssText = `left:${Math.round(rand() * 1060)}px;width:${w.toFixed(1)}px;height:${h.toFixed(1)}px;background:${COLORS[k % COLORS.length]}`;
+        conf.appendChild(el);
+        const at = DROP + 0.05 + rand() * 1.4, dur = 2.6 + rand() * 1.6;
+        tl.fromTo(el, { y: 0, x: 0, rotation: rand() * 180 },
+          { y: 2050, x: (rand() - 0.5) * 220, rotation: 360 + rand() * 540, duration: dur, ease: "none", immediateRender: false }, at);
+      }
+
+      tl.set({}, {}, END);
       window.__timelines["main"] = tl;
     </script>
   </body>

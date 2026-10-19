@@ -10,7 +10,7 @@ import numpy as np
 from PIL import Image, ImageFilter
 
 ROOT = Path(__file__).resolve().parent.parent
-W = 1080
+W = 2160  # 4K-ready; label quads below are measured at 1080 wide and scaled
 
 # (source photo, source crop box, target quad in upscaled hero: tl, tr, br, bl)
 LABELS = [
@@ -33,17 +33,19 @@ def coeffs(src_quad, dst_quad):
 def main():
     hero = Image.open(ROOT / "refs" / "hero-generated.webp").convert("RGB")
     hero = hero.resize((W, round(hero.height * W / hero.width)), Image.LANCZOS)
-    hero = hero.filter(ImageFilter.UnsharpMask(radius=1.6, percent=60, threshold=2))
+    hero = hero.filter(ImageFilter.UnsharpMask(radius=2.4, percent=70, threshold=2))
     out = np.asarray(hero).astype(float)
 
+    k = W / 1080
     for name, box, quad in LABELS:
+        quad = [(x * k, y * k) for x, y in quad]
         src = Image.open(ROOT / "refs" / name).convert("RGB").crop(box)
         sw, sh = src.size
         c = coeffs([(0, 0), (sw, 0), (sw, sh), (0, sh)], quad)
         warped = np.asarray(src.transform(hero.size, Image.PERSPECTIVE, c, Image.BICUBIC,
-                                          fillcolor=(0, 0, 0)).filter(ImageFilter.GaussianBlur(0.45))).astype(float)
+                                          fillcolor=(0, 0, 0)).filter(ImageFilter.GaussianBlur(0.6))).astype(float)
         mask_img = Image.new("L", src.size, 255).transform(hero.size, Image.PERSPECTIVE, c, Image.BILINEAR, fillcolor=0)
-        mask = np.asarray(mask_img.filter(ImageFilter.MinFilter(5)).filter(ImageFilter.GaussianBlur(1.2))).astype(float)[..., None] / 255
+        mask = np.asarray(mask_img.filter(ImageFilter.MinFilter(9)).filter(ImageFilter.GaussianBlur(2.2))).astype(float)[..., None] / 255
 
         xs = [p[0] for p in quad]; ys = [p[1] for p in quad]
         x0, x1, y0, y1 = int(min(xs)), int(max(xs)) + 1, int(min(ys)), int(max(ys)) + 1
