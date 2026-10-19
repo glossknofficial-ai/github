@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="en" data-resolution="portrait">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1080, height=1920" />
+    <script src="vendor/gsap.min.js"></script>
+    <style>
+      /* Futura when installed; Jost (open-source Futura revival) is the bundled fallback. */
+      @font-face { font-family: "GK Futura"; font-weight: 400; src: local("Futura Book"), local("Futura-Book"), local("Futura PT Book"), url(fonts/jost-latin-400-normal.woff2) format("woff2"); }
+      @font-face { font-family: "GK Futura"; font-weight: 500; src: local("Futura Medium"), local("Futura-Medium"), local("Futura PT Medium"), url(fonts/jost-latin-500-normal.woff2) format("woff2"); }
+      @font-face { font-family: "GK Futura"; font-weight: 600; src: local("Futura Bold"), local("Futura-Bold"), local("Futura PT Demi"), url(fonts/jost-latin-600-normal.woff2) format("woff2"); }
+      :root { --pink: #ff3d8b; --magenta: #d9126b; --sun: #ffd23f; --sky: #7fd6ff; --lilac: #8a4dff; --ink: #181310; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #f6c9df; }
+      body { font-family: "GK Futura", sans-serif; color: var(--ink); }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+
+      #stage { position: absolute; inset: 0; transform-origin: 50% 52%; }
+      .tile { position: absolute; width: 360px; height: 384px; overflow: hidden; }
+      .L { position: absolute; inset: 0; opacity: 0; background-repeat: no-repeat; }
+      .L.a { background-image: url(assets/hero.png); background-size: 1080px 1933px; }
+      .L.b1, .L.b2 { background-image: url(assets/hero.png); background-size: 2160px 3866px; }
+      .L.c, .L.d { display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+      .L.c b { display: block; font: 600 84px/0.98 "GK Futura", sans-serif; letter-spacing: 1px; }
+      .L.c.s0 { background: #fff; color: var(--magenta); }
+      .L.c.s0 b { font: 500 52px/1.1 "GK Futura", sans-serif; letter-spacing: 0; }
+      .L.c.s1 { background: var(--pink); color: #fff; }
+      .L.c.s2 { background: var(--sun); color: var(--ink); }
+      .L.c.s3 { background: var(--lilac); color: #fff; }
+      .L.d { font: 600 40px/1.15 "GK Futura", sans-serif; letter-spacing: 6px; padding-left: 6px; }
+      .L.d small { display: block; margin-top: 10px; font: 600 120px/1 "GK Futura", sans-serif; letter-spacing: 0; padding: 0; }
+      .L.d.k0 { background: var(--sky); color: var(--ink); }
+      .L.d.k1 { background: var(--magenta); color: #fff; }
+      .L.d.k2 { background: var(--sun); color: var(--magenta); }
+      #lines { position: absolute; inset: 0; pointer-events: none; }
+      #lines i { position: absolute; background: #fff; }
+
+      /* final headline */
+      #head { position: absolute; inset: 0; text-align: center; }
+      .logo { position: absolute; left: 380px; top: 128px; width: 320px; height: 79px; background: var(--ink);
+              -webkit-mask: url(assets/glosskn-logo-white.png) center/320px 79px no-repeat; mask: url(assets/glosskn-logo-white.png) center/320px 79px no-repeat; opacity: 0; }
+      .sub { position: absolute; left: 0; right: 0; top: 222px; font: 600 34px/1 "GK Futura", sans-serif; letter-spacing: 10px; padding-left: 10px; opacity: 0; }
+      .bogo { position: absolute; left: 0; right: 0; top: 284px; font: 600 132px/1 "GK Futura", sans-serif; letter-spacing: 1px; color: var(--magenta);
+              text-shadow: 0 4px 0 #fff, 0 10px 34px rgba(255, 255, 255, .7); opacity: 0; }
+    </style>
+  </head>
+  <body>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="12" data-width="1080" data-height="1920">
+      <div id="grid" class="clip" data-start="0" data-duration="12" data-track-index="1" style="position:absolute;inset:0">
+        <div id="stage"></div>
+        <div id="lines"></div>
+      </div>
+      <div id="head" class="clip" data-start="8" data-duration="4" data-track-index="2">
+        <div class="logo" id="logo" role="img" aria-label="GLOSSKN"></div>
+        <div class="sub" id="sub">THE BIRTHDAY SALE</div>
+        <div class="bogo" id="bogo">BUY 1 GET 1</div>
+      </div>
+      <!-- soundtrack built by audio/make_audio.py -->
+      <audio id="mix" src="sfx/mix.wav" data-start="0" data-duration="12" data-track-index="10"></audio>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const tl = gsap.timeline({ paused: true });
+
+      // ---- timeline constants (mirror audio/make_audio.py)
+      const STEP = 0.25, SHUFFLE = [[0.0, 3.75], [4.75, 7.75]], SNAPS = [4.0, 8.0];
+      const COLS = 3, ROWS = 5, TW = 360, TH = 384, YOFF = 6;
+
+      // deterministic randomness so every render is identical
+      let seed = 20261019;
+      const rand = () => { seed |= 0; seed = (seed + 0x6d2b79f5) | 0; let x = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+        x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x; return ((x ^ (x >>> 14)) >>> 0) / 4294967296; };
+
+      // close-up focus points in the 1080x1933 hero (products, candles, box, slice, piping)
+      const FOCUS = [[520, 985], [660, 1080], [540, 520], [275, 1450], [800, 1660], [300, 760], [430, 1060]];
+
+      const stage = document.getElementById("stage");
+      const tiles = [];
+      for (let r = 0; r < ROWS; r++) for (let c = 0; c < COLS; c++) {
+        const i = tiles.length, x = c * TW, y = r * TH;
+        const el = document.createElement("div");
+        el.className = "tile";
+        el.style.left = x + "px"; el.style.top = y + "px";
+        const f1 = FOCUS[i % FOCUS.length], f2 = FOCUS[(i * 3 + 2) % FOCUS.length];
+        const pos = (f) => `${-(f[0] * 2 - TW / 2)}px ${-(f[1] * 2 - TH / 2)}px`;
+        el.innerHTML =
+          `<div class="L a" style="background-position:${-x}px ${-(y + YOFF)}px"></div>` +
+          `<div class="L b1" style="background-position:${pos(f1)}"></div>` +
+          `<div class="L b2" style="background-position:${pos(f2)}"></div>` +
+          `<div class="L c s${i % 4}"><b>${i % 4 === 0 ? "Buy 1<br>Get 1." : "BUY 1<br>GET 1"}</b></div>` +
+          `<div class="L d k${i % 3}">GLOSSKN<br>TURNS<small>1</small></div>`;
+        stage.appendChild(el);
+        tiles.push({ el, layers: [...el.children], state: -1 });
+      }
+      const lines = document.getElementById("lines");
+      for (let c = 1; c < COLS; c++) { const l = document.createElement("i"); l.style.cssText = `left:${c * TW - 3}px;top:0;width:6px;height:1920px`; lines.appendChild(l); }
+      for (let r = 1; r < ROWS; r++) { const l = document.createElement("i"); l.style.cssText = `left:0;top:${r * TH - 3}px;width:1080px;height:6px`; lines.appendChild(l); }
+
+      // states: 0 photo piece, 1/2 close-ups, 3 BUY 1 GET 1, 4 GLOSSKN TURNS 1
+      const pick = () => { const v = rand(); return v < 0.36 ? 0 : v < 0.53 ? 1 : v < 0.7 ? 2 : v < 0.92 ? 3 : 4; };
+      const show = (tile, s, at, pop) => {
+        if (tile.state === s) return;
+        tile.layers.forEach((L, k) => tl.set(L, { opacity: k === s ? 1 : 0 }, at));
+        if (pop) tl.fromTo(tile.layers[s], { scale: 1.12 }, { scale: 1, duration: 0.18, ease: "power2.out", immediateRender: false }, at);
+        tile.state = s;
+      };
+
+      // frame one: a busy grid already full of offers (the hook)
+      tiles.forEach((tile, i) => show(tile, i % 3 === 1 ? 3 : pick(), 0, false));
+      tl.set("#lines", { opacity: 1 }, 0);
+
+      // events in time order: shuffle, snap, shuffle, final snap
+      const shuffle = ([a, b]) => {
+        for (let t = a; t <= b + 1e-6; t += STEP) {
+          const n = 4 + Math.floor(rand() * 4);
+          for (let k = 0; k < n; k++) {
+            const tile = tiles[Math.floor(rand() * tiles.length)];
+            let s = pick();
+            if (s === tile.state) s = (s + 1) % 5;
+            show(tile, s, +t.toFixed(3), true);
+          }
+        }
+      };
+      const snap = (t) => {
+        tiles.forEach((tile) => show(tile, 0, t, false));
+        tl.set("#lines", { opacity: 0 }, t);
+      };
+      shuffle([SHUFFLE[0][0] + STEP, SHUFFLE[0][1]]);
+      snap(SNAPS[0]);
+      tl.set("#lines", { opacity: 1 }, SHUFFLE[1][0]);
+      shuffle(SHUFFLE[1]);
+      snap(SNAPS[1]);
+      tl.fromTo("#stage", { scale: 1.06 }, { scale: 1, duration: 0.6, ease: "power3.out", immediateRender: false }, SNAPS[0]);
+
+      // final reveal
+      tl.fromTo("#stage", { scale: 1.08 }, { scale: 1, duration: 0.7, ease: "power3.out", immediateRender: false }, SNAPS[1]);
+      tl.fromTo("#stage", { y: 0 }, { y: 40, duration: 3.3, ease: "sine.inOut", immediateRender: false }, SNAPS[1] + 0.7);
+      tl.fromTo("#logo", { opacity: 0, y: -24 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.2);
+      tl.fromTo("#sub", { opacity: 0, y: -12 }, { opacity: 1, y: 0, duration: 0.45, ease: "power2.out" }, 8.35);
+      tl.fromTo("#bogo", { opacity: 0, scale: 1.6 }, { opacity: 1, scale: 1, duration: 0.5, ease: "back.out(2.2)" }, 8.5);
+      tl.fromTo("#bogo", { y: 0 }, { keyframes: { y: [0, -8, 0] }, duration: 1, ease: "sine.inOut", repeat: 2, immediateRender: false }, 9.0);
+
+      tl.set({}, {}, 12);
+      window.__timelines["main"] = tl;
+    </script>
+  </body>
+</html>
