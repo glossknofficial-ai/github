@@ -1,3 +1,5 @@
 renders/
 node_modules/
 !final/*.mp4
+final/work-*/
+final/.*.hf-transaction-*/
