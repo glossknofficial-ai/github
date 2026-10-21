@@ -27,6 +27,9 @@
       /* ---------- scene 1: lock-screen DMs */
       #lock { position: absolute; inset: 0; }
       #screen { position: absolute; inset: 0; transform-origin: 50% 40%; }
+      .wall { position: absolute; inset: 0; background: url(assets/lockscreen-wallpaper.jpg) center/cover no-repeat; }
+      /* white lock-screen clock over the photo wallpaper, like iOS */
+      #lock .date, #lock .time { color: #fff; text-shadow: 0 2px 18px rgba(0, 0, 0, .45), 0 1px 3px rgba(0, 0, 0, .35); }
       .pov { position: absolute; left: 0; right: 0; top: 200px; text-align: center; }
       .pov span { display: inline-block; padding: 18px 40px 20px; border-radius: 60px; background: var(--ink); color: #fff;
                   font: 600 50px/1 "GK Futura", sans-serif; letter-spacing: 1px; }
@@ -85,6 +88,7 @@
       <!-- scene 1: DMs flooding a lock screen -->
       <div id="lock" class="clip" data-start="0" data-duration="3.45" data-track-index="2">
         <div id="screen">
+          <div class="wall"></div>
           <div class="pov" id="pov"><span>POV: our DMs this week</span></div>
           <div class="date" id="date">Monday, 19 October</div>
           <div class="time" id="clock">9:41</div>
@@ -162,7 +166,7 @@
 
       // ---- scene 1: hook lands on frame one, then DMs pile in
       tl.fromTo("#pov", { opacity: 0, scale: 1.3 }, { opacity: 1, scale: 1, duration: 0.3, ease: "back.out(2)" }, 0);
-      tl.fromTo("#date", { opacity: 0 }, { opacity: 0.8, duration: 0.3 }, 0);
+      tl.fromTo("#date", { opacity: 0 }, { opacity: 0.95, duration: 0.3 }, 0);
       tl.fromTo("#clock", { opacity: 0, y: 14 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 0);
       NOTIFS.forEach((n, i) => {
         const t = n[2];
