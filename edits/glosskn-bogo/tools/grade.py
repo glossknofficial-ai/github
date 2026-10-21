@@ -1,7 +1,7 @@
-"""Colour-grade assets/hero.png into assets/hero-graded.png: warmer, punchier, less purple.
+"""Colour-grade assets/hero.png into assets/hero-graded.png: richer purples and pinks.
 
-Lilac/purple hues are swung toward candy pink, overall saturation and contrast go up,
-and whites stay clean so the white packaging and labels still read as white.
+Hues stay as generated (purple stays purple); pinks are nudged a touch warmer, saturation
+and contrast go up, and whites stay clean so the white packaging still reads as white.
 """
 from pathlib import Path
 
@@ -41,17 +41,16 @@ def main():
     a = np.asarray(Image.open(ROOT / "assets" / "hero.png").convert("RGB")).astype(float) / 255
     h, s, v = rgb_to_hsv(a)
     deg = h * 360
-    # swing lilac/purple (255°–320°) toward candy pink (~338°), strongest at ~290°
-    w = np.clip(1 - np.abs(deg - 290) / 45, 0, 1)
-    deg = deg + w * (338 - deg) * 0.85
+    # keep purple; only nudge the pink band (320°–350°) slightly warmer for contrast with it
+    w = np.clip(1 - np.abs(deg - 335) / 15, 0, 1)
+    deg = deg + w * 6
     h = (deg % 360) / 360
     # saturation up, but leave near-white packaging alone
-    boost = 1.0 + 1.0 * np.clip((s - 0.06) / 0.25, 0, 1)
+    boost = 1.0 + 0.7 * np.clip((s - 0.06) / 0.25, 0, 1)
     s = np.clip(s * boost, 0, 1)
     out = hsv_to_rgb(h, s, v)
     # warm white balance + gentle S-curve contrast
-    out[..., 0] *= 1.03
-    out[..., 2] *= 0.96
+    out[..., 0] *= 1.01
     out = np.clip(out, 0, 1)
     out = 0.5 + (out - 0.5) * 1.12
     out = np.clip(out, 0, 1) ** 0.97

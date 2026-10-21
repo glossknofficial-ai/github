@@ -10,7 +10,7 @@
       @font-face { font-family: "GK Futura"; font-weight: 600; src: local("Futura Bold"), local("Futura-Bold"), local("Futura PT Demi"), url(fonts/jost-latin-600-normal.woff2) format("woff2"); }
       @font-face { font-family: "GK Times"; font-style: normal; font-weight: 400; src: local("Times New Roman"), local("TimesNewRomanPSMT"), url(fonts/tinos-latin-400-normal.woff2) format("woff2"); }
       @font-face { font-family: "GK Times"; font-style: italic; font-weight: 400; src: local("Times New Roman Italic"), local("TimesNewRomanPS-ItalicMT"), url(fonts/tinos-latin-400-italic.woff2) format("woff2"); }
-      :root { --bg: #f7b8d2; --ink: #181310; --magenta: #c2105f; --hot: #ff2d7f; }
+      :root { --bg: #e9c3dc; --ink: #181310; --magenta: #b8145f; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
       html, body { width: 1080px; height: 1920px; overflow: hidden; background: var(--bg); }
       body { font-family: "GK Futura", sans-serif; color: var(--ink); }
@@ -23,12 +23,11 @@
       .tile { transform-origin: 50% 50%; }
       .L.b1, .L.b2 { background-image: url(assets/hero-graded.png); background-size: 2160px 3866px; }
       .L.c, .L.d { display: flex; align-items: center; justify-content: center; text-align: center; }
-      .L.c { background: var(--hot); color: #fff; }
-      .L.c.w { background: #fff; color: var(--hot); }
-      .L.d { background: var(--magenta); color: #fff; }
-      .L.d.w { background: #fff; color: var(--magenta); }
-      .L.c span { font: 600 62px/1.05 "GK Futura", sans-serif; }
-      .L.d span { font: italic 400 66px/1.05 "GK Times", serif; }
+      /* purple + pink shades for the offer tiles */
+      .p0 { background: #ff4f9a; color: #fff; } .p1 { background: #9b4dca; color: #fff; } .p2 { background: #c2185b; color: #fff; }
+      .p3 { background: #d7b6e2; color: var(--ink); } .p4 { background: #6a2c91; color: #fff; } .p5 { background: #fff; color: #b8145f; }
+      .L.c span { font: 500 52px/1.1 "GK Futura", sans-serif; }
+      .L.d span { font: italic 400 56px/1.05 "GK Times", serif; }
       .L.d span b { display: block; font: 600 30px/1 "GK Futura", sans-serif; font-style: normal; letter-spacing: 5px; padding-left: 5px; margin-top: 14px; }
       #lines { position: absolute; inset: 0; pointer-events: none; }
       #lines i { position: absolute; background: rgba(255, 255, 255, .7); }
@@ -37,19 +36,18 @@
       #confetti { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
       #confetti i { position: absolute; top: -60px; display: block; border-radius: 3px; }
       .bogo span { display: inline-block; }
-      #band { position: absolute; left: 70px; top: 228px; width: 940px; height: 150px; border-radius: 75px; background: var(--hot);
-              box-shadow: 0 16px 40px rgba(194, 16, 95, .35); opacity: 0; }
-      .pre span { display: inline-block; padding: 16px 40px 18px; border-radius: 50px; background: #fff; color: var(--magenta); box-shadow: 0 10px 30px rgba(194, 16, 95, .2); }
-      .tnc { position: absolute; left: 0; right: 0; top: 1810px; text-align: center; opacity: 0; }
-      .tnc span { display: inline-block; padding: 10px 26px; border-radius: 30px; background: rgba(255, 255, 255, .85); font: 500 28px/1 "GK Futura", sans-serif; letter-spacing: 3px; color: var(--ink); }
+      .tnc { position: absolute; left: 0; right: 0; top: 1830px; text-align: center; font: 500 26px/1 "GK Futura", sans-serif; letter-spacing: 4px; padding-left: 4px; opacity: 0;
+             text-shadow: 0 0 12px rgba(255, 255, 255, .9), 0 0 3px rgba(255, 255, 255, .9); }
+      .spark { position: absolute; width: 56px; height: 56px; margin: -28px 0 0 -28px; opacity: 0; }
+      .tile .L { backface-visibility: hidden; }
 
       /* final headline */
       #head { position: absolute; inset: 0; text-align: center; }
       .logo { position: absolute; left: 400px; top: 104px; width: 280px; height: 69px; background: var(--ink);
               -webkit-mask: url(assets/glosskn-logo-white.png) center/280px 69px no-repeat; mask: url(assets/glosskn-logo-white.png) center/280px 69px no-repeat; opacity: 0; }
       .sub { position: absolute; left: 0; right: 0; top: 196px; font: 600 28px/1 "GK Futura", sans-serif; letter-spacing: 10px; padding-left: 10px; opacity: 0; }
-      .bogo { position: absolute; left: 0; right: 0; top: 245px; font: 600 116px/1 "GK Futura", sans-serif; letter-spacing: 2px; color: #fff; opacity: 0; }
-      .pre { position: absolute; left: 0; right: 0; top: 400px; font: italic 400 50px/1 "GK Times", serif; opacity: 0; }
+      .bogo { position: absolute; left: 0; right: 0; top: 240px; font: 600 116px/1 "GK Futura", sans-serif; letter-spacing: 2px; color: var(--magenta); opacity: 0; }
+      .pre { position: absolute; left: 0; right: 0; top: 372px; font: italic 400 52px/1 "GK Times", serif; opacity: 0; }
     </style>
   </head>
   <body>
@@ -63,10 +61,9 @@
       <div id="head" class="clip" data-start="5.8" data-duration="4.2" data-track-index="2">
         <div class="logo" id="logo" role="img" aria-label="GLOSSKN"></div>
         <div class="sub" id="sub">THE BIRTHDAY SALE</div>
-        <div id="band"></div>
         <div class="bogo" id="bogo"></div>
-        <div class="pre" id="pre"><span>+ 5% off on prepaid orders</span></div>
-        <div class="tnc" id="tnc"><span>*T&amp;C APPLY</span></div>
+        <div class="pre" id="pre">+ 5% off on prepaid orders</div>
+        <div class="tnc" id="tnc">*T&amp;C APPLY</div>
       </div>
       <!-- soundtrack built by audio/make_audio.py -->
       <audio id="mix" src="sfx/mix.wav" data-start="0" data-duration="10" data-track-index="10"></audio>
@@ -104,8 +101,8 @@
           `<div class="L a" style="background-position:${-x}px ${-(y + YOFF)}px"></div>` +
           `<div class="L b1" style="background-position:${pos(f1)}"></div>` +
           `<div class="L b2" style="background-position:${pos(f2)}"></div>` +
-          `<div class="L c${i % 3 === 1 ? " w" : ""}"><span>${COPY_C[i % 2]}</span></div>` +
-          `<div class="L d${i % 3 === 2 ? " w" : ""}"><span>${COPY_D}</span></div>`;
+          `<div class="L c p${i % 6}"><span>${COPY_C[i % 2]}</span></div>` +
+          `<div class="L d p${(i + 3) % 6}"><span>${COPY_D}</span></div>`;
         stage.appendChild(el);
         tiles.push({ el, r, c, layers: [...el.children], state: -1 });
       }
@@ -126,14 +123,16 @@
           const dir = Math.floor(rand() * 4);
           const from = [{ x: TW }, { x: -TW }, { y: TH }, { y: -TH }][dir];
           tl.fromTo(L, from, { x: 0, y: 0, duration: d, ease: "power2.out", immediateRender: false }, at);
+        } else if (fx === "flip") {
+          tl.fromTo(L, { rotationY: -90, transformPerspective: 900 }, { rotationY: 0, transformPerspective: 900, duration: 0.14, ease: "power2.out", immediateRender: false }, at);
         } else if (fx === "zoom") {
           tl.fromTo(L, { scale: 1.3 }, { scale: 1, duration: 0.16, ease: "power3.out", immediateRender: false }, at);
         }
-        const hideAt = fx === "slide" ? at + d : at;
+        const hideAt = fx === "slide" || fx === "flip" ? at + 0.14 : at;
         tile.layers.forEach((o, k) => { if (k !== s) tl.set(o, { opacity: 0 }, hideAt); });
         tile.state = s;
       };
-      const fxPick = () => { const v = rand(); return v < 0.55 ? "cut" : v < 0.82 ? "slide" : "zoom"; };
+      const fxPick = () => { const v = rand(); return v < 0.38 ? "cut" : v < 0.62 ? "slide" : v < 0.84 ? "flip" : "zoom"; };
 
       // 1) intro: tiles cascade in diagonally, already showing the collage (the hook)
       const startStates = [3, 1, 0, 2, 4, 0, 1, 3, 2, 0, 2, 4, 3, 0, 1];
@@ -182,12 +181,11 @@
       tl.fromTo("#bogo span", { opacity: 0, y: 70, rotation: 8 }, { opacity: 1, y: 0, rotation: 0, duration: 0.36, ease: "back.out(2.4)", stagger: 0.035 }, POP);
       tl.fromTo("#bogo", { scale: 1 }, { keyframes: { scale: [1, 1.04, 1] }, duration: 0.9, ease: "sine.inOut", repeat: 2, immediateRender: false }, POP + 0.8);
       tl.fromTo("#pre", { opacity: 0, y: 16 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 6.7);
-      tl.fromTo("#band", { opacity: 0, scaleX: 0.2 }, { opacity: 1, scaleX: 1, duration: 0.35, ease: "back.out(1.8)" }, POP - 0.1);
       tl.fromTo("#tnc", { opacity: 0, y: 12 }, { opacity: 1, y: 0, duration: 0.35, ease: "power2.out" }, 7.0);
 
       // 6) birthday confetti drifting down over the final frame
       const conf = document.getElementById("confetti");
-      const COLORS = ["#ff5fa2", "#b98cff", "#e8b84a", "#7fd6c8", "#ffffff", "#ff9ac6"];
+      const COLORS = ["#ff5fa2", "#b98cff", "#9b4dca", "#ffffff", "#ff9ac6", "#e8b84a", "#6a2c91"];
       for (let k = 0; k < 46; k++) {
         const el = document.createElement("i");
         const w = 12 + rand() * 14, h = w * (0.4 + rand() * 0.8);
@@ -197,6 +195,39 @@
         tl.fromTo(el, { y: 0, x: 0, rotation: rand() * 180 },
           { y: 2050, x: (rand() - 0.5) * 220, rotation: 360 + rand() * 540, duration: dur, ease: "none", immediateRender: false }, at);
       }
+
+      // grid bounces on every beat while the tiles swap (120 BPM)
+      for (let t = SCATTER[0]; t < BUILD[1] - 0.01; t += 0.5) {
+        tl.fromTo("#stage", { scale: 1 }, { keyframes: { scale: [1, 1.018, 1] }, duration: 0.24, ease: "none", immediateRender: false }, +t.toFixed(3));
+      }
+
+      // opening confetti burst over the collage
+      for (let k = 0; k < 26; k++) {
+        const el = document.createElement("i");
+        const w = 12 + rand() * 12, h = w * (0.4 + rand() * 0.8);
+        el.style.cssText = `left:${Math.round(rand() * 1060)}px;width:${w.toFixed(1)}px;height:${h.toFixed(1)}px;background:${COLORS[k % COLORS.length]}`;
+        conf.appendChild(el);
+        const at = rand() * 0.5, dur = 2.0 + rand() * 1.2;
+        tl.fromTo(el, { y: 0, x: 0, rotation: rand() * 180 },
+          { y: 2050, x: (rand() - 0.5) * 240, rotation: 360 + rand() * 540, duration: dur, ease: "power1.in", immediateRender: false }, at);
+      }
+
+      // twinkling sparkles around the offer
+      const head = document.getElementById("head");
+      const SPOTS = [[120, 270], [960, 250], [70, 420], [1010, 410], [250, 180], [830, 175], [540, 470], [180, 520]];
+      SPOTS.forEach(([x, y], k) => {
+        const sp = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+        sp.setAttribute("viewBox", "0 0 100 100");
+        sp.setAttribute("class", "spark");
+        sp.style.left = x + "px"; sp.style.top = y + "px";
+        sp.innerHTML = `<path d="M50 0 C54 36 64 46 100 50 C64 54 54 64 50 100 C46 64 36 54 0 50 C36 46 46 36 50 0Z" fill="${["#ffffff", "#ffd9ec", "#e6c8ff"][k % 3]}"/>`;
+        head.appendChild(sp);
+        for (let rep = 0; rep < 3; rep++) {
+          const at = POP + 0.2 + k * 0.13 + rep * 1.15;
+          if (at > END - 0.4) break;
+          tl.fromTo(sp, { opacity: 0, scale: 0, rotation: -45 }, { keyframes: { opacity: [0, 1, 0], scale: [0, 1.1, 0], rotation: [-45, 0, 45] }, duration: 0.7, ease: "none", immediateRender: false }, at);
+        }
+      });
 
       tl.set({}, {}, END);
       window.__timelines["main"] = tl;
