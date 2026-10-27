@@ -1,0 +1,7 @@
+renders/
+.hyperframes/
+snapshots/
+media/*.mp4
+media/*.wav
+media/*.jpg
+render.log
