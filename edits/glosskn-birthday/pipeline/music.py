@@ -4,8 +4,8 @@ import numpy as np
 
 HERE = os.path.dirname(os.path.abspath(__file__)); PROJECT = os.path.dirname(HERE)
 SR = 48000
-tlj = json.load(open(os.path.join(PROJECT, "timeline.json")))
-DUR = tlj["duration"]; END_AT = tlj["lines"][-1]["a"]
+cj = json.load(open(os.path.join(PROJECT, "media", "cues.json")))
+DUR = cj["duration"]; END_AT = cj["end_at"]
 rng = np.random.default_rng(3)
 N = int(DUR * SR); mix = np.zeros((N, 2))
 mtof = lambda m: 440 * 2 ** ((m - 69) / 12)

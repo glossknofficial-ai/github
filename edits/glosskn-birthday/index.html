@@ -5,325 +5,329 @@
     <meta name="viewport" content="width=1080, height=1920" />
     <script src="vendor/gsap.min.js"></script>
     <style>
-      @font-face { font-family: "Playfair Display"; font-weight: 500; src: url(fonts/playfair-display-latin-500-normal.woff2) format("woff2"); }
       @font-face { font-family: "Playfair Display"; font-weight: 600; src: url(fonts/playfair-display-latin-600-normal.woff2) format("woff2"); }
       @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 600; src: url(fonts/playfair-display-latin-600-italic.woff2) format("woff2"); }
       @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 700; src: url(fonts/playfair-display-latin-700-italic.woff2) format("woff2"); }
       @font-face { font-family: "Inter"; font-weight: 600; src: url(fonts/inter-latin-600-normal.woff2) format("woff2"); }
-      :root { --purple: #d7b6e2; --deep: #6e4d80; }
+      :root { --purple: #d7b6e2; --plum: #4a2a5a; }
       * { margin: 0; padding: 0; box-sizing: border-box; }
-      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #1b1420; }
-      #root { position: relative; width: 100%; height: 100%; overflow: hidden; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ffffff; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #ffffff; }
 
-      /* founder-footage placeholder: replaced by her talking-head clip later */
-      .phc { position: absolute; inset: 0; }
-      .ph { position: absolute; inset: 0; background: radial-gradient(120% 80% at 50% 35%, #4a3a55 0%, #2a2031 60%, #1b1420 100%); }
-      .ph-box { position: absolute; left: 90px; right: 90px; top: 260px; bottom: 520px; border: 3px dashed rgba(215, 182, 226, .35);
-                border-radius: 30px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; }
-      .ph-k { font: 600 34px/1 "Inter", sans-serif; letter-spacing: 8px; color: rgba(215, 182, 226, .55); }
-      .ph-n { font: 600 26px/1 "Inter", sans-serif; letter-spacing: 3px; color: rgba(255, 255, 255, .3); }
+      /* founder footage */
+      #spkw { position: absolute; inset: 0; }
+      #spk { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-      /* subtitles: small white serif, one purple word (reference style) */
+      /* B-roll layouts */
+      .ev { position: absolute; inset: 0; }
+      .ev.full video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .ev.split { bottom: auto; height: 960px; overflow: hidden; background: #fff; border-bottom: 10px solid #fff;
+                  box-shadow: 0 10px 30px rgba(40, 20, 50, .18); }
+      .ev.split video { width: 100%; height: 100%; object-fit: cover; }
+
+      /* polaroid element */
+      .pol { position: absolute; width: 400px; background: #fbf9f6; padding: 18px 18px 70px; border-radius: 4px;
+             box-shadow: 0 18px 44px rgba(20, 10, 26, .35); }
+      .pol-img { width: 100%; aspect-ratio: 4 / 5; background-size: cover; background-position: center; }
+      .pol-cap { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; color: var(--plum);
+                 font: italic 600 34px/1 "Playfair Display", serif; }
+
+      /* GLOSSKN logo above her head (like the KAZOOM logo in the reference) */
+      .logo { position: absolute; left: 200px; width: 680px; top: 150px; filter: drop-shadow(0 4px 14px rgba(255, 255, 255, .7)); }
+
+      /* subtitles: small serif like the reference, one purple word */
       .subc { position: absolute; inset: 0; z-index: 20; }
-      .sub { position: absolute; left: 70px; right: 70px; top: 1330px; text-align: center; color: #fff;
-             font: 600 64px/1.15 "Playfair Display", serif; letter-spacing: -.5px;
-             text-shadow: 0 2px 6px rgba(20, 10, 26, .7), 0 6px 24px rgba(20, 10, 26, .55); }
+      .sub { position: absolute; left: 60px; right: 60px; top: 1500px; text-align: center; color: #fff;
+             font: 600 58px/1.15 "Playfair Display", serif; letter-spacing: -.3px;
+             text-shadow: 0 2px 4px rgba(20, 10, 26, .75), 0 4px 18px rgba(20, 10, 26, .5); }
       .sub .hl { color: var(--purple); font-style: italic; }
+      .sub.dark { color: var(--plum); text-shadow: none; }
+      .sub.dark .hl { color: #9a6fb0; }
 
-      /* polaroids */
-      .polc { position: absolute; inset: 0; }
-      .pol { position: absolute; background: #fbf9f6; padding: 24px 24px 90px; border-radius: 6px;
-             box-shadow: 0 24px 60px rgba(10, 5, 15, .55); }
-      .pol-img { width: 100%; aspect-ratio: 4 / 5; background-size: cover; background-position: center; border-radius: 2px; }
-      .pol-cap { position: absolute; left: 0; right: 0; bottom: 22px; text-align: center; color: #4a3a55;
-                 font: italic 600 40px/1 "Playfair Display", serif; }
-
-      /* b-roll */
-      .brw { position: absolute; inset: 0; }
-      .brw.full video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-      .panel { position: absolute; left: 50px; right: 50px; top: 520px; height: 551px; border-radius: 28px; overflow: hidden;
-               box-shadow: 0 30px 80px rgba(10, 5, 15, .6); border: 6px solid rgba(255, 255, 255, .9); }
-      .panel video { width: 100%; height: 100%; object-fit: cover; }
-
-      /* GLOSSKN logo moment (sits behind her once the footage + matte are in) */
-      .logoc { position: absolute; inset: 0; }
-      .logo-big { position: absolute; left: 90px; width: 900px; top: 300px; filter: drop-shadow(0 8px 30px rgba(20, 10, 26, .6)); }
-
-      /* "why" stack */
-      .whys { position: absolute; left: 80px; right: 80px; top: 640px; display: flex; flex-direction: column; gap: 30px; }
-      .why { color: #fff; font: italic 700 92px/1.05 "Playfair Display", serif; text-shadow: 0 6px 30px rgba(20, 10, 26, .6); }
-      .why:nth-child(2) { color: var(--purple); padding-left: 60px; }
-      .why:nth-child(3) { padding-left: 120px; }
-
-      /* end card */
+      /* end card (white) */
       #end { position: absolute; inset: 0; z-index: 30; }
-      .end { position: absolute; inset: 0; background: radial-gradient(110% 80% at 50% 40%, #e6cdef 0%, var(--purple) 40%, var(--deep) 100%);
-             display: flex; flex-direction: column; align-items: center; justify-content: center; }
-      .end-glow { position: absolute; width: 900px; height: 900px; border-radius: 50%; background: rgba(255, 255, 255, .25); filter: blur(120px); top: 420px; }
-      .end-1 { position: relative; color: #fff; font: italic 600 86px/1 "Playfair Display", serif; }
-      .end-n { position: relative; color: #fff; font: italic 700 520px/1 "Playfair Display", serif; margin: 10px 0 -10px; text-shadow: 0 20px 70px rgba(80, 40, 100, .45); }
-      .end-s { position: relative; color: #fff; font: 600 40px/1 "Inter", sans-serif; letter-spacing: 10px; text-transform: uppercase; }
-      .end-logo { position: relative; width: 520px; margin-top: 90px; }
+      .end { position: absolute; inset: 0; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .end-k { color: var(--plum); font: italic 600 70px/1 "Playfair Display", serif; }
+      .end-n { color: var(--purple); font: italic 700 480px/1 "Playfair Display", serif; margin: 0 0 -10px; }
+      .end-s { color: var(--plum); font: 600 30px/1 "Inter", sans-serif; letter-spacing: 8px; text-transform: uppercase; }
+      .end-logo { width: 460px; margin-top: 80px; }
 
     </style>
   </head>
   <body>
-    <div id="root" data-composition-id="main" data-start="0" data-duration="137.115" data-width="1080" data-height="1920">
-      <audio id="music" src="media/music.wav" data-start="0" data-duration="137.115" data-track-index="1"></audio>
-      <div id="ph0" class="clip phc" style="" data-start="0.000" data-duration="10.046" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 1</div></div></div></div>
-      <div id="ph1" class="clip phc" style="" data-start="10.046" data-duration="4.897" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 2</div></div></div></div>
-      <div id="ph2" class="clip phc" style="" data-start="14.943" data-duration="5.348" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 3</div></div></div></div>
-      <div id="ph3" class="clip phc" style="" data-start="20.291" data-duration="4.898" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 4</div></div></div></div>
-      <div id="ph4" class="clip phc" style="" data-start="25.189" data-duration="7.941" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 5</div></div></div></div>
-      <div id="ph5" class="clip phc" style="" data-start="33.130" data-duration="7.942" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 6</div></div></div></div>
-      <div id="ph6" class="clip phc" style="" data-start="41.072" data-duration="4.898" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 7</div></div></div></div>
-      <div id="ph7" class="clip phc" style="" data-start="45.970" data-duration="9.245" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 8</div></div></div></div>
-      <div id="ph8" class="clip phc" style="" data-start="55.215" data-duration="7.507" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 9</div></div></div></div>
-      <div id="ph9" class="clip phc" style="" data-start="62.722" data-duration="5.767" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 10</div></div></div></div>
-      <div id="ph10" class="clip phc" style="" data-start="68.489" data-duration="6.652" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 11</div></div></div></div>
-      <div id="ph11" class="clip phc" style="" data-start="75.141" data-duration="7.942" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 12</div></div></div></div>
-      <div id="ph12" class="clip phc" style="" data-start="83.083" data-duration="6.637" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 13</div></div></div></div>
-      <div id="ph13" class="clip phc" style="" data-start="89.720" data-duration="5.767" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 14</div></div></div></div>
-      <div id="ph14" class="clip phc" style="" data-start="95.487" data-duration="6.637" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 15</div></div></div></div>
-      <div id="ph15" class="clip phc" style="" data-start="102.124" data-duration="7.072" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 16</div></div></div></div>
-      <div id="ph16" class="clip phc" style="" data-start="109.196" data-duration="4.897" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 17</div></div></div></div>
-      <div id="ph17" class="clip phc" style="" data-start="114.093" data-duration="8.827" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 18</div></div></div></div>
-      <div id="ph18" class="clip phc" style="" data-start="122.920" data-duration="3.158" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 19</div></div></div></div>
-      <div id="ph19" class="clip phc" style="" data-start="126.078" data-duration="4.029" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 20</div></div></div></div>
-      <div id="ph20" class="clip phc" style="" data-start="130.107" data-duration="3.158" data-track-index="0"><div class="ph"><div class="ph-box"><div class="ph-k">FOUNDER FOOTAGE</div><div class="ph-n">line 21</div></div></div></div>
-      <div id="s0_0" class="clip subc" style="" data-start="0.600" data-duration="1.829" data-track-index="6"><div class="sub" id="s0_0-t"><span class="">Looking</span> <span class="">back</span> <span class="">at</span> <span class="hl">pictures</span></div></div>
-      <div id="s0_1" class="clip subc" style="" data-start="2.429" data-duration="1.829" data-track-index="6"><div class="sub" id="s0_1-t"><span class="">from</span> <span class="">the</span> <span class="">last</span> <span class="">year,</span></div></div>
-      <div id="s0_2" class="clip subc" style="" data-start="4.258" data-duration="1.372" data-track-index="6"><div class="sub" id="s0_2-t"><span class="">I</span> <span class="">sometimes</span> <span class="">wonder…</span></div></div>
-      <div id="s0_3" class="clip subc" style="" data-start="5.630" data-duration="1.829" data-track-index="6"><div class="sub" id="s0_3-t"><span class="">how</span> <span class="">did</span> <span class="">so</span> <span class="">much</span></div></div>
-      <div id="s0_4" class="clip subc" style="" data-start="7.460" data-duration="1.829" data-track-index="6"><div class="sub" id="s0_4-t"><span class="">happen</span> <span class="">in</span> <span class="">such</span> <span class="hl">little</span></div></div>
-      <div id="s0_5" class="clip subc" style="" data-start="9.289" data-duration="0.657" data-track-index="6"><div class="sub" id="s0_5-t"><span class="">time?</span></div></div>
-      <div id="s1_0" class="clip subc" style="" data-start="10.296" data-duration="1.304" data-track-index="6"><div class="sub" id="s1_0-t"><span class="">Somewhere</span> <span class="">along</span> <span class="">the</span></div></div>
-      <div id="s1_1" class="clip subc" style="" data-start="11.600" data-duration="0.435" data-track-index="6"><div class="sub" id="s1_1-t"><span class="">way,</span></div></div>
-      <div id="s1_2" class="clip subc" style="" data-start="12.035" data-duration="1.739" data-track-index="6"><div class="sub" id="s1_2-t"><span class="">I</span> <span class="">found</span> <span class="">myself</span> <span class="">raising</span></div></div>
-      <div id="s1_3" class="clip subc" style="" data-start="13.774" data-duration="1.069" data-track-index="6"><div class="sub" id="s1_3-t"><span class="hl">two</span> <span class="">babies.</span></div></div>
-      <div id="s2_0" class="clip subc" style="" data-start="15.193" data-duration="1.919" data-track-index="6"><div class="sub" id="s2_0-t"><span class="hl">One</span> <span class="">was</span> <span class="">my</span> <span class="">little</span></div></div>
-      <div id="s2_1" class="clip subc" style="" data-start="17.112" data-duration="0.480" data-track-index="6"><div class="sub" id="s2_1-t"><span class="hl">one…</span></div></div>
-      <div id="s2_2" class="clip subc" style="" data-start="17.592" data-duration="1.919" data-track-index="6"><div class="sub" id="s2_2-t"><span class="">and</span> <span class="">the</span> <span class="">other</span> <span class="">was</span></div></div>
-      <div id="s2_3" class="clip subc" style="" data-start="19.511" data-duration="0.680" data-track-index="6"><div class="sub" id="s2_3-t"><span class="hl">GLOSSKN.</span></div></div>
-      <div id="s3_0" class="clip subc" style="" data-start="20.541" data-duration="0.870" data-track-index="6"><div class="sub" id="s3_0-t"><span class="">And</span> <span class="">honestly,</span></div></div>
-      <div id="s3_1" class="clip subc" style="" data-start="21.411" data-duration="1.304" data-track-index="6"><div class="sub" id="s3_1-t"><span class="hl">nothing</span> <span class="">could</span> <span class="">have</span></div></div>
-      <div id="s3_2" class="clip subc" style="" data-start="22.715" data-duration="1.739" data-track-index="6"><div class="sub" id="s3_2-t"><span class="">prepared</span> <span class="">me</span> <span class="">for</span> <span class="">this</span></div></div>
-      <div id="s3_3" class="clip subc" style="" data-start="24.454" data-duration="0.635" data-track-index="6"><div class="sub" id="s3_3-t"><span class="">year.</span></div></div>
-      <div id="s4_0" class="clip subc" style="" data-start="25.439" data-duration="1.739" data-track-index="6"><div class="sub" id="s4_0-t"><span class="">There</span> <span class="">were</span> <span class="">days</span> <span class="">when</span></div></div>
-      <div id="s4_1" class="clip subc" style="" data-start="27.178" data-duration="1.739" data-track-index="6"><div class="sub" id="s4_1-t"><span class="">I</span> <span class="">felt</span> <span class="">like</span> <span class="">I</span></div></div>
-      <div id="s4_2" class="clip subc" style="" data-start="28.917" data-duration="1.304" data-track-index="6"><div class="sub" id="s4_2-t"><span class="">was</span> <span class="">doing</span> <span class="">everything,</span></div></div>
-      <div id="s4_3" class="clip subc" style="" data-start="30.221" data-duration="0.870" data-track-index="6"><div class="sub" id="s4_3-t"><span class="">and</span> <span class="">somehow,</span></div></div>
-      <div id="s4_4" class="clip subc" style="" data-start="31.091" data-duration="1.939" data-track-index="6"><div class="sub" id="s4_4-t"><span class="">still</span> <span class="">not</span> <span class="">doing</span> <span class="hl">enough.</span></div></div>
-      <div id="s5_0" class="clip subc" style="" data-start="33.380" data-duration="1.739" data-track-index="6"><div class="sub" id="s5_0-t"><span class="">Between</span> <span class="">being</span> <span class="">a</span> <span class="">mother,</span></div></div>
-      <div id="s5_1" class="clip subc" style="" data-start="35.119" data-duration="1.304" data-track-index="6"><div class="sub" id="s5_1-t"><span class="">managing</span> <span class="">everyday</span> <span class="">life,</span></div></div>
-      <div id="s5_2" class="clip subc" style="" data-start="36.424" data-duration="1.739" data-track-index="6"><div class="sub" id="s5_2-t"><span class="">and</span> <span class="">building</span> <span class="">a</span> <span class="">brand,</span></div></div>
-      <div id="s5_3" class="clip subc" style="" data-start="38.163" data-duration="1.304" data-track-index="6"><div class="sub" id="s5_3-t"><span class="">things</span> <span class="">rarely</span> <span class="">went</span></div></div>
-      <div id="s5_4" class="clip subc" style="" data-start="39.468" data-duration="1.504" data-track-index="6"><div class="sub" id="s5_4-t"><span class="">according</span> <span class="">to</span> <span class="hl">plan.</span></div></div>
-      <div id="s6_0" class="clip subc" style="" data-start="41.322" data-duration="1.739" data-track-index="6"><div class="sub" id="s6_0-t"><span class="">But</span> <span class="hl">GLOSSKN</span> <span class="">gave</span> <span class="">me</span></div></div>
-      <div id="s6_1" class="clip subc" style="" data-start="43.061" data-duration="1.304" data-track-index="6"><div class="sub" id="s6_1-t"><span class="">something</span> <span class="">that</span> <span class="">was</span></div></div>
-      <div id="s6_2" class="clip subc" style="" data-start="44.366" data-duration="1.504" data-track-index="6"><div class="sub" id="s6_2-t"><span class="">truly</span> <span class="">my</span> <span class="hl">own.</span></div></div>
-      <div id="s7_0" class="clip subc" style="" data-start="46.220" data-duration="1.739" data-track-index="6"><div class="sub" id="s7_0-t"><span class="">A</span> <span class="hl">dream</span> <span class="">to</span> <span class="">nurture,</span></div></div>
-      <div id="s7_1" class="clip subc" style="" data-start="47.959" data-duration="1.304" data-track-index="6"><div class="sub" id="s7_1-t"><span class="">ideas</span> <span class="">to</span> <span class="">explore,</span></div></div>
-      <div id="s7_2" class="clip subc" style="" data-start="49.263" data-duration="1.739" data-track-index="6"><div class="sub" id="s7_2-t"><span class="">and</span> <span class="">a</span> <span class="">part</span> <span class="">of</span></div></div>
-      <div id="s7_3" class="clip subc" style="" data-start="51.002" data-duration="1.739" data-track-index="6"><div class="sub" id="s7_3-t"><span class="">myself</span> <span class="">I</span> <span class="">didn&#x27;t</span> <span class="">want</span></div></div>
-      <div id="s7_4" class="clip subc" style="" data-start="52.741" data-duration="1.739" data-track-index="6"><div class="sub" id="s7_4-t"><span class="">to</span> <span class="">lose</span> <span class="">along</span> <span class="">the</span></div></div>
-      <div id="s7_5" class="clip subc" style="" data-start="54.480" data-duration="0.635" data-track-index="6"><div class="sub" id="s7_5-t"><span class="">way.</span></div></div>
-      <div id="s8_0" class="clip subc" style="" data-start="55.465" data-duration="1.739" data-track-index="6"><div class="sub" id="s8_0-t"><span class="">After</span> <span class="">years</span> <span class="">of</span> <span class="">working</span></div></div>
-      <div id="s8_1" class="clip subc" style="" data-start="57.204" data-duration="1.739" data-track-index="6"><div class="sub" id="s8_1-t"><span class="">in</span> <span class="">the</span> <span class="">beauty</span> <span class="">industry,</span></div></div>
-      <div id="s8_2" class="clip subc" style="" data-start="58.944" data-duration="1.304" data-track-index="6"><div class="sub" id="s8_2-t"><span class="">there</span> <span class="">were</span> <span class="">things</span></div></div>
-      <div id="s8_3" class="clip subc" style="" data-start="60.248" data-duration="1.739" data-track-index="6"><div class="sub" id="s8_3-t"><span class="">I</span> <span class="">wanted</span> <span class="">to</span> <span class="">do</span></div></div>
-      <div id="s8_4" class="clip subc" style="" data-start="61.987" data-duration="0.635" data-track-index="6"><div class="sub" id="s8_4-t"><span class="hl">differently.</span></div></div>
-      <div id="s9_0" class="clip subc" style="" data-start="62.972" data-duration="1.739" data-track-index="6"><div class="sub" id="s9_0-t"><span class="">And</span> <span class="hl">GLOSSKN</span> <span class="">was</span> <span class="">my</span></div></div>
-      <div id="s9_1" class="clip subc" style="" data-start="64.711" data-duration="1.739" data-track-index="6"><div class="sub" id="s9_1-t"><span class="">chance</span> <span class="">to</span> <span class="">turn</span> <span class="">those</span></div></div>
-      <div id="s9_2" class="clip subc" style="" data-start="66.450" data-duration="1.304" data-track-index="6"><div class="sub" id="s9_2-t"><span class="">thoughts</span> <span class="">into</span> <span class="">something</span></div></div>
-      <div id="s9_3" class="clip subc" style="" data-start="67.754" data-duration="0.635" data-track-index="6"><div class="sub" id="s9_3-t"><span class="hl">real.</span></div></div>
-      <div id="s10_0" class="clip subc" style="" data-start="68.739" data-duration="0.939" data-track-index="6"><div class="sub" id="s10_0-t"><span class="">Of</span> <span class="">course,</span></div></div>
-      <div id="s10_1" class="clip subc" style="" data-start="69.678" data-duration="1.408" data-track-index="6"><div class="sub" id="s10_1-t"><span class="">there</span> <span class="">were</span> <span class="">mistakes,</span></div></div>
-      <div id="s10_2" class="clip subc" style="" data-start="71.086" data-duration="0.469" data-track-index="6"><div class="sub" id="s10_2-t"><span class="">setbacks,</span></div></div>
-      <div id="s10_3" class="clip subc" style="" data-start="71.555" data-duration="1.408" data-track-index="6"><div class="sub" id="s10_3-t"><span class="">moments</span> <span class="">of</span> <span class="">doubt…</span></div></div>
-      <div id="s10_4" class="clip subc" style="" data-start="72.963" data-duration="2.078" data-track-index="6"><div class="sub" id="s10_4-t"><span class="">and</span> <span class="">so</span> <span class="">much</span> <span class="hl">learning.</span></div></div>
-      <div id="s11_0" class="clip subc" style="" data-start="75.391" data-duration="1.739" data-track-index="6"><div class="sub" id="s11_0-t"><span class="">But</span> <span class="hl">one</span> <span class="">thing</span> <span class="">this</span></div></div>
-      <div id="s11_1" class="clip subc" style="" data-start="77.130" data-duration="1.739" data-track-index="6"><div class="sub" id="s11_1-t"><span class="">year</span> <span class="">has</span> <span class="">taught</span> <span class="">me</span></div></div>
-      <div id="s11_2" class="clip subc" style="" data-start="78.870" data-duration="1.739" data-track-index="6"><div class="sub" id="s11_2-t"><span class="">is</span> <span class="">how</span> <span class="">important</span> <span class="">it</span></div></div>
-      <div id="s11_3" class="clip subc" style="" data-start="80.609" data-duration="1.739" data-track-index="6"><div class="sub" id="s11_3-t"><span class="">is</span> <span class="">to</span> <span class="">remember</span> <span class="">your</span></div></div>
-      <div id="s11_4" class="clip subc" style="" data-start="82.348" data-duration="0.635" data-track-index="6"><div class="sub" id="s11_4-t"><span class="hl">why.</span></div></div>
-      <div id="s13_0" class="clip subc" style="" data-start="89.970" data-duration="1.304" data-track-index="6"><div class="sub" id="s13_0-t"><span class="">Because</span> <span class="">when</span> <span class="">things</span></div></div>
-      <div id="s13_1" class="clip subc" style="" data-start="91.274" data-duration="0.870" data-track-index="6"><div class="sub" id="s13_1-t"><span class="">get</span> <span class="">difficult,</span></div></div>
-      <div id="s13_2" class="clip subc" style="" data-start="92.144" data-duration="1.739" data-track-index="6"><div class="sub" id="s13_2-t"><span class="">that</span> <span class="hl">purpose</span> <span class="">is</span> <span class="">what</span></div></div>
-      <div id="s13_3" class="clip subc" style="" data-start="93.883" data-duration="1.504" data-track-index="6"><div class="sub" id="s13_3-t"><span class="">brings</span> <span class="">you</span> <span class="">back.</span></div></div>
-      <div id="s14_0" class="clip subc" style="" data-start="95.737" data-duration="0.870" data-track-index="6"><div class="sub" id="s14_0-t"><span class="">And</span> <span class="">strangely,</span></div></div>
-      <div id="s14_1" class="clip subc" style="" data-start="96.607" data-duration="1.304" data-track-index="6"><div class="sub" id="s14_1-t"><span class="">watching</span> <span class="">my</span> <span class="hl">little</span></div></div>
-      <div id="s14_2" class="clip subc" style="" data-start="97.911" data-duration="1.304" data-track-index="6"><div class="sub" id="s14_2-t"><span class="hl">one</span> <span class="">grow</span> <span class="">reminded</span></div></div>
-      <div id="s14_3" class="clip subc" style="" data-start="99.215" data-duration="1.739" data-track-index="6"><div class="sub" id="s14_3-t"><span class="">me</span> <span class="">of</span> <span class="">something</span> <span class="">I</span></div></div>
-      <div id="s14_4" class="clip subc" style="" data-start="100.954" data-duration="1.070" data-track-index="6"><div class="sub" id="s14_4-t"><span class="">had</span> <span class="hl">forgotten.</span></div></div>
-      <div id="s15_0" class="clip subc" style="" data-start="102.374" data-duration="1.304" data-track-index="6"><div class="sub" id="s15_0-t"><span class="">Children</span> <span class="">don&#x27;t</span> <span class="">wait</span></div></div>
-      <div id="s15_1" class="clip subc" style="" data-start="103.678" data-duration="1.304" data-track-index="6"><div class="sub" id="s15_1-t"><span class="">to</span> <span class="">have</span> <span class="">everything</span></div></div>
-      <div id="s15_2" class="clip subc" style="" data-start="104.983" data-duration="0.870" data-track-index="6"><div class="sub" id="s15_2-t"><span class="">figured</span> <span class="">out.</span></div></div>
-      <div id="s15_3" class="clip subc" style="" data-start="105.852" data-duration="0.870" data-track-index="6"><div class="sub" id="s15_3-t"><span class="">They</span> <span class="">fall,</span></div></div>
-      <div id="s15_4" class="clip subc" style="" data-start="106.722" data-duration="0.870" data-track-index="6"><div class="sub" id="s15_4-t"><span class="">get</span> <span class="">up,</span></div></div>
-      <div id="s15_5" class="clip subc" style="" data-start="107.592" data-duration="1.504" data-track-index="6"><div class="sub" id="s15_5-t"><span class="">and</span> <span class="hl">try</span> <span class="">again.</span></div></div>
-      <div id="s16_0" class="clip subc" style="" data-start="109.446" data-duration="1.304" data-track-index="6"><div class="sub" id="s16_0-t"><span class="">And</span> <span class="">that&#x27;s</span> <span class="">exactly</span></div></div>
-      <div id="s16_1" class="clip subc" style="" data-start="110.750" data-duration="1.739" data-track-index="6"><div class="sub" id="s16_1-t"><span class="">what</span> <span class="">this</span> <span class="">year</span> <span class="">has</span></div></div>
-      <div id="s16_2" class="clip subc" style="" data-start="112.489" data-duration="1.504" data-track-index="6"><div class="sub" id="s16_2-t"><span class="">been</span> <span class="">for</span> <span class="">me.</span></div></div>
-      <div id="s17_0" class="clip subc" style="" data-start="114.343" data-duration="1.379" data-track-index="6"><div class="sub" id="s17_0-t"><span class="">Somewhere</span> <span class="">between</span> <span class="">raising</span></div></div>
-      <div id="s17_1" class="clip subc" style="" data-start="115.722" data-duration="1.839" data-track-index="6"><div class="sub" id="s17_1-t"><span class="">a</span> <span class="">child</span> <span class="">and</span> <span class="">building</span></div></div>
-      <div id="s17_2" class="clip subc" style="" data-start="117.562" data-duration="0.920" data-track-index="6"><div class="sub" id="s17_2-t"><span class="">a</span> <span class="hl">dream,</span></div></div>
-      <div id="s17_3" class="clip subc" style="" data-start="118.481" data-duration="1.839" data-track-index="6"><div class="sub" id="s17_3-t"><span class="">I</span> <span class="">didn&#x27;t</span> <span class="">just</span> <span class="">watch</span></div></div>
-      <div id="s17_4" class="clip subc" style="" data-start="120.321" data-duration="0.920" data-track-index="6"><div class="sub" id="s17_4-t"><span class="">them</span> <span class="">grow…</span></div></div>
-      <div id="s17_5" class="clip subc" style="" data-start="121.240" data-duration="1.580" data-track-index="6"><div class="sub" id="s17_5-t"><span class="">I</span> <span class="hl">grew</span> <span class="">too.</span></div></div>
-      <div id="s18_0" class="clip subc" style="" data-start="123.170" data-duration="1.739" data-track-index="6"><div class="sub" id="s18_0-t"><span class="">So</span> <span class="">here&#x27;s</span> <span class="">to</span> <span class="">the</span></div></div>
-      <div id="s18_1" class="clip subc" style="" data-start="124.909" data-duration="1.069" data-track-index="6"><div class="sub" id="s18_1-t"><span class="hl">little</span> <span class="">wins,</span></div></div>
-      <div id="s19_0" class="clip subc" style="" data-start="126.328" data-duration="0.870" data-track-index="6"><div class="sub" id="s19_0-t"><span class="">the</span> <span class="">lessons,</span></div></div>
-      <div id="s19_1" class="clip subc" style="" data-start="127.198" data-duration="1.740" data-track-index="6"><div class="sub" id="s19_1-t"><span class="">the</span> <span class="">people</span> <span class="">who</span> <span class="hl">believed</span></div></div>
-      <div id="s19_2" class="clip subc" style="" data-start="128.937" data-duration="1.070" data-track-index="6"><div class="sub" id="s19_2-t"><span class="">in</span> <span class="">us,</span></div></div>
-      <div id="s20_0" class="clip subc" style="" data-start="130.357" data-duration="1.304" data-track-index="6"><div class="sub" id="s20_0-t"><span class="">and</span> <span class="">everything</span> <span class="">that&#x27;s</span></div></div>
-      <div id="s20_1" class="clip subc" style="" data-start="131.661" data-duration="1.504" data-track-index="6"><div class="sub" id="s20_1-t"><span class="">still</span> <span class="">to</span> <span class="hl">come.</span></div></div>
-      <div id="p1" class="clip polc" style="" data-start="1.972" data-duration="7.974" data-track-index="4"><div class="pol" id="p1-p" style="left:70px;top:280px;width:500px"><div class="pol-img" style="background-image:url(media/photo1.jpg)"></div></div></div>
-      <div id="p2" class="clip polc" style="" data-start="3.801" data-duration="6.145" data-track-index="4"><div class="pol" id="p2-p" style="left:430px;top:360px;width:500px"><div class="pol-img" style="background-image:url(media/photo2.jpg)"></div></div></div>
-      <div id="p3" class="clip polc" style="" data-start="5.173" data-duration="4.773" data-track-index="4"><div class="pol" id="p3-p" style="left:250px;top:560px;width:500px"><div class="pol-img" style="background-image:url(media/photo3.jpg)"></div></div></div>
-      <div id="pchild" class="clip polc" style="" data-start="15.673" data-duration="2.269" data-track-index="4"><div class="pol" id="pchild-p" style="left:260px;top:300px;width:560px"><div class="pol-img" style="background-image:url(media/child.jpg)"></div><div class="pol-cap">my little one</div></div></div>
-      <div id="logo1" class="clip logoc" style="" data-start="18.072" data-duration="2.219" data-track-index="5"><img class="logo-big" id="logo1-i" src="media/logo_white.png" /></div>
-      <div class="brw full" id="b_delivery"><video id="b_delivery-v" class="clip" src="media/delivery.mp4" muted playsinline data-start="33.280" data-duration="7.792" data-track-index="2"></video></div>
-      <div class="brw full" id="b_name"><video id="b_name-v" class="clip" src="media/name.mp4" muted playsinline data-start="41.222" data-duration="4.748" data-track-index="2"></video></div>
-      <div class="brw full" id="b_package"><video id="b_package-v" class="clip" src="media/package.mp4" muted playsinline data-start="62.872" data-duration="5.617" data-track-index="2"></video></div>
-      <div id="psamples" class="clip polc" style="" data-start="69.678" data-duration="5.463" data-track-index="4"><div class="pol" id="psamples-p" style="left:250px;top:320px;width:580px"><div class="pol-img" style="background-image:url(media/samples.jpg)"></div><div class="pol-cap">the first samples</div></div></div>
-      <div id="whystack" class="clip " style="" data-start="83.333" data-duration="6.387" data-track-index="5"><div class="whys"><div class="why" id="why0">Why you started.</div><div class="why" id="why1">What you believe in.</div><div class="why" id="why2">What you want to stand for.</div></div></div>
-      <div id="pchild2" class="clip polc" style="" data-start="97.476" data-duration="4.648" data-track-index="4"><div class="pol" id="pchild2-p" style="left:270px;top:330px;width:540px"><div class="pol-img" style="background-image:url(media/child.jpg)"></div></div></div>
-      <div class="brw" id="b_shopify"><div class="panel" id="b_shopify-w"><video id="b_shopify-v" class="clip" src="media/shopify.mp4" muted playsinline data-start="123.070" data-duration="3.008" data-track-index="2"></video></div></div>
-      <div class="brw full" id="b_review"><video id="b_review-v" class="clip" src="media/review.mp4" muted playsinline data-start="126.228" data-duration="3.879" data-track-index="2"></video></div>
-      <div id="end" class="clip " style="" data-start="133.315" data-duration="3.800" data-track-index="7"><div class="end"><div class="end-glow"></div><div class="end-1" id="end-1">Happy first birthday</div><div class="end-n" id="end-n">1</div><div class="end-s" id="end-s">year of GLOSSKN</div><img class="end-logo" id="end-logo" src="media/logo_white.png" /></div></div>
+    <div id="root" data-composition-id="main" data-start="0" data-duration="97.6" data-width="1080" data-height="1920">
+      <audio id="bed" src="media/bed.wav" data-start="0" data-duration="97.6" data-track-index="1"></audio>
+      <div id="spkw"><video id="spk" class="clip" src="media/founder.mp4" playsinline data-start="0" data-duration="94.6" data-track-index="0" data-has-audio="true"></video></div>
+      <div class="ev split" id="e0"><video id="e0-v" class="clip" src="media/ev/e0.mp4" muted playsinline data-start="2.470" data-duration="1.920" data-track-index="2"></video></div>
+      <div class="ev full" id="e1"><video id="e1-v" class="clip" src="media/ev/e1.mp4" muted playsinline data-start="4.150" data-duration="1.510" data-track-index="2"></video></div>
+      <div class="clip ev" id="e2" data-start="5.710" data-duration="2.500" data-track-index="3"><img class="logo" id="e2-l" src="media/logo_dark.png" /></div>
+      <div class="ev split" id="e3"><video id="e3-v" class="clip" src="media/ev/e3.mp4" muted playsinline data-start="9.270" data-duration="5.290" data-track-index="2"></video></div>
+      <div class="ev full" id="e4"><video id="e4-v" class="clip" src="media/ev/e4.mp4" muted playsinline data-start="14.420" data-duration="2.490" data-track-index="2"></video></div>
+      <div class="ev full" id="e5"><video id="e5-v" class="clip" src="media/ev/e5.mp4" muted playsinline data-start="17.380" data-duration="3.300" data-track-index="2"></video></div>
+      <div class="ev split" id="e6"><video id="e6-v" class="clip" src="media/ev/e6.mp4" muted playsinline data-start="25.980" data-duration="2.280" data-track-index="2"></video></div>
+      <div class="ev split" id="e7"><video id="e7-v" class="clip" src="media/ev/e7.mp4" muted playsinline data-start="28.220" data-duration="1.040" data-track-index="2"></video></div>
+      <div class="ev full" id="e8"><video id="e8-v" class="clip" src="media/ev/e8.mp4" muted playsinline data-start="30.510" data-duration="3.150" data-track-index="2"></video></div>
+      <div class="clip ev" id="e9" data-start="33.840" data-duration="2.280" data-track-index="3"><div class="pol" id="e9-p" style="left:600px;top:210px"><div class="pol-img" style="background-image:url(media/child.jpg)"></div><div class="pol-cap">my little one</div></div></div>
+      <div class="ev full" id="e10"><video id="e10-v" class="clip" src="media/ev/e10.mp4" muted playsinline data-start="42.380" data-duration="4.790" data-track-index="2"></video></div>
+      <div class="ev split" id="e11"><video id="e11-v" class="clip" src="media/ev/e11.mp4" muted playsinline data-start="63.430" data-duration="1.210" data-track-index="2"></video></div>
+      <div class="ev full" id="e12"><video id="e12-v" class="clip" src="media/ev/e12.mp4" muted playsinline data-start="64.640" data-duration="1.580" data-track-index="2"></video></div>
+      <div class="ev split" id="e13"><video id="e13-v" class="clip" src="media/ev/e13.mp4" muted playsinline data-start="66.220" data-duration="1.480" data-track-index="2"></video></div>
+      <div class="ev full" id="e14"><video id="e14-v" class="clip" src="media/ev/e14.mp4" muted playsinline data-start="67.700" data-duration="2.970" data-track-index="2"></video></div>
+      <div class="ev full" id="e15"><video id="e15-v" class="clip" src="media/ev/e15.mp4" muted playsinline data-start="71.750" data-duration="3.350" data-track-index="2"></video></div>
+      <div class="clip ev" id="e16" data-start="77.890" data-duration="1.380" data-track-index="3"><div class="pol" id="e16-p" style="left:90px;top:230px"><div class="pol-img" style="background-image:url(media/child.jpg)"></div></div></div>
+      <div class="ev split" id="e17"><video id="e17-v" class="clip" src="media/ev/e17.mp4" muted playsinline data-start="79.120" data-duration="1.630" data-track-index="2"></video></div>
+      <div class="ev split" id="e18"><video id="e18-v" class="clip" src="media/ev/e18.mp4" muted playsinline data-start="84.800" data-duration="1.230" data-track-index="2"></video></div>
+      <div class="ev full" id="e19"><video id="e19-v" class="clip" src="media/ev/e19.mp4" muted playsinline data-start="86.600" data-duration="1.840" data-track-index="2"></video></div>
+      <div class="ev full" id="e20"><video id="e20-v" class="clip" src="media/ev/e20.mp4" muted playsinline data-start="88.440" data-duration="1.950" data-track-index="2"></video></div>
+      <div class="clip ev" id="e21" data-start="91.430" data-duration="3.170" data-track-index="3"><img class="logo" id="e21-l" src="media/logo_dark.png" /></div>
+      <div class="clip subc" data-start="1.640" data-duration="1.800" data-track-index="6"><div class="sub" id="c0"><span class="">I</span> <span class="">was</span> <span class="">literally</span> <span class="">raising</span></div></div>
+      <div class="clip subc" data-start="3.440" data-duration="0.710" data-track-index="6"><div class="sub" id="c1"><span class="hl">two</span> <span class="">children</span></div></div>
+      <div class="clip subc" data-start="4.150" data-duration="0.940" data-track-index="6"><div class="sub dark" id="c2"><span class="">One</span> <span class="">was</span> <span class="">the</span> <span class="hl">little</span></div></div>
+      <div class="clip subc" data-start="5.090" data-duration="0.340" data-track-index="6"><div class="sub dark" id="c3"><span class="">one</span></div></div>
+      <div class="clip subc" data-start="5.430" data-duration="0.680" data-track-index="6"><div class="sub" id="c4"><span class="">and</span> <span class="">the</span> <span class="">other</span> <span class="">one</span></div></div>
+      <div class="clip subc" data-start="6.110" data-duration="0.730" data-track-index="6"><div class="sub" id="c5"><span class="">was</span> <span class="hl">GLOSSKN</span></div></div>
+      <div class="clip subc" data-start="6.840" data-duration="0.920" data-track-index="6"><div class="sub" id="c6"><span class="">And</span> <span class="">honestly</span></div></div>
+      <div class="clip subc" data-start="7.760" data-duration="0.720" data-track-index="6"><div class="sub" id="c7"><span class="hl">nothing</span> <span class="">could</span> <span class="">have</span></div></div>
+      <div class="clip subc" data-start="8.480" data-duration="0.840" data-track-index="6"><div class="sub" id="c8"><span class="">prepared</span> <span class="">me</span> <span class="">for</span> <span class="">it</span></div></div>
+      <div class="clip subc" data-start="9.320" data-duration="0.640" data-track-index="6"><div class="sub" id="c9"><span class="">There</span> <span class="">were</span> <span class="">days</span> <span class="">when</span></div></div>
+      <div class="clip subc" data-start="9.960" data-duration="0.710" data-track-index="6"><div class="sub" id="c10"><span class="">I</span> <span class="">felt</span> <span class="">I</span> <span class="">was</span></div></div>
+      <div class="clip subc" data-start="10.670" data-duration="0.760" data-track-index="6"><div class="sub" id="c11"><span class="">doing</span> <span class="hl">everything</span> <span class="">in</span></div></div>
+      <div class="clip subc" data-start="11.430" data-duration="0.920" data-track-index="6"><div class="sub" id="c12"><span class="">my</span> <span class="">capacity</span></div></div>
+      <div class="clip subc" data-start="12.350" data-duration="0.700" data-track-index="6"><div class="sub" id="c13"><span class="">but</span> <span class="">the</span> <span class="">needle</span> <span class="">was</span></div></div>
+      <div class="clip subc" data-start="13.050" data-duration="1.370" data-track-index="6"><div class="sub" id="c14"><span class="">still</span> <span class="">not</span> <span class="hl">moving</span></div></div>
+      <div class="clip subc" data-start="14.420" data-duration="1.360" data-track-index="6"><div class="sub dark" id="c15"><span class="">I</span> <span class="">was</span> <span class="">starting</span> <span class="hl">everything</span></div></div>
+      <div class="clip subc" data-start="15.780" data-duration="1.130" data-track-index="6"><div class="sub dark" id="c16"><span class="">from</span> <span class="">the</span> <span class="hl">scratch</span></div></div>
+      <div class="clip subc" data-start="17.380" data-duration="0.710" data-track-index="6"><div class="sub" id="c17"><span class="">Of</span> <span class="">course</span></div></div>
+      <div class="clip subc" data-start="18.630" data-duration="0.910" data-track-index="6"><div class="sub" id="c18"><span class="">there</span> <span class="">were</span> <span class="hl">setbacks</span></div></div>
+      <div class="clip subc" data-start="19.540" data-duration="0.950" data-track-index="6"><div class="sub" id="c19"><span class="">there</span> <span class="">were</span> <span class="hl">mistakes</span></div></div>
+      <div class="clip subc" data-start="20.490" data-duration="1.080" data-track-index="6"><div class="sub" id="c20"><span class="">and</span> <span class="">days</span> <span class="">when</span> <span class="">I</span></div></div>
+      <div class="clip subc" data-start="21.570" data-duration="2.930" data-track-index="6"><div class="sub" id="c21"><span class="">questioned</span> <span class="">myself</span></div></div>
+      <div class="clip subc" data-start="24.500" data-duration="0.700" data-track-index="6"><div class="sub" id="c22"><span class="">am</span> <span class="">I</span> <span class="">doing</span> <span class="">any</span></div></div>
+      <div class="clip subc" data-start="25.200" data-duration="0.830" data-track-index="6"><div class="sub" id="c23"><span class="">of</span> <span class="">this</span> <span class="hl">right?</span></div></div>
+      <div class="clip subc" data-start="26.030" data-duration="1.310" data-track-index="6"><div class="sub" id="c24"><span class="">Between</span> <span class="">being</span> <span class="">a</span> <span class="hl">mother</span></div></div>
+      <div class="clip subc" data-start="27.340" data-duration="0.880" data-track-index="6"><div class="sub" id="c25"><span class="">running</span> <span class="">everyday</span> <span class="">life</span></div></div>
+      <div class="clip subc" data-start="28.220" data-duration="1.040" data-track-index="6"><div class="sub" id="c26"><span class="">building</span> <span class="">a</span> <span class="hl">brand</span></div></div>
+      <div class="clip subc" data-start="29.260" data-duration="1.250" data-track-index="6"><div class="sub" id="c27"><span class="">working</span> <span class="">on</span> <span class="">my</span> <span class="hl">health</span></div></div>
+      <div class="clip subc" data-start="30.510" data-duration="0.650" data-track-index="6"><div class="sub" id="c28"><span class="">things</span></div></div>
+      <div class="clip subc" data-start="31.250" data-duration="1.030" data-track-index="6"><div class="sub" id="c29"><span class="">hardly</span> <span class="">went</span> <span class="">according</span></div></div>
+      <div class="clip subc" data-start="32.280" data-duration="1.140" data-track-index="6"><div class="sub" id="c30"><span class="">to</span> <span class="">the</span> <span class="hl">plan</span></div></div>
+      <div class="clip subc" data-start="33.420" data-duration="0.770" data-track-index="6"><div class="sub" id="c31"><span class="">Watching</span> <span class="">my</span> <span class="hl">little</span></div></div>
+      <div class="clip subc" data-start="34.190" data-duration="1.170" data-track-index="6"><div class="sub" id="c32"><span class="">one</span> <span class="">grow</span> <span class="">along</span> <span class="">the</span></div></div>
+      <div class="clip subc" data-start="35.360" data-duration="0.800" data-track-index="6"><div class="sub" id="c33"><span class="">way</span> <span class="">has</span> <span class="">taught</span> <span class="">me</span></div></div>
+      <div class="clip subc" data-start="36.160" data-duration="1.630" data-track-index="6"><div class="sub" id="c34"><span class="">something</span> <span class="">really</span> <span class="hl">beautiful</span></div></div>
+      <div class="clip subc" data-start="37.790" data-duration="1.200" data-track-index="6"><div class="sub" id="c35"><span class="">that</span> <span class="hl">children</span> <span class="">don&#x27;t</span></div></div>
+      <div class="clip subc" data-start="38.990" data-duration="1.250" data-track-index="6"><div class="sub" id="c36"><span class="">really</span> <span class="">care</span> <span class="">about</span></div></div>
+      <div class="clip subc" data-start="40.240" data-duration="0.730" data-track-index="6"><div class="sub" id="c37"><span class="">if</span> <span class="">they&#x27;ve</span> <span class="">figured</span></div></div>
+      <div class="clip subc" data-start="40.970" data-duration="0.850" data-track-index="6"><div class="sub" id="c38"><span class="hl">everything</span> <span class="">out</span> <span class="">or</span></div></div>
+      <div class="clip subc" data-start="41.820" data-duration="0.570" data-track-index="6"><div class="sub" id="c39"><span class="">no</span></div></div>
+      <div class="clip subc" data-start="42.430" data-duration="0.860" data-track-index="6"><div class="sub" id="c40"><span class="">They</span> <span class="">just</span></div></div>
+      <div class="clip subc" data-start="43.360" data-duration="0.860" data-track-index="6"><div class="sub" id="c41"><span class="">learn</span> <span class="">to</span> <span class="hl">walk</span></div></div>
+      <div class="clip subc" data-start="44.220" data-duration="0.710" data-track-index="6"><div class="sub" id="c42"><span class="">they</span> <span class="hl">fall</span></div></div>
+      <div class="clip subc" data-start="44.980" data-duration="1.050" data-track-index="6"><div class="sub" id="c43"><span class="">they</span> <span class="">get</span> <span class="">up</span></div></div>
+      <div class="clip subc" data-start="46.030" data-duration="0.850" data-track-index="6"><div class="sub" id="c44"><span class="">they</span> <span class="">learn</span> <span class="hl">again</span></div></div>
+      <div class="clip subc" data-start="46.880" data-duration="1.370" data-track-index="6"><div class="sub" id="c45"><span class="">And</span> <span class="">somewhere</span> <span class="">down</span></div></div>
+      <div class="clip subc" data-start="48.250" data-duration="0.270" data-track-index="6"><div class="sub" id="c46"><span class="">the</span> <span class="">line</span></div></div>
+      <div class="clip subc" data-start="48.520" data-duration="1.070" data-track-index="6"><div class="sub" id="c47"><span class="">I</span> <span class="">think</span> <span class="">we</span> <span class="">adults</span></div></div>
+      <div class="clip subc" data-start="49.590" data-duration="0.660" data-track-index="6"><div class="sub" id="c48"><span class="">we</span></div></div>
+      <div class="clip subc" data-start="50.590" data-duration="1.040" data-track-index="6"><div class="sub" id="c49"><span class="">tend</span> <span class="">to</span> <span class="">forget</span> <span class="">that</span></div></div>
+      <div class="clip subc" data-start="51.630" data-duration="1.710" data-track-index="6"><div class="sub" id="c50"><span class="">it&#x27;s</span> <span class="hl">okay</span> <span class="">to</span> <span class="">fall</span></div></div>
+      <div class="clip subc" data-start="53.340" data-duration="0.380" data-track-index="6"><div class="sub" id="c51"><span class="">it&#x27;s</span></div></div>
+      <div class="clip subc" data-start="53.830" data-duration="1.330" data-track-index="6"><div class="sub" id="c52"><span class="hl">okay</span> <span class="">to</span> <span class="">go</span> <span class="">on</span></div></div>
+      <div class="clip subc" data-start="55.160" data-duration="0.890" data-track-index="6"><div class="sub" id="c53"><span class="">your</span> <span class="">own</span> <span class="hl">pace</span></div></div>
+      <div class="clip subc" data-start="56.050" data-duration="1.350" data-track-index="6"><div class="sub" id="c54"><span class="">it&#x27;s</span> <span class="hl">okay</span> <span class="">if</span> <span class="">things</span></div></div>
+      <div class="clip subc" data-start="57.400" data-duration="0.980" data-track-index="6"><div class="sub" id="c55"><span class="">don&#x27;t</span> <span class="">work</span> <span class="">out</span> <span class="">as</span></div></div>
+      <div class="clip subc" data-start="58.380" data-duration="1.130" data-track-index="6"><div class="sub" id="c56"><span class="">per</span> <span class="">your</span> <span class="hl">plan</span></div></div>
+      <div class="clip subc" data-start="59.580" data-duration="0.820" data-track-index="6"><div class="sub" id="c57"><span class="">But</span> <span class="">in</span> <span class="">the</span> <span class="">end</span></div></div>
+      <div class="clip subc" data-start="60.400" data-duration="0.420" data-track-index="6"><div class="sub" id="c58"><span class="">when</span> <span class="">we</span></div></div>
+      <div class="clip subc" data-start="60.820" data-duration="0.750" data-track-index="6"><div class="sub" id="c59"><span class="">you</span> <span class="">know</span></div></div>
+      <div class="clip subc" data-start="61.570" data-duration="1.460" data-track-index="6"><div class="sub" id="c60"><span class="">pause</span> <span class="">and</span> <span class="">look</span> <span class="">at</span></div></div>
+      <div class="clip subc" data-start="63.030" data-duration="0.450" data-track-index="6"><div class="sub" id="c61"><span class="hl">moments</span></div></div>
+      <div class="clip subc" data-start="63.480" data-duration="1.130" data-track-index="6"><div class="sub" id="c62"><span class="">my</span> <span class="">baby&#x27;s</span> <span class="hl">first</span></div></div>
+      <div class="clip subc" data-start="64.610" data-duration="1.580" data-track-index="6"><div class="sub" id="c63"><span class="">our</span> <span class="hl">first</span> <span class="">launch</span></div></div>
+      <div class="clip subc" data-start="66.190" data-duration="1.320" data-track-index="6"><div class="sub" id="c64"><span class="">our</span> <span class="hl">first</span> <span class="">order</span></div></div>
+      <div class="clip subc" data-start="67.670" data-duration="1.210" data-track-index="6"><div class="sub" id="c65"><span class="">someone</span> <span class="">who</span> <span class="">really</span></div></div>
+      <div class="clip subc" data-start="68.880" data-duration="0.810" data-track-index="6"><div class="sub" id="c66"><span class="hl">believed</span> <span class="">in</span> <span class="">what</span> <span class="">we</span></div></div>
+      <div class="clip subc" data-start="69.690" data-duration="0.840" data-track-index="6"><div class="sub" id="c67"><span class="">had</span> <span class="">created</span></div></div>
+      <div class="clip subc" data-start="70.530" data-duration="1.940" data-track-index="6"><div class="sub" id="c68"><span class="">and</span> <span class="">suddenly</span> <span class="">all</span> <span class="">those</span></div></div>
+      <div class="clip subc" data-start="72.470" data-duration="1.510" data-track-index="6"><div class="sub" id="c69"><span class="hl">little</span> <span class="">things</span> <span class="">started</span></div></div>
+      <div class="clip subc" data-start="73.980" data-duration="0.780" data-track-index="6"><div class="sub" id="c70"><span class="hl">adding</span> <span class="">up</span></div></div>
+      <div class="clip subc" data-start="74.760" data-duration="0.970" data-track-index="6"><div class="sub" id="c71"><span class="">Because</span> <span class="">sometimes</span> <span class="">when</span></div></div>
+      <div class="clip subc" data-start="75.730" data-duration="0.990" data-track-index="6"><div class="sub" id="c72"><span class="">you&#x27;re</span> <span class="">busy</span></div></div>
+      <div class="clip subc" data-start="77.110" data-duration="0.780" data-track-index="6"><div class="sub" id="c73"><span class="">running</span> <span class="hl">everything</span></div></div>
+      <div class="clip subc" data-start="77.890" data-duration="1.200" data-track-index="6"><div class="sub" id="c74"><span class="">raising</span> <span class="">a</span> <span class="">child</span></div></div>
+      <div class="clip subc" data-start="79.120" data-duration="1.210" data-track-index="6"><div class="sub" id="c75"><span class="">building</span> <span class="">a</span> <span class="">business</span></div></div>
+      <div class="clip subc" data-start="80.400" data-duration="1.470" data-track-index="6"><div class="sub" id="c76"><span class="">you</span> <span class="">don&#x27;t</span> <span class="">really</span> <span class="">realize</span></div></div>
+      <div class="clip subc" data-start="81.870" data-duration="1.230" data-track-index="6"><div class="sub" id="c77"><span class="">how</span> <span class="">much</span> <span class="">you</span> <span class="">have</span></div></div>
+      <div class="clip subc" data-start="83.100" data-duration="1.160" data-track-index="6"><div class="sub" id="c78"><span class="hl">grown</span> <span class="">as</span> <span class="">a</span> <span class="">person</span></div></div>
+      <div class="clip subc" data-start="84.260" data-duration="0.640" data-track-index="6"><div class="sub" id="c79"><span class="">So</span> <span class="">here&#x27;s</span> <span class="">to</span> <span class="">the</span></div></div>
+      <div class="clip subc" data-start="84.900" data-duration="1.100" data-track-index="6"><div class="sub" id="c80"><span class="hl">sleepless</span> <span class="">nights</span></div></div>
+      <div class="clip subc" data-start="86.000" data-duration="0.650" data-track-index="6"><div class="sub" id="c81"><span class="">the</span> <span class="hl">tears</span></div></div>
+      <div class="clip subc" data-start="86.650" data-duration="0.840" data-track-index="6"><div class="sub" id="c82"><span class="">the</span> <span class="hl">laughter</span></div></div>
+      <div class="clip subc" data-start="88.410" data-duration="0.940" data-track-index="6"><div class="sub" id="c83"><span class="">Everyone</span> <span class="">who&#x27;s</span> <span class="">been</span></div></div>
+      <div class="clip subc" data-start="89.350" data-duration="0.850" data-track-index="6"><div class="sub" id="c84"><span class="">part</span> <span class="">of</span> <span class="">this</span> <span class="hl">journey</span></div></div>
+      <div class="clip subc" data-start="90.200" data-duration="1.230" data-track-index="6"><div class="sub" id="c85"><span class="">thank</span> <span class="">you</span> <span class="">very</span> <span class="">much</span></div></div>
+      <div class="clip subc" data-start="91.430" data-duration="1.130" data-track-index="6"><div class="sub" id="c86"><span class="">One</span> <span class="hl">year</span> <span class="">of</span> <span class="">GLOSSKN</span></div></div>
+      <div class="clip subc" data-start="92.560" data-duration="0.990" data-track-index="6"><div class="sub" id="c87"><span class="">and</span> <span class="">we</span> <span class="">are</span> <span class="">just</span></div></div>
+      <div class="clip subc" data-start="93.550" data-duration="1.050" data-track-index="6"><div class="sub" id="c88"><span class="">getting</span> <span class="hl">started</span></div></div>
+      <div class="clip" id="end" data-start="94.450" data-duration="3.150" data-track-index="7"><div class="end"><div class="end-k" id="end-k">happy first birthday</div><div class="end-n" id="end-n">1</div><div class="end-s" id="end-s">year &amp; just getting started</div><img class="end-logo" id="end-logo" src="media/logo_dark.png" /></div></div>
     </div>
     <script>
       const tl = gsap.timeline({ paused: true });
-      tl.fromTo("#s0_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},0.600);
-      tl.fromTo("#s0_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},2.429);
-      tl.fromTo("#s0_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},4.258);
-      tl.fromTo("#s0_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},5.630);
-      tl.fromTo("#s0_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},7.460);
-      tl.fromTo("#s0_5-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},9.289);
-      tl.fromTo("#s1_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},10.296);
-      tl.fromTo("#s1_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},11.600);
-      tl.fromTo("#s1_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},12.035);
-      tl.fromTo("#s1_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},13.774);
-      tl.fromTo("#s2_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},15.193);
-      tl.fromTo("#s2_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},17.112);
-      tl.fromTo("#s2_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},17.592);
-      tl.fromTo("#s2_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},19.511);
-      tl.fromTo("#s3_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},20.541);
-      tl.fromTo("#s3_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},21.411);
-      tl.fromTo("#s3_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},22.715);
-      tl.fromTo("#s3_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},24.454);
-      tl.fromTo("#s4_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},25.439);
-      tl.fromTo("#s4_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},27.178);
-      tl.fromTo("#s4_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},28.917);
-      tl.fromTo("#s4_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},30.221);
-      tl.fromTo("#s4_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},31.091);
-      tl.fromTo("#s5_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},33.380);
-      tl.fromTo("#s5_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},35.119);
-      tl.fromTo("#s5_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},36.424);
-      tl.fromTo("#s5_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},38.163);
-      tl.fromTo("#s5_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},39.468);
-      tl.fromTo("#s6_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},41.322);
-      tl.fromTo("#s6_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},43.061);
-      tl.fromTo("#s6_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},44.366);
-      tl.fromTo("#s7_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},46.220);
-      tl.fromTo("#s7_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},47.959);
-      tl.fromTo("#s7_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},49.263);
-      tl.fromTo("#s7_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},51.002);
-      tl.fromTo("#s7_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},52.741);
-      tl.fromTo("#s7_5-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},54.480);
-      tl.fromTo("#s8_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},55.465);
-      tl.fromTo("#s8_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},57.204);
-      tl.fromTo("#s8_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},58.944);
-      tl.fromTo("#s8_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},60.248);
-      tl.fromTo("#s8_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},61.987);
-      tl.fromTo("#s9_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},62.972);
-      tl.fromTo("#s9_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},64.711);
-      tl.fromTo("#s9_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},66.450);
-      tl.fromTo("#s9_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},67.754);
-      tl.fromTo("#s10_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},68.739);
-      tl.fromTo("#s10_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},69.678);
-      tl.fromTo("#s10_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},71.086);
-      tl.fromTo("#s10_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},71.555);
-      tl.fromTo("#s10_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},72.963);
-      tl.fromTo("#s11_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},75.391);
-      tl.fromTo("#s11_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},77.130);
-      tl.fromTo("#s11_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},78.870);
-      tl.fromTo("#s11_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},80.609);
-      tl.fromTo("#s11_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},82.348);
-      tl.fromTo("#s13_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},89.970);
-      tl.fromTo("#s13_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},91.274);
-      tl.fromTo("#s13_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},92.144);
-      tl.fromTo("#s13_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},93.883);
-      tl.fromTo("#s14_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},95.737);
-      tl.fromTo("#s14_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},96.607);
-      tl.fromTo("#s14_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},97.911);
-      tl.fromTo("#s14_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},99.215);
-      tl.fromTo("#s14_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},100.954);
-      tl.fromTo("#s15_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},102.374);
-      tl.fromTo("#s15_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},103.678);
-      tl.fromTo("#s15_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},104.983);
-      tl.fromTo("#s15_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},105.852);
-      tl.fromTo("#s15_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},106.722);
-      tl.fromTo("#s15_5-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},107.592);
-      tl.fromTo("#s16_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},109.446);
-      tl.fromTo("#s16_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},110.750);
-      tl.fromTo("#s16_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},112.489);
-      tl.fromTo("#s17_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},114.343);
-      tl.fromTo("#s17_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},115.722);
-      tl.fromTo("#s17_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},117.562);
-      tl.fromTo("#s17_3-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},118.481);
-      tl.fromTo("#s17_4-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},120.321);
-      tl.fromTo("#s17_5-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},121.240);
-      tl.fromTo("#s18_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},123.170);
-      tl.fromTo("#s18_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},124.909);
-      tl.fromTo("#s19_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},126.328);
-      tl.fromTo("#s19_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},127.198);
-      tl.fromTo("#s19_2-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},128.937);
-      tl.fromTo("#s20_0-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},130.357);
-      tl.fromTo("#s20_1-t",{opacity:0,y:18},{opacity:1,y:0,duration:0.22,ease:"power2.out"},131.661);
-      tl.fromTo("#p1-p",{opacity:0,scale:0.7,rotation:-21,y:90},{opacity:1,scale:1,rotation:-7,y:0,duration:0.55,ease:"back.out(1.5)"},1.972);
-      tl.fromTo("#p1-p",{x:0},{x:28,duration:7.074,ease:"sine.inOut",immediateRender:false},2.522);
-      tl.to("#p1-p",{opacity:0,y:-60,duration:0.3,ease:"power2.in"},9.646);
-      tl.fromTo("#p2-p",{opacity:0,scale:0.7,rotation:18,y:90},{opacity:1,scale:1,rotation:6,y:0,duration:0.55,ease:"back.out(1.5)"},3.801);
-      tl.fromTo("#p2-p",{x:0},{x:-24,duration:5.245,ease:"sine.inOut",immediateRender:false},4.351);
-      tl.to("#p2-p",{opacity:0,y:-60,duration:0.3,ease:"power2.in"},9.646);
-      tl.fromTo("#p3-p",{opacity:0,scale:0.7,rotation:-9,y:90},{opacity:1,scale:1,rotation:-3,y:0,duration:0.55,ease:"back.out(1.5)"},5.173);
-      tl.fromTo("#p3-p",{x:0},{x:12,duration:3.873,ease:"sine.inOut",immediateRender:false},5.723);
-      tl.to("#p3-p",{opacity:0,y:-60,duration:0.3,ease:"power2.in"},9.646);
-      tl.fromTo("#pchild-p",{opacity:0,scale:0.7,rotation:-12,y:90},{opacity:1,scale:1,rotation:-4,y:0,duration:0.55,ease:"back.out(1.5)"},15.673);
-      tl.fromTo("#pchild-p",{x:0},{x:16,duration:1.369,ease:"sine.inOut",immediateRender:false},16.223);
-      tl.to("#pchild-p",{opacity:0,y:-60,duration:0.3,ease:"power2.in"},17.642);
-      tl.fromTo("#logo1-i",{opacity:0,scale:0.8,y:40},{opacity:1,scale:1,y:0,duration:0.6,ease:"power3.out"},18.072);
-      tl.fromTo("#b_delivery",{opacity:0,scale:1.06},{opacity:1,scale:1,duration:0.45,ease:"power2.out"},33.280);
-      tl.fromTo("#b_delivery",{scale:1},{scale:1.05,duration:7.042,ease:"none",immediateRender:false},33.730);
-      tl.to("#b_delivery",{opacity:0,duration:0.3},40.772);
-      tl.fromTo("#b_name",{opacity:0,scale:1.06},{opacity:1,scale:1,duration:0.45,ease:"power2.out"},41.222);
-      tl.fromTo("#b_name",{scale:1},{scale:1.05,duration:3.998,ease:"none",immediateRender:false},41.672);
-      tl.to("#b_name",{opacity:0,duration:0.3},45.670);
-      tl.fromTo("#b_package",{opacity:0,scale:1.06},{opacity:1,scale:1,duration:0.45,ease:"power2.out"},62.872);
-      tl.fromTo("#b_package",{scale:1},{scale:1.05,duration:4.867,ease:"none",immediateRender:false},63.322);
-      tl.to("#b_package",{opacity:0,duration:0.3},68.189);
-      tl.fromTo("#psamples-p",{opacity:0,scale:0.7,rotation:15,y:90},{opacity:1,scale:1,rotation:5,y:0,duration:0.55,ease:"back.out(1.5)"},69.678);
-      tl.fromTo("#psamples-p",{x:0},{x:-20,duration:4.563,ease:"sine.inOut",immediateRender:false},70.228);
-      tl.to("#psamples-p",{opacity:0,y:-60,duration:0.3,ease:"power2.in"},74.841);
-      tl.fromTo("#why0",{opacity:0,y:40,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.6,ease:"power2.out"},83.333);
-      tl.fromTo("#why1",{opacity:0,y:40,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.6,ease:"power2.out"},85.072);
-      tl.fromTo("#why2",{opacity:0,y:40,filter:"blur(8px)"},{opacity:1,y:0,filter:"blur(0px)",duration:0.6,ease:"power2.out"},86.811);
-      tl.fromTo("#pchild2-p",{opacity:0,scale:0.7,rotation:12,y:90},{opacity:1,scale:1,rotation:4,y:0,duration:0.55,ease:"back.out(1.5)"},97.476);
-      tl.fromTo("#pchild2-p",{x:0},{x:-16,duration:3.748,ease:"sine.inOut",immediateRender:false},98.026);
-      tl.to("#pchild2-p",{opacity:0,y:-60,duration:0.3,ease:"power2.in"},101.824);
-      tl.fromTo("#b_shopify-w",{opacity:0,scale:0.85,y:80},{opacity:1,scale:1,y:0,duration:0.5,ease:"power3.out"},123.070);
-      tl.to("#b_shopify-w",{opacity:0,scale:0.95,duration:0.3},125.778);
-      tl.fromTo("#b_review",{opacity:0,scale:1.06},{opacity:1,scale:1,duration:0.45,ease:"power2.out"},126.228);
-      tl.fromTo("#b_review",{scale:1},{scale:1.05,duration:3.129,ease:"none",immediateRender:false},126.678);
-      tl.to("#b_review",{opacity:0,duration:0.3},129.807);
-      tl.fromTo("#end",{opacity:0},{opacity:1,duration:0.6},133.315);
-      tl.fromTo("#end-n",{opacity:0,scale:0.6},{opacity:1,scale:1,duration:0.8,ease:"back.out(1.6)"},133.715);
-      tl.fromTo("#end-1",{opacity:0,y:30},{opacity:1,y:0,duration:0.6},133.515);
-      tl.fromTo("#end-s",{opacity:0,y:30},{opacity:1,y:0,duration:0.6},134.015);
-      tl.fromTo("#end-logo",{opacity:0,y:-30},{opacity:1,y:0,duration:0.6},134.315);
-      tl.set({}, {}, 137.115);
+      tl.fromTo("#e0",{yPercent:-100},{yPercent:0,duration:0.35,ease:"power3.out"},2.470);
+      tl.to("#e0",{yPercent:-100,duration:0.3,ease:"power3.in"},4.090);
+      tl.to("#spkw",{y:600,duration:0.35,ease:"power3.out"},2.470);
+      tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},4.090);
+      tl.fromTo("#e1",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},4.150);
+      tl.to("#e1",{opacity:0,duration:0.18},5.480);
+      tl.fromTo("#e2-l",{opacity:0,y:-30,scale:0.85},{opacity:1,y:0,scale:1,duration:0.55,ease:"back.out(1.6)"},5.710);
+      tl.to("#e2-l",{opacity:0,duration:0.25},7.960);
+      tl.fromTo("#e3",{yPercent:-100},{yPercent:0,duration:0.35,ease:"power3.out"},9.270);
+      tl.to("#e3",{yPercent:-100,duration:0.3,ease:"power3.in"},14.260);
+      tl.to("#spkw",{y:600,duration:0.35,ease:"power3.out"},9.270);
+      tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},14.260);
+      tl.fromTo("#e4",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},14.420);
+      tl.to("#e4",{opacity:0,duration:0.18},16.730);
+      tl.fromTo("#e5",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},17.380);
+      tl.to("#e5",{opacity:0,duration:0.18},20.500);
+      tl.fromTo("#e6",{yPercent:-100},{yPercent:0,duration:0.35,ease:"power3.out"},25.980);
+      tl.to("#e6",{yPercent:-100,duration:0.3,ease:"power3.in"},27.960);
+      tl.to("#spkw",{y:600,duration:0.35,ease:"power3.out"},25.980);
+      tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},27.960);
+      tl.fromTo("#e7",{yPercent:-100},{yPercent:0,duration:0.35,ease:"power3.out"},28.220);
+      tl.to("#e7",{yPercent:-100,duration:0.3,ease:"power3.in"},28.960);
+      tl.to("#spkw",{y:600,duration:0.35,ease:"power3.out"},28.220);
+      tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},28.960);
+      tl.fromTo("#e8",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},30.510);
+      tl.to("#e8",{opacity:0,duration:0.18},33.480);
+      tl.fromTo("#e9-p",{opacity:0,scale:0.6,rotation:15,y:60},{opacity:1,scale:1,rotation:5,y:0,duration:0.45,ease:"back.out(1.7)"},33.840);
+      tl.to("#e9-p",{opacity:0,y:-50,duration:0.22,ease:"power2.in"},35.900);
+      tl.fromTo("#e10",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},42.380);
+      tl.to("#e10",{opacity:0,duration:0.18},46.990);
+      tl.fromTo("#e11",{yPercent:-100},{yPercent:0,duration:0.35,ease:"power3.out"},63.430);
+      tl.to("#e11",{yPercent:-100,duration:0.3,ease:"power3.in"},64.340);
+      tl.to("#spkw",{y:600,duration:0.35,ease:"power3.out"},63.430);
+      tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},64.340);
+      tl.fromTo("#e12",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},64.640);
+      tl.to("#e12",{opacity:0,duration:0.18},66.040);
+      tl.fromTo("#e13",{yPercent:-100},{yPercent:0,duration:0.35,ease:"power3.out"},66.220);
+      tl.to("#e13",{yPercent:-100,duration:0.3,ease:"power3.in"},67.400);
+      tl.to("#spkw",{y:600,duration:0.35,ease:"power3.out"},66.220);
+      tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},67.400);
+      tl.fromTo("#e14",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},67.700);
+      tl.to("#e14",{opacity:0,duration:0.18},70.490);
+      tl.fromTo("#e15",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},71.750);
+      tl.to("#e15",{opacity:0,duration:0.18},74.920);
+      tl.fromTo("#e16-p",{opacity:0,scale:0.6,rotation:-18,y:60},{opacity:1,scale:1,rotation:-6,y:0,duration:0.45,ease:"back.out(1.7)"},77.890);
+      tl.to("#e16-p",{opacity:0,y:-50,duration:0.22,ease:"power2.in"},79.050);
+      tl.fromTo("#e17",{yPercent:-100},{yPercent:0,duration:0.35,ease:"power3.out"},79.120);
+      tl.to("#e17",{yPercent:-100,duration:0.3,ease:"power3.in"},80.450);
+      tl.to("#spkw",{y:600,duration:0.35,ease:"power3.out"},79.120);
+      tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},80.450);
+      tl.fromTo("#e18",{yPercent:-100},{yPercent:0,duration:0.35,ease:"power3.out"},84.800);
+      tl.to("#e18",{yPercent:-100,duration:0.3,ease:"power3.in"},85.730);
+      tl.to("#spkw",{y:600,duration:0.35,ease:"power3.out"},84.800);
+      tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},85.730);
+      tl.fromTo("#e19",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},86.600);
+      tl.to("#e19",{opacity:0,duration:0.18},88.260);
+      tl.fromTo("#e20",{opacity:0,scale:1.04},{opacity:1,scale:1,duration:0.28,ease:"power2.out"},88.440);
+      tl.to("#e20",{opacity:0,duration:0.18},90.210);
+      tl.fromTo("#e21-l",{opacity:0,y:-30,scale:0.85},{opacity:1,y:0,scale:1,duration:0.55,ease:"back.out(1.6)"},91.430);
+      tl.to("#e21-l",{opacity:0,duration:0.25},94.350);
+      tl.fromTo("#c0",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},1.640);
+      tl.fromTo("#c1",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},3.440);
+      tl.fromTo("#c2",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},4.150);
+      tl.fromTo("#c3",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},5.090);
+      tl.fromTo("#c4",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},5.430);
+      tl.fromTo("#c5",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},6.110);
+      tl.fromTo("#c6",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},6.840);
+      tl.fromTo("#c7",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},7.760);
+      tl.fromTo("#c8",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},8.480);
+      tl.fromTo("#c9",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},9.320);
+      tl.fromTo("#c10",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},9.960);
+      tl.fromTo("#c11",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},10.670);
+      tl.fromTo("#c12",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},11.430);
+      tl.fromTo("#c13",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},12.350);
+      tl.fromTo("#c14",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},13.050);
+      tl.fromTo("#c15",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},14.420);
+      tl.fromTo("#c16",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},15.780);
+      tl.fromTo("#c17",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},17.380);
+      tl.fromTo("#c18",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},18.630);
+      tl.fromTo("#c19",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},19.540);
+      tl.fromTo("#c20",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},20.490);
+      tl.fromTo("#c21",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},21.570);
+      tl.fromTo("#c22",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},24.500);
+      tl.fromTo("#c23",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},25.200);
+      tl.fromTo("#c24",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},26.030);
+      tl.fromTo("#c25",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},27.340);
+      tl.fromTo("#c26",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},28.220);
+      tl.fromTo("#c27",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},29.260);
+      tl.fromTo("#c28",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},30.510);
+      tl.fromTo("#c29",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},31.250);
+      tl.fromTo("#c30",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},32.280);
+      tl.fromTo("#c31",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},33.420);
+      tl.fromTo("#c32",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},34.190);
+      tl.fromTo("#c33",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},35.360);
+      tl.fromTo("#c34",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},36.160);
+      tl.fromTo("#c35",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},37.790);
+      tl.fromTo("#c36",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},38.990);
+      tl.fromTo("#c37",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},40.240);
+      tl.fromTo("#c38",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},40.970);
+      tl.fromTo("#c39",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},41.820);
+      tl.fromTo("#c40",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},42.430);
+      tl.fromTo("#c41",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},43.360);
+      tl.fromTo("#c42",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},44.220);
+      tl.fromTo("#c43",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},44.980);
+      tl.fromTo("#c44",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},46.030);
+      tl.fromTo("#c45",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},46.880);
+      tl.fromTo("#c46",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},48.250);
+      tl.fromTo("#c47",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},48.520);
+      tl.fromTo("#c48",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},49.590);
+      tl.fromTo("#c49",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},50.590);
+      tl.fromTo("#c50",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},51.630);
+      tl.fromTo("#c51",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},53.340);
+      tl.fromTo("#c52",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},53.830);
+      tl.fromTo("#c53",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},55.160);
+      tl.fromTo("#c54",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},56.050);
+      tl.fromTo("#c55",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},57.400);
+      tl.fromTo("#c56",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},58.380);
+      tl.fromTo("#c57",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},59.580);
+      tl.fromTo("#c58",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},60.400);
+      tl.fromTo("#c59",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},60.820);
+      tl.fromTo("#c60",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},61.570);
+      tl.fromTo("#c61",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},63.030);
+      tl.fromTo("#c62",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},63.480);
+      tl.fromTo("#c63",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},64.610);
+      tl.fromTo("#c64",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},66.190);
+      tl.fromTo("#c65",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},67.670);
+      tl.fromTo("#c66",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},68.880);
+      tl.fromTo("#c67",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},69.690);
+      tl.fromTo("#c68",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},70.530);
+      tl.fromTo("#c69",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},72.470);
+      tl.fromTo("#c70",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},73.980);
+      tl.fromTo("#c71",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},74.760);
+      tl.fromTo("#c72",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},75.730);
+      tl.fromTo("#c73",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},77.110);
+      tl.fromTo("#c74",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},77.890);
+      tl.fromTo("#c75",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},79.120);
+      tl.fromTo("#c76",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},80.400);
+      tl.fromTo("#c77",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},81.870);
+      tl.fromTo("#c78",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},83.100);
+      tl.fromTo("#c79",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},84.260);
+      tl.fromTo("#c80",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},84.900);
+      tl.fromTo("#c81",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},86.000);
+      tl.fromTo("#c82",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},86.650);
+      tl.fromTo("#c83",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},88.410);
+      tl.fromTo("#c84",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},89.350);
+      tl.fromTo("#c85",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},90.200);
+      tl.fromTo("#c86",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},91.430);
+      tl.fromTo("#c87",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},92.560);
+      tl.fromTo("#c88",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},93.550);
+      tl.fromTo("#end .end",{opacity:0},{opacity:1,duration:0.4},94.450);
+      tl.fromTo("#end-k",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"power2.out"},94.550);
+      tl.fromTo("#end-n",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"power2.out"},94.750);
+      tl.fromTo("#end-s",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"power2.out"},95.050);
+      tl.fromTo("#end-logo",{opacity:0,y:30},{opacity:1,y:0,duration:0.5,ease:"power2.out"},95.350);
+      tl.set({}, {}, 97.6);
       window.__timelines["main"] = tl;
     </script>
   </body>
