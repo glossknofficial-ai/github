@@ -5,16 +5,16 @@
 - picture: her original video, copied untouched"""
 import os, subprocess
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); M = os.path.join(P, "media")
-SRC, MUSIC = os.path.join(M, "original_hq2.mov"), os.path.join(M, "music.mp3")   # final cut (voice only, closing clip sped up)
-PICTURE = os.path.join(M, "original_hq2.mov")   # her full-quality 1080x1920 original
+SRC, MUSIC = os.path.join(M, "original_hq3.mov"), os.path.join(M, "music.mp3")   # final cut 1.1 (voice only, re-timed clip)
+PICTURE = os.path.join(M, "original_hq3.mov")   # her full-quality 1080x1920 original
 OUTRO = os.path.join(M, "happy_diwali.mp4")       # Happy Diwali slide replaces the GLOSSKN logo card
-CUT_FRAME = 603        # her clip ends here (20.1 s), just after her last word and before her blur-out to the old logo card
+CUT_FRAME = 613        # her clip ends here (20.43 s), just after her last word and before her blur-out to the old logo card
 OUTRO_SKIP = 2         # the slide opens with two white frames
 XF = 0.25              # short dissolve into the slide
 OUTRO_DUR = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", OUTRO],
                                  capture_output=True, text=True).stdout)
 DUR = CUT_FRAME / 30 - XF + OUTRO_DUR - OUTRO_SKIP / 30
-SPEECH = [(0.40, 6.02), (17.25, 20.02)]   # her two lines (from silence detection)
+SPEECH = [(0.40, 6.02), (17.27, 20.30)]   # her two lines (from silence detection)
 MUSIC_OFFSET = 3.0                          # start a little into the track's soft intro
 FADE_IN, FADE_OUT = 1.5, 2.5
 
