@@ -58,6 +58,10 @@
               box-shadow: 0 14px 34px rgba(74, 42, 90, .16); }
       .card video, .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
       .box-logo { position: absolute; left: 230px; width: 620px; top: 70px; }
+      .ev.splitb { top: 1000px; height: 920px; overflow: hidden; background: #fff; border-top: 10px solid #fff;
+                   box-shadow: 0 -10px 30px rgba(40, 20, 50, .18); z-index: 4; }
+      .ev.splitb video, .ev.splitb img { width: 100%; height: 100%; object-fit: cover; }
+      .scard { border: 14px solid #fff; border-radius: 34px; }
 
     </style>
   </head>
@@ -65,22 +69,27 @@
     <div id="root" data-composition-id="main" data-start="0" data-duration="54.2" data-width="1080" data-height="1920">
       <audio id="bed" src="media/bed.wav" data-start="0" data-duration="54.2" data-track-index="1"></audio>
       <div id="spkw"><video id="spk" class="clip" src="media/v3/founder_baked.mp4" playsinline data-start="0" data-duration="51.2" data-track-index="0" data-has-audio="true"></video></div>
-      <div class="clip ev" id="e0" data-start="1.550" data-duration="3.890" data-track-index="3"><div class="pol" id="e0-p0" style="left:28px;top:42px;width:330px"><div class="pol-img" style="background-image:url('media/zip_in/Birthday video files/1.jpeg')"></div></div><div class="pol" id="e0-p1" style="left:375px;top:18px;width:330px"><div class="pol-img" style="background-image:url('media/zip_in/Birthday video files/2.jpeg')"></div></div><div class="pol" id="e0-p2" style="left:722px;top:48px;width:330px"><div class="pol-img" style="background-image:url('media/zip_in/Birthday video files/3.jpeg')"></div></div></div>
-      <div class="clip ev" id="e1" data-start="7.700" data-duration="1.510" data-track-index="4"><div class="pol" id="e1-p0" style="left:715px;top:520px;width:340px"><div class="pol-img" style="background-image:url('media/zip_in/Birthday video files/4.jpeg')"></div></div></div>
-      <div class="clip ev boxp" id="e2" data-start="13.030" data-duration="1.390" data-track-index="3"><div class="card" id="e2-c" style="left:90px;top:320px;width:900px;height:1200px"><img id="e2-v" src="media/zip_in/Birthday video files/6.jpeg" style="object-position:50% 50%" /></div></div>
-      <div class="clip ev boxp" id="e3" data-start="14.420" data-duration="1.830" data-track-index="4"><div class="card" id="e3-c" style="left:90px;top:320px;width:900px;height:1200px"><img id="e3-v" src="media/zip_in/Birthday video files/7.jpeg" style="object-position:50% 50%" /></div></div>
-      <div class="clip ev split" id="e4" data-start="17.800" data-duration="1.050" data-track-index="3"><img id="e4-v" src="media/zip_in/Birthday video files/8.jpeg" style="object-position:50% 50%" /></div>
-      <div class="ev split" id="e5" ><video id="e5-v" class="clip" src="media/ev3/e5.mp4" muted playsinline data-start="18.850" data-duration="1.410" data-track-index="2" style="object-position:50% 50%"></video></div>
-      <div class="ev split" id="e6" ><video id="e6-v" class="clip" src="media/ev3/e6.mp4" muted playsinline data-start="24.140" data-duration="1.130" data-track-index="2" style="object-position:50% 50%"></video></div>
-      <div class="clip ev split" id="e7" data-start="25.270" data-duration="1.180" data-track-index="4"><img id="e7-v" src="media/zip_in/Birthday video files/11.jpeg" style="object-position:50% 50%" /></div>
-      <div class="ev split" id="e8" ><video id="e8-v" class="clip" src="media/ev3/e8.mp4" muted playsinline data-start="26.450" data-duration="2.430" data-track-index="2" style="object-position:50% 50%"></video></div>
-      <div class="ev full" id="e9" ><video id="e9-v" class="clip" src="media/ev3/e9.mp4" muted playsinline data-start="32.610" data-duration="1.160" data-track-index="2" style="object-position:50% 50%"></video></div>
-      <div class="ev full" id="e10" ><video id="e10-v" class="clip" src="media/ev3/e10.mp4" muted playsinline data-start="33.770" data-duration="1.600" data-track-index="2" style="object-position:50% 50%"></video></div>
-      <div class="ev split" id="e11" ><video id="e11-v" class="clip" src="media/ev3/e11.mp4" muted playsinline data-start="35.370" data-duration="1.060" data-track-index="2" style="object-position:30% 50%"></video></div>
-      <div class="ev boxp" id="e12" ><div class="card" id="e12-c" style="left:190px;top:292px;width:700px;height:1255px"><video id="e12-v" class="clip" src="media/ev3/e12.mp4" muted playsinline data-start="36.430" data-duration="2.850" data-track-index="2" style="object-position:50% 50%"></video></div></div>
-      <div class="ev full" id="e13" ><video id="e13-v" class="clip" src="media/ev3/e13.mp4" muted playsinline data-start="39.280" data-duration="3.390" data-track-index="2" style="object-position:50% 50%"></video></div>
-      <div class="clip ev" id="e14" data-start="43.000" data-duration="2.590" data-track-index="3"><div class="pol" id="e14-p0" style="left:90px;top:22px;width:360px"><div class="pol-img" style="background-image:url('media/zip_in/Birthday video files/17.jpeg')"></div></div><div class="pol" id="e14-p1" style="left:620px;top:40px;width:360px"><div class="pol-img" style="background-image:url('media/zip_in/Birthday video files/18.jpeg')"></div></div></div>
-      <div class="ev full" id="e15" ><video id="e15-v" class="clip" src="media/ev3/e15.mp4" muted playsinline data-start="45.590" data-duration="2.390" data-track-index="2" style="object-position:50% 50%"></video></div>
+      <div class="clip ev" id="e0" data-start="1.550" data-duration="3.890" data-track-index="3"><div class="pol" id="e0-p0" style="left:28px;top:42px;width:330px"><div class="pol-img" style="background-image:url('media/zip2/Birthday video files/a.jpeg')"></div></div><div class="pol" id="e0-p1" style="left:375px;top:18px;width:330px"><div class="pol-img" style="background-image:url('media/zip2/Birthday video files/b.jpeg')"></div></div><div class="pol" id="e0-p2" style="left:722px;top:48px;width:330px"><div class="pol-img" style="background-image:url('media/zip2/Birthday video files/c.jpeg')"></div></div></div>
+      <div class="clip ev" id="e1" data-start="7.700" data-duration="1.510" data-track-index="4"><div class="pol" id="e1-p0" style="left:715px;top:520px;width:340px"><div class="pol-img" style="background-image:url('media/zip2/Birthday video files/d.jpeg')"></div></div></div>
+      <div class="clip ev full" id="e2" data-start="13.030" data-duration="0.580" data-track-index="3"><img id="e2-v" src="media/zip2/Birthday video files/e.jpeg" style="object-position:50% 50%" /></div>
+      <div class="clip ev full" id="e3" data-start="13.610" data-duration="0.620" data-track-index="4"><img id="e3-v" src="media/zip2/Birthday video files/f.jpeg" style="object-position:50% 50%" /></div>
+      <div class="clip ev full" id="e4" data-start="14.230" data-duration="0.870" data-track-index="3"><img id="e4-v" src="media/zip2/Birthday video files/g.jpeg" style="object-position:50% 50%" /></div>
+      <div class="clip ev full" id="e5" data-start="15.100" data-duration="1.150" data-track-index="4"><img id="e5-v" src="media/zip2/Birthday video files/h.jpeg" style="object-position:50% 50%" /></div>
+      <div class="clip ev splitb" id="e6" data-start="17.800" data-duration="1.050" data-track-index="3"><img id="e6-v" src="media/zip2/Birthday video files/i.jpeg" style="object-position:50% 50%" /></div>
+      <div class="clip ev splitb" id="e7" data-start="18.850" data-duration="1.410" data-track-index="4"><img id="e7-v" src="media/zip2/Birthday video files/j.jpeg" style="object-position:50% 50%" /></div>
+      <div class="clip ev split" id="e8" data-start="24.140" data-duration="1.130" data-track-index="3"><img id="e8-v" src="media/zip2/Birthday video files/k.jpeg" style="object-position:50% 50%" /></div>
+      <div class="clip ev split" id="e9" data-start="25.270" data-duration="1.180" data-track-index="4"><img id="e9-v" src="media/zip2/Birthday video files/l.jpeg" style="object-position:50% 50%" /></div>
+      <div class="ev split" id="e10" ><video id="e10-v" class="clip" src="media/ev3/e10.mp4" muted playsinline data-start="26.450" data-duration="2.430" data-track-index="2" style="object-position:50% 50%"></video></div>
+      <div class="ev full" id="e11" ><video id="e11-v" class="clip" src="media/ev3/e11.mp4" muted playsinline data-start="32.610" data-duration="1.160" data-track-index="2" style="object-position:50% 50%"></video></div>
+      <div class="ev full" id="e12" ><video id="e12-v" class="clip" src="media/ev3/e12.mp4" muted playsinline data-start="33.770" data-duration="1.600" data-track-index="2" style="object-position:50% 50%"></video></div>
+      <div class="clip ev split" id="e13" data-start="35.370" data-duration="1.060" data-track-index="4"><img id="e13-v" src="media/zip2/Birthday video files/p.jpeg" style="object-position:50% 50%" /></div>
+      <div class="ev boxp" id="e14" ><div class="card" id="e14-c" style="left:190px;top:292px;width:700px;height:1255px"><video id="e14-v" class="clip" src="media/ev3/e14.mp4" muted playsinline data-start="36.430" data-duration="1.080" data-track-index="2" style="object-position:50% 50%"></video></div></div>
+      <div class="ev full" id="e15" ><video id="e15-v" class="clip" src="media/ev3/e15.mp4" muted playsinline data-start="37.510" data-duration="0.510" data-track-index="2" style="object-position:50% 50%"></video></div>
+      <div class="clip ev full" id="e16" data-start="38.020" data-duration="1.260" data-track-index="3"><img id="e16-v" src="media/zip2/Birthday video files/s.jpeg" style="object-position:50% 50%" /></div>
+      <div class="ev boxp" id="e17"><div class="card scard" id="e17-s0" style="left:110px;top:346px;width:620px;height:827px;z-index:1"><img id="e17-s0-v" src="media/zip2/Birthday video files/t.jpeg" /></div><div class="card scard" id="e17-s1" style="left:360px;top:406px;width:620px;height:827px;z-index:2"><img id="e17-s1-v" src="media/zip2/Birthday video files/u.jpeg" /></div><div class="card scard" id="e17-s2" style="left:170px;top:382px;width:560px;height:996px;z-index:3"><video id="e17-s2-v" class="clip" src="media/ev3/e17_2.mp4" muted playsinline data-start="40.730" data-duration="1.990" data-track-index="10"></video></div><div class="card scard" id="e17-s3" style="left:350px;top:334px;width:580px;height:1031px;z-index:4"><video id="e17-s3-v" class="clip" src="media/ev3/e17_3.mp4" muted playsinline data-start="41.480" data-duration="1.240" data-track-index="11"></video></div></div>
+      <div class="clip ev" id="e18" data-start="43.000" data-duration="2.590" data-track-index="3"><div class="pol" id="e18-p0" style="left:90px;top:22px;width:360px"><div class="pol-img" style="background-image:url('media/zip2/Birthday video files/x.jpeg')"></div></div><div class="pol" id="e18-p1" style="left:620px;top:40px;width:360px"><div class="pol-img" style="background-image:url('media/zip2/Birthday video files/y.jpeg')"></div></div></div>
+      <div class="clip ev splitb" id="e19" data-start="45.590" data-duration="1.430" data-track-index="4"><img id="e19-v" src="media/zip2/Birthday video files/z.jpeg" style="object-position:50% 50%" /></div>
+      <div class="clip ev splitb" id="e20" data-start="47.020" data-duration="0.960" data-track-index="3"><img id="e20-v" src="media/zip2/Birthday video files/za.jpeg" style="object-position:50% 50%" /></div>
       <div class="clip subc" data-start="1.100" data-duration="0.690" data-track-index="6"><div class="sub" id="c0" style="top:1300px"><span class="">Looking</span> <span class="">back</span> <span class="">at</span> <span class="">the</span></div></div>
       <div class="clip subc" data-start="1.790" data-duration="0.730" data-track-index="6"><div class="sub" id="c1" style="top:1300px"><span class="hl">pictures</span></div></div>
       <div class="clip subc" data-start="2.520" data-duration="1.120" data-track-index="6"><div class="sub" id="c2" style="top:1300px"><span class="">I</span> <span class="">wonder</span> <span class="">how</span> <span class="">did</span></div></div>
@@ -94,14 +103,14 @@
       <div class="clip subc" data-start="10.670" data-duration="1.370" data-track-index="6"><div class="sub" id="c10" style="top:1300px"><span class="">honestly</span> <span class="hl">nothing</span> <span class="">could</span></div></div>
       <div class="clip subc" data-start="12.040" data-duration="0.750" data-track-index="6"><div class="sub" id="c11" style="top:1300px"><span class="">have</span> <span class="">prepared</span> <span class="">me</span> <span class="">for</span></div></div>
       <div class="clip subc" data-start="12.790" data-duration="0.240" data-track-index="6"><div class="sub" id="c12" style="top:1300px"><span class="">it</span></div></div>
-      <div class="clip subc" data-start="13.030" data-duration="0.680" data-track-index="6"><div class="sub dark" id="c13" style="top:1570px"><span class="">There</span> <span class="">were</span> <span class="">days</span> <span class="">when</span></div></div>
-      <div class="clip subc" data-start="13.710" data-duration="0.710" data-track-index="6"><div class="sub dark" id="c14" style="top:1570px"><span class="">I</span> <span class="">felt</span> <span class="">I</span> <span class="">was</span></div></div>
-      <div class="clip subc" data-start="14.420" data-duration="0.760" data-track-index="6"><div class="sub dark" id="c15" style="top:1570px"><span class="">doing</span> <span class="hl">everything</span> <span class="">in</span></div></div>
-      <div class="clip subc" data-start="15.180" data-duration="1.240" data-track-index="6"><div class="sub dark" id="c16" style="top:1570px"><span class="">my</span> <span class="">capacity</span> <span class="">but</span> <span class="">the</span></div></div>
+      <div class="clip subc" data-start="13.030" data-duration="0.680" data-track-index="6"><div class="sub" id="c13" style="top:1300px"><span class="">There</span> <span class="">were</span> <span class="">days</span> <span class="">when</span></div></div>
+      <div class="clip subc" data-start="13.710" data-duration="0.710" data-track-index="6"><div class="sub" id="c14" style="top:1300px"><span class="">I</span> <span class="">felt</span> <span class="">I</span> <span class="">was</span></div></div>
+      <div class="clip subc" data-start="14.420" data-duration="0.760" data-track-index="6"><div class="sub" id="c15" style="top:1300px"><span class="">doing</span> <span class="hl">everything</span> <span class="">in</span></div></div>
+      <div class="clip subc" data-start="15.180" data-duration="1.240" data-track-index="6"><div class="sub" id="c16" style="top:1300px"><span class="">my</span> <span class="">capacity</span> <span class="">but</span> <span class="">the</span></div></div>
       <div class="clip subc" data-start="16.420" data-duration="0.970" data-track-index="6"><div class="sub" id="c17" style="top:1300px"><span class="">needle</span> <span class="">was</span> <span class="">still</span> <span class="">not</span></div></div>
       <div class="clip subc" data-start="17.390" data-duration="0.400" data-track-index="6"><div class="sub" id="c18" style="top:1300px"><span class="hl">moving</span></div></div>
-      <div class="clip subc" data-start="17.790" data-duration="1.050" data-track-index="6"><div class="sub" id="c19" style="top:700px"><span class="">There</span> <span class="">were</span> <span class="hl">setbacks</span></div></div>
-      <div class="clip subc" data-start="18.840" data-duration="1.320" data-track-index="6"><div class="sub" id="c20" style="top:700px"><span class="">there</span> <span class="">were</span> <span class="hl">mistakes</span></div></div>
+      <div class="clip subc" data-start="17.790" data-duration="1.050" data-track-index="6"><div class="sub" id="c19" style="top:1040px"><span class="">There</span> <span class="">were</span> <span class="hl">setbacks</span></div></div>
+      <div class="clip subc" data-start="18.840" data-duration="1.320" data-track-index="6"><div class="sub" id="c20" style="top:1040px"><span class="">there</span> <span class="">were</span> <span class="hl">mistakes</span></div></div>
       <div class="clip subc" data-start="20.160" data-duration="0.610" data-track-index="6"><div class="sub" id="c21" style="top:1300px"><span class="">and</span> <span class="">the</span> <span class="">days</span> <span class="">when</span></div></div>
       <div class="clip subc" data-start="20.770" data-duration="1.140" data-track-index="6"><div class="sub" id="c22" style="top:1300px"><span class="">I</span> <span class="">questioned</span> <span class="">myself</span></div></div>
       <div class="clip subc" data-start="21.980" data-duration="1.360" data-track-index="6"><div class="sub" id="c23" style="top:1300px"><span class="">am</span> <span class="">I</span> <span class="">doing</span> <span class="">any</span></div></div>
@@ -119,17 +128,17 @@
       <div class="clip subc" data-start="33.740" data-duration="1.570" data-track-index="6"><div class="sub" id="c35" style="top:1300px"><span class="">our</span> <span class="hl">first</span> <span class="">launch</span></div></div>
       <div class="clip subc" data-start="35.360" data-duration="1.050" data-track-index="6"><div class="sub" id="c36" style="top:700px"><span class="">our</span> <span class="hl">first</span> <span class="">order</span></div></div>
       <div class="clip subc" data-start="36.410" data-duration="1.070" data-track-index="6"><div class="sub dark" id="c37" style="top:1570px"><span class="">someone</span> <span class="">who</span> <span class="">really</span></div></div>
-      <div class="clip subc" data-start="37.480" data-duration="0.860" data-track-index="6"><div class="sub dark" id="c38" style="top:1570px"><span class="hl">believed</span> <span class="">in</span> <span class="">what</span> <span class="">we</span></div></div>
+      <div class="clip subc" data-start="37.480" data-duration="0.860" data-track-index="6"><div class="sub" id="c38" style="top:1300px"><span class="hl">believed</span> <span class="">in</span> <span class="">what</span> <span class="">we</span></div></div>
       <div class="clip subc" data-start="38.340" data-duration="1.680" data-track-index="6"><div class="sub dark" id="c39" style="top:1570px"><span class="">had</span> <span class="">created</span> <span class="">and</span> <span class="">suddenly</span></div></div>
-      <div class="clip subc" data-start="40.020" data-duration="1.320" data-track-index="6"><div class="sub" id="c40" style="top:1300px"><span class="">all</span> <span class="">those</span> <span class="hl">little</span> <span class="">things</span></div></div>
-      <div class="clip subc" data-start="41.340" data-duration="1.090" data-track-index="6"><div class="sub" id="c41" style="top:1300px"><span class="hl">started</span> <span class="">adding</span> <span class="">up</span></div></div>
-      <div class="clip subc" data-start="42.430" data-duration="0.640" data-track-index="6"><div class="sub" id="c42" style="top:1300px"><span class="">So</span> <span class="">here&#x27;s</span> <span class="">to</span> <span class="">the</span></div></div>
+      <div class="clip subc" data-start="40.020" data-duration="1.320" data-track-index="6"><div class="sub dark" id="c40" style="top:1570px"><span class="">all</span> <span class="">those</span> <span class="hl">little</span> <span class="">things</span></div></div>
+      <div class="clip subc" data-start="41.340" data-duration="1.090" data-track-index="6"><div class="sub dark" id="c41" style="top:1570px"><span class="hl">started</span> <span class="">adding</span> <span class="">up</span></div></div>
+      <div class="clip subc" data-start="42.430" data-duration="0.640" data-track-index="6"><div class="sub dark" id="c42" style="top:1570px"><span class="">So</span> <span class="">here&#x27;s</span> <span class="">to</span> <span class="">the</span></div></div>
       <div class="clip subc" data-start="43.070" data-duration="1.070" data-track-index="6"><div class="sub" id="c43" style="top:1300px"><span class="hl">sleepless</span> <span class="">nights</span></div></div>
       <div class="clip subc" data-start="44.140" data-duration="0.650" data-track-index="6"><div class="sub" id="c44" style="top:1300px"><span class="">the</span> <span class="hl">tears</span></div></div>
       <div class="clip subc" data-start="44.790" data-duration="0.800" data-track-index="6"><div class="sub" id="c45" style="top:1300px"><span class="">the</span> <span class="hl">laughter</span></div></div>
-      <div class="clip subc" data-start="45.590" data-duration="0.540" data-track-index="6"><div class="sub" id="c46" style="top:1300px"><span class="">Everyone</span> <span class="">who&#x27;s</span> <span class="">been</span></div></div>
-      <div class="clip subc" data-start="46.130" data-duration="0.890" data-track-index="6"><div class="sub" id="c47" style="top:1300px"><span class="">part</span> <span class="">of</span> <span class="">this</span> <span class="hl">journey</span></div></div>
-      <div class="clip subc" data-start="47.020" data-duration="0.970" data-track-index="6"><div class="sub" id="c48" style="top:1300px"><span class="hl">thank</span> <span class="">you</span> <span class="">very</span> <span class="">much</span></div></div>
+      <div class="clip subc" data-start="45.590" data-duration="0.540" data-track-index="6"><div class="sub" id="c46" style="top:1040px"><span class="">Everyone</span> <span class="">who&#x27;s</span> <span class="">been</span></div></div>
+      <div class="clip subc" data-start="46.130" data-duration="0.890" data-track-index="6"><div class="sub" id="c47" style="top:1040px"><span class="">part</span> <span class="">of</span> <span class="">this</span> <span class="hl">journey</span></div></div>
+      <div class="clip subc" data-start="47.020" data-duration="0.970" data-track-index="6"><div class="sub" id="c48" style="top:1040px"><span class="hl">thank</span> <span class="">you</span> <span class="">very</span> <span class="">much</span></div></div>
       <div class="clip subc" data-start="47.990" data-duration="1.240" data-track-index="6"><div class="sub" id="c49" style="top:1300px"><span class="">One</span> <span class="hl">year</span> <span class="">of</span> <span class="">GLOSSKN</span></div></div>
       <div class="clip subc" data-start="49.230" data-duration="0.970" data-track-index="6"><div class="sub" id="c50" style="top:1300px"><span class="">and</span> <span class="">we</span> <span class="">are</span> <span class="">just</span></div></div>
       <div class="clip subc" data-start="50.200" data-duration="0.900" data-track-index="6"><div class="sub" id="c51" style="top:1300px"><span class="">getting</span> <span class="hl">started</span></div></div>
@@ -138,14 +147,6 @@
     <script>
       const tl = gsap.timeline({ paused: true });
       tl.set("#spk",{scale:1},0);
-      tl.to("#spk",{scale:1.07,duration:2.500,ease:"none"},5.200);
-      tl.set("#spk",{scale:1},7.700);
-      tl.to("#spk",{scale:1.07,duration:2.460,ease:"none"},10.570);
-      tl.set("#spk",{scale:1},13.030);
-      tl.to("#spk",{scale:1.07,duration:3.730,ease:"none"},28.880);
-      tl.set("#spk",{scale:1},32.610);
-      tl.to("#spk",{scale:1.07,duration:3.220,ease:"none"},47.980);
-      tl.set("#spk",{scale:1},51.200);
       tl.fromTo("#e0-p0",{opacity:0,scale:0.55,rotation:-18,y:70},{opacity:1,scale:1,rotation:-6,y:0,duration:0.5,ease:"back.out(1.6)"},1.550);
       tl.to("#e0-p0",{opacity:0,y:-60,duration:0.24,ease:"power2.in"},5.100);
       tl.fromTo("#e0-p1",{opacity:0,scale:0.55,rotation:9,y:70},{opacity:1,scale:1,rotation:3,y:0,duration:0.5,ease:"back.out(1.6)"},2.000);
@@ -154,52 +155,68 @@
       tl.to("#e0-p2",{opacity:0,y:-60,duration:0.24,ease:"power2.in"},5.200);
       tl.fromTo("#e1-p0",{opacity:0,scale:0.55,rotation:18,y:70},{opacity:1,scale:1,rotation:6,y:0,duration:0.5,ease:"back.out(1.6)"},7.700);
       tl.to("#e1-p0",{opacity:0,y:-60,duration:0.24,ease:"power2.in"},8.970);
-      tl.fromTo("#e2-c",{scale:0.93,y:30},{scale:1,y:0,duration:0.45,ease:"power3.out"},13.030);
-      tl.fromTo("#e2-v",{scale:1.0},{scale:1.07,duration:1.390,ease:"none"},13.030);
-      tl.fromTo("#e3-c",{scale:0.93,y:30},{scale:1,y:0,duration:0.45,ease:"power3.out"},14.420);
-      tl.fromTo("#e3-v",{scale:1.0},{scale:1.07,duration:1.830,ease:"none"},14.420);
-      tl.fromTo("#e4",{yPercent:-100},{yPercent:0,duration:0.38,ease:"power3.out"},17.800);
-      tl.to("#spkw",{y:250,duration:0.38,ease:"power3.out"},17.800);
-      tl.fromTo("#e4-v",{scale:1.0},{scale:1.07,duration:1.050,ease:"none"},17.800);
-      tl.set("#e5",{opacity:0},0);tl.set("#e5",{opacity:1},18.850);tl.set("#e5",{opacity:0},20.260);
-      tl.set("#e5",{yPercent:0},18.850);tl.set("#spkw",{y:250},18.850);
-      tl.to("#e5",{yPercent:-100,duration:0.3,ease:"power3.in"},19.960);
+      tl.fromTo("#e2",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},13.030);
+      tl.fromTo("#e2-v",{scale:1.0},{scale:1.07,duration:0.580,ease:"none"},13.030);
+      tl.fromTo("#e3",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},13.610);
+      tl.fromTo("#e3-v",{scale:1.0},{scale:1.07,duration:0.620,ease:"none"},13.610);
+      tl.fromTo("#e4",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},14.230);
+      tl.fromTo("#e4-v",{scale:1.0},{scale:1.07,duration:0.870,ease:"none"},14.230);
+      tl.fromTo("#e5",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},15.100);
+      tl.fromTo("#e5-v",{scale:1.0},{scale:1.07,duration:1.150,ease:"none"},15.100);
+      tl.fromTo("#e6",{yPercent:100},{yPercent:0,duration:0.38,ease:"power3.out"},17.800);
+      tl.to("#spkw",{y:-330,duration:0.38,ease:"power3.out"},17.800);
+      tl.fromTo("#e6-v",{scale:1.0},{scale:1.07,duration:1.050,ease:"none"},17.800);
+      tl.set("#e7",{yPercent:0},18.850);tl.set("#spkw",{y:-330},18.850);
+      tl.to("#e7",{yPercent:100,duration:0.3,ease:"power3.in"},19.960);
       tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},19.960);
-      
-      tl.set("#e6",{opacity:0},0);tl.set("#e6",{opacity:1},24.140);tl.set("#e6",{opacity:0},25.270);
-      tl.fromTo("#e6",{yPercent:-100},{yPercent:0,duration:0.38,ease:"power3.out"},24.140);
+      tl.fromTo("#e7-v",{scale:1.0},{scale:1.07,duration:1.410,ease:"none"},18.850);
+      tl.fromTo("#e8",{yPercent:-100},{yPercent:0,duration:0.38,ease:"power3.out"},24.140);
       tl.to("#spkw",{y:250,duration:0.38,ease:"power3.out"},24.140);
-      
-      tl.set("#e7",{yPercent:0},25.270);tl.set("#spkw",{y:250},25.270);
-      tl.fromTo("#e7-v",{scale:1.0},{scale:1.07,duration:1.180,ease:"none"},25.270);
-      tl.set("#e8",{opacity:0},0);tl.set("#e8",{opacity:1},26.450);tl.set("#e8",{opacity:0},28.880);
-      tl.set("#e8",{yPercent:0},26.450);tl.set("#spkw",{y:250},26.450);
-      tl.to("#e8",{yPercent:-100,duration:0.3,ease:"power3.in"},28.580);
+      tl.fromTo("#e8-v",{scale:1.0},{scale:1.07,duration:1.130,ease:"none"},24.140);
+      tl.set("#e9",{yPercent:0},25.270);tl.set("#spkw",{y:250},25.270);
+      tl.fromTo("#e9-v",{scale:1.0},{scale:1.07,duration:1.180,ease:"none"},25.270);
+      tl.set("#e10",{opacity:0},0);tl.set("#e10",{opacity:1},26.450);tl.set("#e10",{opacity:0},28.880);
+      tl.set("#e10",{yPercent:0},26.450);tl.set("#spkw",{y:250},26.450);
+      tl.to("#e10",{yPercent:-100,duration:0.3,ease:"power3.in"},28.580);
       tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},28.580);
       
-      tl.set("#e9",{opacity:0},0);tl.set("#e9",{opacity:1},32.610);tl.set("#e9",{opacity:0},33.770);
-      tl.fromTo("#e9",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},32.610);
+      tl.set("#e11",{opacity:0},0);tl.set("#e11",{opacity:1},32.610);tl.set("#e11",{opacity:0},33.770);
+      tl.fromTo("#e11",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},32.610);
       
-      tl.set("#e10",{opacity:0},0);tl.set("#e10",{opacity:1},33.770);tl.set("#e10",{opacity:0},35.370);
-      tl.fromTo("#e10",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},33.770);
+      tl.set("#e12",{opacity:0},0);tl.set("#e12",{opacity:1},33.770);tl.set("#e12",{opacity:0},35.370);
+      tl.fromTo("#e12",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},33.770);
       
-      tl.set("#e11",{opacity:0},0);tl.set("#e11",{opacity:1},35.370);tl.set("#e11",{opacity:0},36.430);
-      tl.set("#e11",{yPercent:0},35.370);tl.set("#spkw",{y:250},35.370);
-      
-      tl.set("#e12",{opacity:0},0);tl.set("#e12",{opacity:1},36.430);tl.set("#e12",{opacity:0},39.280);
-      tl.fromTo("#e12-c",{scale:0.93,y:30},{scale:1,y:0,duration:0.45,ease:"power3.out"},36.430);
+      tl.set("#e13",{yPercent:0},35.370);tl.set("#spkw",{y:250},35.370);
+      tl.fromTo("#e13-v",{scale:1.0},{scale:1.07,duration:1.060,ease:"none"},35.370);
+      tl.set("#e14",{opacity:0},0);tl.set("#e14",{opacity:1},36.430);tl.set("#e14",{opacity:0},37.510);
+      tl.fromTo("#e14-c",{scale:0.93,y:30},{scale:1,y:0,duration:0.45,ease:"power3.out"},36.430);
       
       tl.set("#spkw",{y:0},36.430);
-      tl.set("#e13",{opacity:0},0);tl.set("#e13",{opacity:1},39.280);tl.set("#e13",{opacity:0},42.670);
-      tl.fromTo("#e13",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},39.280);
+      tl.set("#e15",{opacity:0},0);tl.set("#e15",{opacity:1},37.510);tl.set("#e15",{opacity:0},38.020);
+      tl.fromTo("#e15",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},37.510);
       
-      tl.fromTo("#e14-p0",{opacity:0,scale:0.55,rotation:-15,y:70},{opacity:1,scale:1,rotation:-5,y:0,duration:0.5,ease:"back.out(1.6)"},43.000);
-      tl.to("#e14-p0",{opacity:0,y:-60,duration:0.24,ease:"power2.in"},45.300);
-      tl.fromTo("#e14-p1",{opacity:0,scale:0.55,rotation:15,y:70},{opacity:1,scale:1,rotation:5,y:0,duration:0.5,ease:"back.out(1.6)"},44.120);
-      tl.to("#e14-p1",{opacity:0,y:-60,duration:0.24,ease:"power2.in"},45.350);
-      tl.set("#e15",{opacity:0},0);tl.set("#e15",{opacity:1},45.590);tl.set("#e15",{opacity:0},47.980);
-      tl.fromTo("#e15",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},45.590);
-      
+      tl.fromTo("#e16",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},38.020);
+      tl.fromTo("#e16-v",{scale:1.0},{scale:1.07,duration:1.260,ease:"none"},38.020);
+      tl.set("#e17-s0",{opacity:0},0);
+      tl.fromTo("#e17-s0",{opacity:1,scale:1.18,rotation:-12.5,y:40},{opacity:1,scale:1,rotation:-5,y:0,duration:0.42,ease:"power3.out"},39.280);
+      tl.set("#e17-s1",{opacity:0},0);
+      tl.fromTo("#e17-s1",{opacity:1,scale:1.18,rotation:10.0,y:40},{opacity:1,scale:1,rotation:4,y:0,duration:0.42,ease:"power3.out"},39.980);
+      tl.set("#e17-s2",{opacity:0},0);
+      tl.fromTo("#e17-s2",{opacity:1,scale:1.18,rotation:-7.5,y:40},{opacity:1,scale:1,rotation:-3,y:0,duration:0.42,ease:"power3.out"},40.730);
+      tl.set("#e17-s3",{opacity:0},0);
+      tl.fromTo("#e17-s3",{opacity:1,scale:1.18,rotation:12.5,y:40},{opacity:1,scale:1,rotation:5,y:0,duration:0.42,ease:"power3.out"},41.480);
+      tl.set("#e17",{opacity:0},0);tl.set("#e17",{opacity:1},39.280);tl.set("#e17",{opacity:0},42.720);
+      tl.fromTo("#e18-p0",{opacity:0,scale:0.55,rotation:-15,y:70},{opacity:1,scale:1,rotation:-5,y:0,duration:0.5,ease:"back.out(1.6)"},43.000);
+      tl.to("#e18-p0",{opacity:0,y:-60,duration:0.24,ease:"power2.in"},45.300);
+      tl.fromTo("#e18-p1",{opacity:0,scale:0.55,rotation:15,y:70},{opacity:1,scale:1,rotation:5,y:0,duration:0.5,ease:"back.out(1.6)"},44.120);
+      tl.to("#e18-p1",{opacity:0,y:-60,duration:0.24,ease:"power2.in"},45.350);
+      tl.fromTo("#e19",{yPercent:100},{yPercent:0,duration:0.38,ease:"power3.out"},45.590);
+      tl.to("#spkw",{y:-330,duration:0.38,ease:"power3.out"},45.590);
+      tl.fromTo("#e19-v",{scale:1.0},{scale:1.07,duration:1.430,ease:"none"},45.590);
+      tl.set("#e20",{yPercent:0},47.020);tl.set("#spkw",{y:-330},47.020);
+      tl.to("#e20",{yPercent:100,duration:0.3,ease:"power3.in"},47.680);
+      tl.to("#spkw",{y:0,duration:0.3,ease:"power3.in"},47.680);
+      tl.fromTo("#e20-v",{scale:1.0},{scale:1.07,duration:0.960,ease:"none"},47.020);
       tl.fromTo("#c0",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},1.100);
       tl.fromTo("#c1",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},1.790);
       tl.fromTo("#c2",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},2.520);
