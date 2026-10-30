@@ -24,24 +24,22 @@ SPLIT_Y, POL_Y = 250, 220   # how far she slides down for a half-frame / for pol
 # (mode, start, end, source, extra)   modes: polrow | polaroid | logo | full | split   (images or videos)
 EV = [
     ("polrow", 1.55, at("such little time", end=True) + 0.15, None,
-     {"items": [(Z + "1.jpeg", 40, 170, -6, 0.0), (Z + "2.jpeg", 385, 125, 3, 0.45), (Z + "3.jpeg", 730, 175, 7, 0.9)], "w": 310}),
+     {"items": [(Z + "1.jpeg", 28, 42, -6, 0.0), (Z + "2.jpeg", 375, 18, 3, 0.45), (Z + "3.jpeg", 722, 48, 7, 0.9)], "w": 330}),
     ("polaroid", at("one was the little") - 0.05, at("the other one") - 0.05, Z + "4.jpeg", {"x": 715, "y": 520, "rot": 6, "w": 340}),
-    ("logo", at("the other one"), at("nothing could") - 0.1, "media/logo_dark.png", {}),
-    ("full", at("there were days") - 0.05, at("but the needle"), Z + "6.jpeg", {}),
-    ("full", at("but the needle"), at("there were setbacks") - 0.04, Z + "7.jpeg", {}),
+    ("full", at("there were days") - 0.05, at("doing everything") - 0.05, Z + "6.jpeg", {}),
+    ("full", at("doing everything") - 0.05, at("but the needle"), Z + "7.jpeg", {}),
     ("split", at("there were setbacks") - 0.04, at("there were mistakes") - 0.04, Z + "8.jpeg", {}),
     ("split", at("there were mistakes") - 0.04, at("and the days") + 0.05, Z + "9.mp4", {"ss": 1.2}),
     ("split", at("between being") - 0.1, at("managing") - 0.05, Z + "10.mp4", {"ss": 0.85, "speed": 0.35}),  # steady moment only
     ("split", at("managing") - 0.05, at("things hardly") - 0.1, Z + "11.jpeg", {}),
-    ("full", at("my baby's first") - 0.05, at("our first launch") - 0.02, Z + "12.mp4", {"ss": 5.8, "speed": 1.8}),
+    ("full", at("my baby's first") - 0.05, at("our first launch") - 0.02, Z + "12.mp4", {"ss": 3.7, "speed": 1.4}),
     ("full", at("our first launch") - 0.02, at("our first order") - 0.04, Z + "13.mp4", {"ss": 12.2}),
     ("split", at("our first order") - 0.04, at("someone who") - 0.03, Z + "14.mp4", {"ss": 0.2, "pos": "30% 50%"}),
     ("full", at("someone who") - 0.03, at("and suddenly") - 0.05, Z + "15.mp4", {"ss": 3.6}),
     ("full", at("and suddenly") - 0.05, at("adding up", end=True) + 0.2, Z + "16.mp4", {"ss": 1.5, "speed": 1.5}),
     ("polrow", at("sleepless") - 0.12, at("everyone") - 0.05, None,
-     {"items": [(Z + "17.jpeg", 80, 150, -5, 0.0), (Z + "18.jpeg", 590, 175, 5, at("the tears") - at("sleepless") + 0.05)], "w": 410}),
+     {"items": [(Z + "17.jpeg", 90, 22, -5, 0.0), (Z + "18.jpeg", 620, 40, 5, at("the tears") - at("sleepless") + 0.05)], "w": 360}),
     ("full", at("everyone") - 0.05, at("one year of") - 0.06, Z + "19.mp4", {"ss": 1.7}),
-    ("logo", at("one year of") + 0.05, SPK_END - 0.1, "media/logo_dark.png", {}),
 ]
 # subtle push-ins on the plain founder shots (none on "am I doing any of this right?")
 ZOOMS = [(at("I was literally") - 0.1, at("one was the little") - 0.05), (at("and honestly"), at("there were days") - 0.05),
@@ -65,6 +63,8 @@ def fit(k, src, d, ss=0.0, speed=None):
     return out
 
 is_vid = lambda s: s and s.endswith(".mp4")
+# stills never linger: at most 2 s on screen
+EV = [(m, a, min(b, a + 2.0) if (m in ("full", "split") and not is_vid(s)) else b, s, x) for m, a, b, s, x in EV]
 EV = [(m, round(a, 3), round(b, 3), fit(k, s, b - a, x.get("ss", 0.0), x.get("speed")) if is_vid(s) else s, x)
       for k, (m, a, b, s, x) in enumerate(EV)]
 els, tl, cues = [], [], []
@@ -73,7 +73,7 @@ media = lambda cid, src, a, b, pos="50% 50%": (
     f'<video id="{cid}-v" class="clip" src="{src}" muted playsinline data-start="{a:.3f}" data-duration="{b - a:.3f}" data-track-index="2" style="object-position:{pos}"></video>'
     if is_vid(src) else f'<img id="{cid}-v" src="{src}" style="object-position:{pos}" />')
 
-els.append(f'<div id="spkw"><video id="spk" class="clip" src="media/v3/founder.mp4" playsinline data-start="0" data-duration="{SPK_END}" data-track-index="0" data-has-audio="true"></video></div>')
+els.append(f'<div id="spkw"><video id="spk" class="clip" src="media/v3/founder_baked.mp4" playsinline data-start="0" data-duration="{SPK_END}" data-track-index="0" data-has-audio="true"></video></div>')
 tl.append('tl.set("#spk",{scale:1},0);')
 for a, b in ZOOMS:
     tl.append(f'tl.to("#spk",{{scale:1.07,duration:{b - a:.3f},ease:"none"}},{a:.3f});')
@@ -113,9 +113,6 @@ for k, (mode, a, b, src, x) in enumerate(EV):
             tl.append(f'tl.to("#{cid}-p{j}",{{opacity:0,y:-60,duration:0.24,ease:"power2.in"}},{b - 0.24 - 0.05 * (len(items) - 1 - j):.3f});')
             cue("shutter", a + dl, 0.3)
         els.append(f'<div class="clip ev" id="{cid}" {wrap}>{"".join(parts)}</div>')
-        if mode == "polrow":   # she slides down so the photos sit above her head
-            tl.append(f'tl.to("#spkw",{{y:{POL_Y},duration:0.45,ease:"power3.out"}},{a - 0.1:.3f});')
-            tl.append(f'tl.to("#spkw",{{y:0,duration:0.35,ease:"power3.inOut"}},{b - 0.3:.3f});')
     elif mode == "logo":
         els.append(f'<div class="clip ev" id="{cid}" {wrap}><img class="logo" id="{cid}-l" src="{src}" /></div>')
         tl.append(f'tl.fromTo("#{cid}-l",{{opacity:0,y:-30,scale:0.85}},{{opacity:1,y:0,scale:1,duration:0.55,ease:"back.out(1.6)"}},{a:.3f});')
@@ -148,6 +145,7 @@ tl.append(f'tl.fromTo("#end .end",{{opacity:0}},{{opacity:1,duration:0.4}},{a:.3
 for i, (sel, d) in enumerate([("#end-k", 0.1), ("#end-n", 0.3), ("#end-s", 0.6), ("#end-logo", 0.9)]):
     tl.append(f'tl.fromTo("{sel}",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,ease:"power2.out"}},{a + d:.3f});')
 cue("sparkle", a + 0.25, 0.3); cue("ding", a + 0.35, 0.3)
+for t_logo in (9.0 + 0.26, 47.9 + 0.19): cue("sparkle", t_logo, 0.2)   # 3D logo rising behind her (baked into founder_baked.mp4)
 
 CSS = open(os.path.join(HERE, "style3.css")).read()
 page = f"""<!doctype html>
@@ -175,5 +173,5 @@ page = f"""<!doctype html>
 </html>
 """
 open(os.path.join(PROJECT, "index.html"), "w").write(page)
-json.dump(dict(duration=DUR, end_at=SPK_END, cues=sorted(cues, key=lambda c: c[1])), open(os.path.join(PROJECT, "media", "cues.json"), "w"), indent=1)
+json.dump(dict(duration=DUR, end_at=SPK_END, music_gain=1.0, cues=sorted(cues, key=lambda c: c[1])), open(os.path.join(PROJECT, "media", "cues.json"), "w"), indent=1)
 print("events", len(EV), "subs", len(chunks), "cues", len(cues), "dur", DUR)

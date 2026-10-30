@@ -8,3 +8,7 @@ render.log
 media/ev/
 media/br/
 render3.log
+media/v3/logo_w1/
+media/v3/logo_w2/
+media/v3/matte/
+media/*.wav

@@ -3,7 +3,7 @@ import json, os, subprocess, sys
 HERE = os.path.dirname(os.path.abspath(__file__)); PROJECT = os.path.dirname(HERE); M = os.path.join(PROJECT, "media")
 SFX = os.path.join(PROJECT, "..", "glosskn-reel", "media", "sfx")
 cj = json.load(open(os.path.join(M, "cues.json")))
-ins, g, mix = ["-i", os.path.join(M, "music.wav")], "[0:a]volume=0.22[m];", ["[m]"]
+ins, g, mix = ["-i", os.path.join(M, "music.wav")], f"[0:a]volume={cj.get('music_gain', 0.16)}[m];", ["[m]"]
 for j, (n, t, gain) in enumerate(cj["cues"]):
     ins += ["-i", os.path.join(SFX, n + ".wav")]; ms = int(t * 1000)
     g += f"[{j + 1}:a]volume={gain * 0.5:.3f},adelay={ms}|{ms}[s{j}];"; mix.append(f"[s{j}]")
