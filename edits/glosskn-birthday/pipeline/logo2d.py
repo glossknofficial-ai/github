@@ -3,9 +3,13 @@ import os
 from PIL import Image
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); V = os.path.join(P, "media", "v3")
 src = Image.open(os.path.join(P, "media", "logo_dark.png")).convert("RGBA")
-W = 760; logo = src.resize((W, round(src.height * W / src.width)), Image.LANCZOS)
+W = 620; logo = src.resize((W, round(src.height * W / src.width)), Image.LANCZOS)
+# light box behind the wordmark (like the brand logo card) so it stands out on the wall
+BOXW, BOXH = 760, 240
+card = Image.new("RGBA", (BOXW, BOXH), (243, 242, 242, 255))
+card.alpha_composite(logo, ((BOXW - W) // 2, (BOXH - logo.height) // 2)); logo = card; W = BOXW
 ease_back = lambda t, s=1.3: 1 + (s + 1) * (t - 1) ** 3 + s * (t - 1) ** 2
-FPS, TOP = 30, 250
+FPS, TOP = 30, 190
 for wid, dur, t_in, t_out in [("w1", 2.7, 0.26, 2.44 - 0.35), ("w2", 3.3, 0.19, 3.3)]:
     d = os.path.join(V, f"logo_{wid}"); os.makedirs(d, exist_ok=True)
     for f in range(round(dur * FPS)):

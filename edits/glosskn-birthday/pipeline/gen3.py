@@ -30,28 +30,28 @@ EV = [
     ("polaroid", at("one was the little") - 0.05, at("the other one") - 0.05, Z2 + "d.jpeg", {"x": 715, "y": 520, "rot": 6, "w": 340}),
     # four photos one by one in a rounded clip card
     ("box", at("there were days") - 0.05, at("when I felt") - 0.02, Z2 + "e.jpeg", {"still": True, "w": 860, "ar": 0.75}),
-    ("box", at("when I felt") - 0.02, at("I was doing") - 0.02, Z2 + "f.jpeg", {"sfx": None, "still": True, "w": 860, "ar": 0.75}),
-    ("box", at("I was doing") - 0.02, at("in my capacity") - 0.02, Z2 + "g.jpeg", {"sfx": None, "still": True, "w": 860, "ar": 0.75}),
-    ("box", at("in my capacity") - 0.02, at("but the needle"), Z2 + "h.jpeg", {"sfx": None, "still": True, "w": 860, "ar": 0.75}),
-    ("split", at("there were setbacks") - 0.04, at("there were mistakes") - 0.04, Z2 + "i.jpeg", {"sfx": "shutter"}),
-    ("split", at("there were mistakes") - 0.04, at("and the days") + 0.05, Z2 + "j.jpeg", {"sfx": "shutter"}),
+    ("box", at("when I felt") - 0.02, at("I was doing") - 0.02, Z2 + "f.jpeg", {"still": True, "w": 860, "ar": 0.75}),
+    ("box", at("I was doing") - 0.02, at("in my capacity") - 0.02, Z2 + "g.jpeg", {"still": True, "w": 860, "ar": 0.75}),
+    ("box", at("in my capacity") - 0.02, at("but the needle"), Z2 + "h.jpeg", {"still": True, "w": 860, "ar": 0.75}),
+    ("split", at("there were setbacks") - 0.04, at("there were mistakes") - 0.04, Z2 + "i.jpeg", {}),
+    ("split", at("there were mistakes") - 0.04, at("and the days") + 0.05, Z2 + "j.jpeg", {}),
     ("split", at("between being") - 0.1, at("managing") - 0.05, Z2 + "k.jpeg", {}),
-    ("split", at("managing") - 0.05, at("building a brand") - 0.05, Z2 + "l.jpeg", {"sfx": None}),
-    ("split", at("building a brand") - 0.05, at("things hardly") - 0.1, Z2 + "m.mp4", {"ss": 0.5, "sfx": None}),
+    ("split", at("managing") - 0.05, at("building a brand") - 0.05, Z2 + "l.jpeg", {}),
+    ("split", at("building a brand") - 0.05, at("things hardly") - 0.1, Z2 + "m.mp4", {"ss": 0.5}),
     ("full", at("my baby's first") - 0.05, at("our first launch") - 0.02, Z2 + "n.mp4", {"ss": 0.4}),
     ("full", at("our first launch") - 0.02, at("our first order") - 0.04, Z2 + "o.mp4", {"ss": 12.2}),
     ("split", at("our first order") - 0.04, at("someone who") - 0.03, Z2 + "p.jpeg", {}),
-    ("full", at("someone who") - 0.03, at("believed in") - 0.02, Z2 + "q.mp4", {"ss": 3.6, "sfx": None}),
-    ("full", at("believed in") - 0.02, at("what we had") - 0.02, Z2 + "s.jpeg", {"sfx": None}),
-    ("full", at("what we had") - 0.02, at("and suddenly") - 0.05, Z2 + "r.mp4", {"ss": 1.7, "sfx": None}),
+    ("full", at("someone who") - 0.03, at("believed in") - 0.02, Z2 + "q.mp4", {"ss": 3.6}),
+    ("full", at("believed in") - 0.02, at("what we had") - 0.02, Z2 + "s.jpeg", {}),
+    ("full", at("what we had") - 0.02, at("and suddenly") - 0.05, Z2 + "r.mp4", {"ss": 1.7}),
     # "all those little things started adding up": cards pile up on the page
     ("stack", at("and suddenly") - 0.05, at("adding up", end=True) + 0.25, None,
      {"items": [(Z2 + "t.jpeg", 0.0, -5, 620, 0.75, -120, -80, {}), (Z2 + "u.jpeg", 0.7, 4, 620, 0.75, 130, -20, {}),
                 (Z2 + "v.mp4", 1.45, -3, 560, 0.5625, -90, 40, {"ss": 1.2}), (Z2 + "w.mp4", 2.2, 5, 580, 0.5625, 100, 10, {"ss": 3.0})]}),
     ("polrow", at("sleepless") - 0.12, at("everyone") - 0.05, None,
-     {"items": [(Z2 + "x.jpeg", 90, 22, -5, 0.0), (Z2 + "y.jpeg", 620, 40, 5, at("the tears") - at("sleepless") + 0.05)], "w": 360, "silent": True}),
+     {"items": [(Z2 + "x.jpeg", 90, 22, -5, 0.0), (Z2 + "y.jpeg", 620, 40, 5, at("the tears") - at("sleepless") + 0.05)], "w": 360}),
     ("splitb", at("everyone") - 0.05, at("thank you") - 0.05, Z2 + "z.jpeg", {}),
-    ("splitb", at("thank you") - 0.05, at("one year of") - 0.06, Z2 + "za.jpeg", {"sfx": None}),
+    ("splitb", at("thank you") - 0.05, at("one year of") - 0.06, Z2 + "za.jpeg", {}),
 ]
 COVER = ("full", "split", "splitb", "box", "stack")      # layouts that take over the frame (fully or the top half)
 # subtle push-ins on the plain founder shots (none on "am I doing any of this right?")
@@ -89,7 +89,7 @@ for k, (m, a, b, s_, x) in enumerate(EV):
         x["items"] = [(fit(f"{k}_{j}", src, b - a - dl, o.get("ss", 0.0)) if is_vid(src) else src, dl, rot, w, ar, dx, dy, o)
                       for j, (src, dl, rot, w, ar, dx, dy, o) in enumerate(x["items"])]
 els, tl, cues = [], [], []
-cue = lambda n, t, g: n and cues.append((n, round(max(0.0, t), 3), g))   # n=None/False -> no sound
+cue = lambda n, t, g: cues.append((n, round(max(0.0, t), 3), g))
 media = lambda cid, src, a, b, pos="50% 50%": (
     f'<video id="{cid}-v" class="clip" src="{src}" muted playsinline data-start="{a:.3f}" data-duration="{b - a:.3f}" data-track-index="2" style="object-position:{pos}"></video>'
     if is_vid(src) else f'<img id="{cid}-v" src="{src}" style="object-position:{pos}" />')
@@ -113,7 +113,7 @@ for k, (mode, a, b, src, x) in enumerate(EV):
         if not x.get("still"):   # stills marked "still" are shown flat: no push or Ken Burns
             tl.append(f'tl.fromTo("#{cid}",{{scale:1.05}},{{scale:1,duration:0.4,ease:"power2.out"}},{a:.3f});'); tl.append(kb)
         if from_cover and prev[0] in ("split", "splitb"): tl.append(f'tl.set("#spkw",{{y:0}},{a:.3f});')
-        cue(x.get("sfx", "click"), a - 0.01, 0.2)
+        cue("click", a - 0.01, 0.2)
     elif mode == "box":  # reference-style rounded card on a soft page
         w = x["w"]; h = round(w / x["ar"]); top = (1920 - h) // 2 + (70 if x.get("logo") else -40)
         logo = '<img class="box-logo" id="%s-l" src="media/v3/logo3d.png" />' % cid if x.get("logo") else ""
@@ -123,15 +123,15 @@ for k, (mode, a, b, src, x) in enumerate(EV):
         if not x.get("still"): tl.append(kb)
         if logo: tl.append(f'tl.fromTo("#{cid}-l",{{y:60,scale:0.9,opacity:0}},{{y:0,scale:1,opacity:1,duration:0.6,ease:"back.out(1.5)"}},{a + 0.1:.3f});')
         if from_cover and prev[0] in ("split", "splitb"): tl.append(f'tl.set("#spkw",{{y:0}},{a:.3f});')
-        cue(x.get("sfx", "click"), a - 0.01, 0.2)
+        cue("click", a - 0.01, 0.2)
     elif mode == "split":
         els.append(f'<div class="{"clip " if wrap else ""}ev split" id="{cid}" {wrap}>{media(cid, src, a, b, x.get("pos", "50% 50%"))}</div>')
         if from_cover:   # straight cut, no slide (nothing underneath may show)
             tl.append(f'tl.set("#{cid}",{{yPercent:0}},{a:.3f});tl.set("#spkw",{{y:{SPLIT_Y}}},{a:.3f});')
-            cue(x.get("sfx", "click"), a - 0.01, 0.18)
+            cue("click", a - 0.01, 0.18)
         else:
             tl.append(f'tl.fromTo("#{cid}",{{yPercent:-100}},{{yPercent:0,duration:0.38,ease:"power3.out"}},{a:.3f});')
-            tl.append(f'tl.to("#spkw",{{y:{SPLIT_Y},duration:0.38,ease:"power3.out"}},{a:.3f});'); cue(x.get("sfx", "click"), a - 0.01, 0.2)
+            tl.append(f'tl.to("#spkw",{{y:{SPLIT_Y},duration:0.38,ease:"power3.out"}},{a:.3f});'); cue("click", a - 0.01, 0.2)
         if not to_cover:
             tl.append(f'tl.to("#{cid}",{{yPercent:-100,duration:0.3,ease:"power3.in"}},{b - 0.3:.3f});')
             tl.append(f'tl.to("#spkw",{{y:0,duration:0.3,ease:"power3.in"}},{b - 0.3:.3f});')
@@ -139,10 +139,10 @@ for k, (mode, a, b, src, x) in enumerate(EV):
     elif mode == "splitb":   # mirror of split: she moves up, picture fills the lower half
         els.append(f'<div class="{"clip " if wrap else ""}ev splitb" id="{cid}" {wrap}>{media(cid, src, a, b, x.get("pos", "50% 50%"))}</div>')
         if from_cover:
-            tl.append(f'tl.set("#{cid}",{{yPercent:0}},{a:.3f});tl.set("#spkw",{{y:{-SPLITB_Y}}},{a:.3f});'); cue(x.get("sfx", "click"), a - 0.01, 0.18)
+            tl.append(f'tl.set("#{cid}",{{yPercent:0}},{a:.3f});tl.set("#spkw",{{y:{-SPLITB_Y}}},{a:.3f});'); cue("click", a - 0.01, 0.18)
         else:
             tl.append(f'tl.fromTo("#{cid}",{{yPercent:100}},{{yPercent:0,duration:0.38,ease:"power3.out"}},{a:.3f});')
-            tl.append(f'tl.to("#spkw",{{y:{-SPLITB_Y},duration:0.38,ease:"power3.out"}},{a:.3f});'); cue(x.get("sfx", "click"), a - 0.01, 0.2)
+            tl.append(f'tl.to("#spkw",{{y:{-SPLITB_Y},duration:0.38,ease:"power3.out"}},{a:.3f});'); cue("click", a - 0.01, 0.2)
         if not to_cover:
             tl.append(f'tl.to("#{cid}",{{yPercent:100,duration:0.3,ease:"power3.in"}},{b - 0.3:.3f});')
             tl.append(f'tl.to("#spkw",{{y:0,duration:0.3,ease:"power3.in"}},{b - 0.3:.3f});')
@@ -156,7 +156,7 @@ for k, (mode, a, b, src, x) in enumerate(EV):
             parts.append(f'<div class="card scard" id="{jid}" style="left:{(1080 - w) // 2 + dx}px;top:{(1920 - h) // 2 - 120 + dy}px;width:{w}px;height:{h}px;z-index:{j + 1}">{inner}</div>')
             tl.append(f'tl.set("#{jid}",{{opacity:0}},0);')
             tl.append(f'tl.fromTo("#{jid}",{{opacity:1,scale:1.18,rotation:{rot * 2.5},y:40}},{{opacity:1,scale:1,rotation:{rot},y:0,duration:0.42,ease:"power3.out"}},{a + dl:.3f});')
-            if j == 0: cue(x.get("sfx", "click"), a + dl - 0.01, 0.2)   # one sound as the pile starts
+            cue("click", a + dl - 0.01, 0.2)
         els.append(f'<div class="ev boxp" id="{cid}">{"".join(parts)}</div>')   # untimed container: its videos carry the timing
         tl.append(f'tl.set("#{cid}",{{opacity:0}},0);tl.set("#{cid}",{{opacity:1}},{a:.3f});tl.set("#{cid}",{{opacity:0}},{b:.3f});')
         if from_cover and prev[0] in ("split", "splitb"): tl.append(f'tl.set("#spkw",{{y:0}},{a:.3f});')
