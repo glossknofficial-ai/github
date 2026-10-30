@@ -29,13 +29,12 @@ EV = [
      {"items": [(Z2 + "a.jpeg", 28, 42, -6, 0.0), (Z2 + "b.jpeg", 375, 18, 3, 0.45), (Z2 + "c.jpeg", 722, 48, 7, 0.9)], "w": 330}),
     ("polaroid", at("one was the little") - 0.05, at("the other one") - 0.05, Z2 + "d.jpeg", {"x": 715, "y": 520, "rot": 6, "w": 340}),
     # four quick full-frame cuts while she lists the effort
-    ("full", at("there were days") - 0.05, at("when I felt") - 0.02, Z2 + "e.jpeg", {}),
-    ("full", at("when I felt") - 0.02, at("I was doing") - 0.02, Z2 + "f.jpeg", {}),
-    ("full", at("I was doing") - 0.02, at("in my capacity") - 0.02, Z2 + "g.jpeg", {}),
-    ("full", at("in my capacity") - 0.02, at("but the needle"), Z2 + "h.jpeg", {}),
-    # she moves up, the photo sits in the lower half
-    ("splitb", at("there were setbacks") - 0.04, at("there were mistakes") - 0.04, Z2 + "i.jpeg", {}),
-    ("splitb", at("there were mistakes") - 0.04, at("and the days") + 0.05, Z2 + "j.jpeg", {}),
+    ("full", at("there were days") - 0.05, at("when I felt") - 0.02, Z2 + "e.jpeg", {"still": True}),
+    ("full", at("when I felt") - 0.02, at("I was doing") - 0.02, Z2 + "f.jpeg", {"still": True}),
+    ("full", at("I was doing") - 0.02, at("in my capacity") - 0.02, Z2 + "g.jpeg", {"still": True}),
+    ("full", at("in my capacity") - 0.02, at("but the needle"), Z2 + "h.jpeg", {"still": True}),
+    ("split", at("there were setbacks") - 0.04, at("there were mistakes") - 0.04, Z2 + "i.jpeg", {}),
+    ("split", at("there were mistakes") - 0.04, at("and the days") + 0.05, Z2 + "j.jpeg", {}),
     ("split", at("between being") - 0.1, at("managing") - 0.05, Z2 + "k.jpeg", {}),
     ("split", at("managing") - 0.05, at("building a brand") - 0.05, Z2 + "l.jpeg", {}),
     ("split", at("building a brand") - 0.05, at("things hardly") - 0.1, Z2 + "m.mp4", {"ss": 0.5}),
@@ -111,7 +110,8 @@ for k, (mode, a, b, src, x) in enumerate(EV):
     kb = f'tl.fromTo("#{cid}-v",{{scale:1.0}},{{scale:1.07,duration:{b - a:.3f},ease:"none"}},{a:.3f});' if not is_vid(src) else ""
     if mode == "full":   # hard cut in, settle from a slight push
         els.append(f'<div class="{"clip " if wrap else ""}ev full" id="{cid}" {wrap}>{media(cid, src, a, b)}</div>')
-        tl.append(f'tl.fromTo("#{cid}",{{scale:1.05}},{{scale:1,duration:0.4,ease:"power2.out"}},{a:.3f});'); tl.append(kb)
+        if not x.get("still"):   # stills marked "still" are shown flat: no push or Ken Burns
+            tl.append(f'tl.fromTo("#{cid}",{{scale:1.05}},{{scale:1,duration:0.4,ease:"power2.out"}},{a:.3f});'); tl.append(kb)
         if from_cover and prev[0] in ("split", "splitb"): tl.append(f'tl.set("#spkw",{{y:0}},{a:.3f});')
         cue("click", a - 0.01, 0.2)
     elif mode == "box":  # reference-style rounded card on a soft page
