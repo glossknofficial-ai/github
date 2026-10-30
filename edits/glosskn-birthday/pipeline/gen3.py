@@ -28,11 +28,11 @@ EV = [
     ("polrow", 1.55, at("such little time", end=True) + 0.15, None,
      {"items": [(Z2 + "a.jpeg", 28, 42, -6, 0.0), (Z2 + "b.jpeg", 375, 18, 3, 0.45), (Z2 + "c.jpeg", 722, 48, 7, 0.9)], "w": 330}),
     ("polaroid", at("one was the little") - 0.05, at("the other one") - 0.05, Z2 + "d.jpeg", {"x": 715, "y": 520, "rot": 6, "w": 340}),
-    # four quick full-frame cuts while she lists the effort
-    ("full", at("there were days") - 0.05, at("when I felt") - 0.02, Z2 + "e.jpeg", {"still": True}),
-    ("full", at("when I felt") - 0.02, at("I was doing") - 0.02, Z2 + "f.jpeg", {"still": True}),
-    ("full", at("I was doing") - 0.02, at("in my capacity") - 0.02, Z2 + "g.jpeg", {"still": True}),
-    ("full", at("in my capacity") - 0.02, at("but the needle"), Z2 + "h.jpeg", {"still": True}),
+    # four photos one by one in a rounded clip card
+    ("box", at("there were days") - 0.05, at("when I felt") - 0.02, Z2 + "e.jpeg", {"still": True, "w": 860, "ar": 0.75}),
+    ("box", at("when I felt") - 0.02, at("I was doing") - 0.02, Z2 + "f.jpeg", {"still": True, "w": 860, "ar": 0.75}),
+    ("box", at("I was doing") - 0.02, at("in my capacity") - 0.02, Z2 + "g.jpeg", {"still": True, "w": 860, "ar": 0.75}),
+    ("box", at("in my capacity") - 0.02, at("but the needle"), Z2 + "h.jpeg", {"still": True, "w": 860, "ar": 0.75}),
     ("split", at("there were setbacks") - 0.04, at("there were mistakes") - 0.04, Z2 + "i.jpeg", {}),
     ("split", at("there were mistakes") - 0.04, at("and the days") + 0.05, Z2 + "j.jpeg", {}),
     ("split", at("between being") - 0.1, at("managing") - 0.05, Z2 + "k.jpeg", {}),
@@ -41,7 +41,7 @@ EV = [
     ("full", at("my baby's first") - 0.05, at("our first launch") - 0.02, Z2 + "n.mp4", {"ss": 0.4}),
     ("full", at("our first launch") - 0.02, at("our first order") - 0.04, Z2 + "o.mp4", {"ss": 12.2}),
     ("split", at("our first order") - 0.04, at("someone who") - 0.03, Z2 + "p.jpeg", {}),
-    ("box", at("someone who") - 0.03, at("believed in") - 0.02, Z2 + "q.mp4", {"ss": 3.6, "w": 700, "ar": 464 / 832}),
+    ("full", at("someone who") - 0.03, at("believed in") - 0.02, Z2 + "q.mp4", {"ss": 3.6}),
     ("full", at("believed in") - 0.02, at("what we had") - 0.02, Z2 + "r.mp4", {"ss": 1.7}),
     ("full", at("what we had") - 0.02, at("and suddenly") - 0.05, Z2 + "s.jpeg", {}),
     # "all those little things started adding up": cards pile up on the page
@@ -119,7 +119,8 @@ for k, (mode, a, b, src, x) in enumerate(EV):
         logo = '<img class="box-logo" id="%s-l" src="media/v3/logo3d.png" />' % cid if x.get("logo") else ""
         els.append(f'<div class="{"clip " if wrap else ""}ev boxp" id="{cid}" {wrap}>{logo}<div class="card" id="{cid}-c" '
                    f'style="left:{(1080 - w) // 2}px;top:{top}px;width:{w}px;height:{h}px">{media(cid, src, a, b)}</div></div>')
-        tl.append(f'tl.fromTo("#{cid}-c",{{scale:0.93,y:30}},{{scale:1,y:0,duration:0.45,ease:"power3.out"}},{a:.3f});'); tl.append(kb)
+        tl.append(f'tl.fromTo("#{cid}-c",{{scale:0.93,y:30}},{{scale:1,y:0,duration:0.45,ease:"power3.out"}},{a:.3f});')
+        if not x.get("still"): tl.append(kb)
         if logo: tl.append(f'tl.fromTo("#{cid}-l",{{y:60,scale:0.9,opacity:0}},{{y:0,scale:1,opacity:1,duration:0.6,ease:"back.out(1.5)"}},{a + 0.1:.3f});')
         if from_cover and prev[0] in ("split", "splitb"): tl.append(f'tl.set("#spkw",{{y:0}},{a:.3f});')
         cue("click", a - 0.01, 0.2)
