@@ -1,0 +1,30 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+  @font-face { font-family: "PF"; src: url(fonts/PlayfairDisplay.ttf); font-weight: 400 900; }
+  @font-face { font-family: "PFI"; src: url(fonts/PlayfairDisplay-Italic.ttf); font-weight: 400 900; font-style: italic; }
+  @font-face { font-family: "OS"; src: url(fonts/Oswald.ttf); font-weight: 200 700; }
+  :root { --lilac: #d7b6e2; --ink: #0d0b0e; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html, body { width: 1080px; height: 1920px; overflow: hidden; background: #000; }
+  .stage { position: relative; width: 1080px; height: 1920px; }
+  .layer { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+  /* poster-style type: black letters with a lilac outline offset behind them */
+  .one { position: absolute; left: 0; right: 0; top: 222px; text-align: center; font: 900 300px/1 "PF", serif;
+         color: var(--ink); letter-spacing: -6px; padding-right: 40px;
+         text-shadow: -1px 1px 0 var(--lilac), -2px 2px 0 var(--lilac), -3px 3px 0 var(--lilac), -4px 4px 0 var(--lilac), -5px 5px 0 var(--lilac), -6px 6px 0 var(--lilac), -7px 7px 0 var(--lilac), -8px 8px 0 var(--lilac), -9px 9px 0 var(--lilac), -10px 10px 0 var(--lilac), -11px 11px 0 var(--lilac), -12px 12px 0 var(--lilac); }
+  .one sup { font: 700 120px/1 "PF", serif; vertical-align: top; position: relative; top: 34px; margin-left: 4px; letter-spacing: 0;
+             text-shadow: -1px 1px 0 var(--lilac), -2px 2px 0 var(--lilac), -3px 3px 0 var(--lilac), -4px 4px 0 var(--lilac), -5px 5px 0 var(--lilac), -6px 6px 0 var(--lilac); }
+  .bday { position: absolute; left: 0; right: 0; top: 474px; text-align: center; font: 700 150px/1 "OS", sans-serif;
+          letter-spacing: 6px; color: var(--ink); text-shadow: -1px 1px 0 var(--lilac), -2px 2px 0 var(--lilac), -3px 3px 0 var(--lilac), -4px 4px 0 var(--lilac), -5px 5px 0 var(--lilac), -6px 6px 0 var(--lilac), -7px 7px 0 var(--lilac), -8px 8px 0 var(--lilac); }
+  .of { position: absolute; left: 70px; width: 420px; top: 1440px; text-align: center; }
+  .of i { display: block; font: italic 600 86px/1 "PFI", serif; color: var(--lilac); text-shadow: 0 3px 14px rgba(0,0,0,.35); }
+  .of img { display: block; margin: 18px auto 0; width: 400px; filter: drop-shadow(0 3px 10px rgba(0,0,0,.35)); }
+</style></head>
+<body><div class="stage">
+  <img class="layer" src="frame.png">
+  <div class="one">1<sup>st</sup></div>
+  <div class="bday">BIRTHDAY</div>
+  <img class="layer" src="person.png">   <!-- she sits in front of the title for depth -->
+  <div class="of"><i>of</i><img src="logo_white.png"></div>
+</div></body></html>
