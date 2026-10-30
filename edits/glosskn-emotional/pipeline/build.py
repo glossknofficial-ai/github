@@ -8,7 +8,7 @@ P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); M = os.path.joi
 SRC, MUSIC = os.path.join(M, "voice_only.mp4"), os.path.join(M, "music.mp3")
 DUR = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", SRC],
                            capture_output=True, text=True).stdout)
-SPEECH = [(0.40, 6.05), (17.30, 20.65)]   # her two lines (from silence detection)
+SPEECH = [(0.40, 6.02), (17.30, 20.62)]   # her two lines (from silence detection)
 MUSIC_OFFSET = 3.0                          # start a little into the track's soft intro
 FADE_IN, FADE_OUT = 1.5, 2.5
 
@@ -20,7 +20,10 @@ for (t0, g0), (t1, g1) in zip(pts, pts[1:]):   # piecewise-linear volume express
     expr = f"if(between(t,{t0},{t1}),{g0}+({g1}-{g0})*(t-{t0})/{max(1e-3, t1 - t0)},{expr})"
 music = (f"[1:a]atrim=start={MUSIC_OFFSET},asetpts=PTS-STARTPTS,aresample=48000,"
          f"volume='pow(10,({expr})/20)':eval=frame,afade=t=in:d={FADE_IN},afade=t=out:st={DUR - FADE_OUT}:d={FADE_OUT}[m]")
-voice = ("[0:a]aresample=48000,highpass=f=80,acompressor=threshold=-34dB:ratio=2.2:attack=8:release=180:makeup=1,"
+# only her spoken lines are kept: the clips' own sound (box handling, rustle, room noise) is muted in between
+R = 0.08
+gate = "+".join(f"clip((t-{a - R})/{R},0,1)*clip(({b + R}-t)/{R},0,1)" for a, b in SPEECH)
+voice = (f"[0:a]aresample=48000,volume='{gate}':eval=frame,highpass=f=80,acompressor=threshold=-34dB:ratio=2.2:attack=8:release=180:makeup=1,"
          "volume=20dB,alimiter=limit=0.89:level=false,afade=t=in:d=0.15[v]")
 # whole mix lifted to Instagram loudness (about -15 LUFS) with a peak limiter so nothing clips
 mix = (f"[v][m]amix=inputs=2:normalize=0:duration=first,volume=7dB,alimiter=limit=0.89:attack=3:release=60:level=false,"
