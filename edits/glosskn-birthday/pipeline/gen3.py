@@ -30,17 +30,17 @@ EV = [
     ("full", at("there were days") - 0.05, at("but the needle"), Z + "6.jpeg", {}),
     ("full", at("but the needle"), at("there were setbacks") - 0.04, Z + "7.jpeg", {}),
     ("split", at("there were setbacks") - 0.04, at("there were mistakes") - 0.04, Z + "8.jpeg", {}),
-    ("split", at("there were mistakes") - 0.04, at("and the days") + 0.05, Z + "9.mp4", {"ss": 0.0}),
-    ("split", at("between being") - 0.1, at("building a brand") - 0.05, "media/v3/10.jpg", {}),
-    ("split", at("building a brand") - 0.05, at("things hardly") - 0.1, Z + "11.jpeg", {}),
-    ("full", at("my baby's first") - 0.05, at("our first launch") - 0.02, Z + "12.mp4", {"ss": 7.0, "speed": 1.8}),
-    ("full", at("our first launch") - 0.02, at("our first order") - 0.04, Z + "13.mp4", {"ss": 1.2}),
-    ("split", at("our first order") - 0.04, at("someone who") - 0.03, Z + "14.mp4", {"ss": 2.0, "pos": "30% 50%"}),
-    ("full", at("someone who") - 0.03, at("and suddenly") - 0.05, Z + "15.mp4", {"ss": 1.8}),
-    ("full", at("and suddenly") - 0.05, at("adding up", end=True) + 0.2, Z + "16.mp4", {"ss": 0.0}),
+    ("split", at("there were mistakes") - 0.04, at("and the days") + 0.05, Z + "9.mp4", {"ss": 1.2}),
+    ("split", at("between being") - 0.1, at("managing") - 0.05, Z + "10.mp4", {"ss": 0.85, "speed": 0.35}),  # steady moment only
+    ("split", at("managing") - 0.05, at("things hardly") - 0.1, Z + "11.jpeg", {}),
+    ("full", at("my baby's first") - 0.05, at("our first launch") - 0.02, Z + "12.mp4", {"ss": 5.8, "speed": 1.8}),
+    ("full", at("our first launch") - 0.02, at("our first order") - 0.04, Z + "13.mp4", {"ss": 12.2}),
+    ("split", at("our first order") - 0.04, at("someone who") - 0.03, Z + "14.mp4", {"ss": 0.2, "pos": "30% 50%"}),
+    ("full", at("someone who") - 0.03, at("and suddenly") - 0.05, Z + "15.mp4", {"ss": 3.6}),
+    ("full", at("and suddenly") - 0.05, at("adding up", end=True) + 0.2, Z + "16.mp4", {"ss": 1.5, "speed": 1.5}),
     ("polrow", at("sleepless") - 0.12, at("everyone") - 0.05, None,
      {"items": [(Z + "17.jpeg", 80, 150, -5, 0.0), (Z + "18.jpeg", 590, 175, 5, at("the tears") - at("sleepless") + 0.05)], "w": 410}),
-    ("full", at("everyone") - 0.05, at("one year of") - 0.06, Z + "19.mp4", {"ss": 1.4}),
+    ("full", at("everyone") - 0.05, at("one year of") - 0.06, Z + "19.mp4", {"ss": 1.7}),
     ("logo", at("one year of") + 0.05, SPK_END - 0.1, "media/logo_dark.png", {}),
 ]
 # subtle push-ins on the plain founder shots (none on "am I doing any of this right?")
@@ -89,16 +89,16 @@ for k, (mode, a, b, src, x) in enumerate(EV):
         tl.append(f'tl.fromTo("#{cid}",{{opacity:0,scale:1.06}},{{opacity:1,scale:1,duration:0.3,ease:"power2.out"}},{a:.3f});')
         if not is_vid(src):  # Ken Burns on stills
             tl.append(f'tl.fromTo("#{cid}-v",{{scale:1}},{{scale:1.08,duration:{b - a:.3f},ease:"none"}},{a:.3f});')
-        cue("whoosh" if k % 2 else "swish", a - 0.08, 0.22)
+        cue("click", a - 0.02, 0.3)
     elif mode == "split":
         chain_in = prev and prev[0] == "split" and abs(prev[2] - a) < 0.15
         chain_out = nxt and nxt[0] == "split" and abs(nxt[1] - b) < 0.15
         els.append(f'<div class="{"clip " if wrap else ""}ev split" id="{cid}" {wrap}>{media(cid, src, a, b, x.get("pos", "50% 50%"))}</div>')
         if chain_in:
-            tl.append(f'tl.fromTo("#{cid}",{{opacity:0}},{{opacity:1,duration:0.15}},{a:.3f});'); cue("snap", a - 0.03, 0.25)
+            tl.append(f'tl.fromTo("#{cid}",{{opacity:0}},{{opacity:1,duration:0.15}},{a:.3f});'); cue("click", a - 0.02, 0.25)
         else:
             tl.append(f'tl.fromTo("#{cid}",{{yPercent:-100}},{{yPercent:0,duration:0.38,ease:"power3.out"}},{a:.3f});')
-            tl.append(f'tl.to("#spkw",{{y:{SPLIT_Y},duration:0.38,ease:"power3.out"}},{a:.3f});'); cue("swipe", a - 0.05, 0.3)
+            tl.append(f'tl.to("#spkw",{{y:{SPLIT_Y},duration:0.38,ease:"power3.out"}},{a:.3f});'); cue("click", a - 0.02, 0.3)
         if not chain_out:
             tl.append(f'tl.to("#{cid}",{{yPercent:-100,duration:0.3,ease:"power3.in"}},{b - 0.3:.3f});')
             tl.append(f'tl.to("#spkw",{{y:0,duration:0.3,ease:"power3.in"}},{b - 0.3:.3f});')
@@ -120,7 +120,7 @@ for k, (mode, a, b, src, x) in enumerate(EV):
         els.append(f'<div class="clip ev" id="{cid}" {wrap}><img class="logo" id="{cid}-l" src="{src}" /></div>')
         tl.append(f'tl.fromTo("#{cid}-l",{{opacity:0,y:-30,scale:0.85}},{{opacity:1,y:0,scale:1,duration:0.55,ease:"back.out(1.6)"}},{a:.3f});')
         tl.append(f'tl.to("#{cid}-l",{{opacity:0,duration:0.25}},{b - 0.25:.3f});')
-        cue("pop", a, 0.35)
+        cue("tick", a, 0.3)
 
 # subtitles (reference style): small serif, 2-4 words, one purple word
 HL = {"pictures", "little", "two", "children", "glosskn", "nothing", "everything", "moving", "setbacks", "mistakes", "right",
