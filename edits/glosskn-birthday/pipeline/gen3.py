@@ -24,7 +24,7 @@ SPLIT_Y, POL_Y = 250, 220   # how far she slides down for a half-frame / for pol
 # (mode, start, end, source, extra)   modes: polrow | polaroid | logo | full | split   (images or videos)
 EV = [
     ("polrow", 1.55, at("such little time", end=True) + 0.15, None,
-     {"items": [(Z + "1.jpeg", 28, 42, -6, 0.0), (Z + "2.jpeg", 375, 18, 3, 0.45), (Z + "3.jpeg", 722, 48, 7, 0.9)], "w": 330}),
+     {"items": [(Z + "1.jpeg", 28, 42, -6, 0.0), (Z + "2.jpeg", 375, 18, 3, 0.45), (Z + "3.jpeg", 722, 48, 7, 0.9)], "w": 330, "silent": True}),
     ("polaroid", at("one was the little") - 0.05, at("the other one") - 0.05, Z + "4.jpeg", {"x": 715, "y": 520, "rot": 6, "w": 340}),
     ("box", at("there were days") - 0.05, at("doing everything") - 0.05, Z + "6.jpeg", {"w": 900, "ar": 0.75}),
     ("box", at("doing everything") - 0.05, at("but the needle"), Z + "7.jpeg", {"w": 900, "ar": 0.75}),
@@ -35,8 +35,8 @@ EV = [
     ("split", at("building a brand") - 0.05, at("things hardly") - 0.1, Z + "building.mp4", {"ss": 0.5}),
     ("full", at("my baby's first") - 0.05, at("our first launch") - 0.02, Z + "12.mp4", {"ss": 3.7, "speed": 1.4}),
     ("full", at("our first launch") - 0.02, at("our first order") - 0.04, Z + "13.mp4", {"ss": 12.2}),
-    ("split", at("our first order") - 0.04, at("someone who") - 0.03, Z + "14.mp4", {"ss": 0.2, "pos": "30% 50%"}),
-    ("box", at("someone who") - 0.03, at("and suddenly") - 0.05, Z + "15.mp4", {"ss": 3.6, "w": 760, "ar": 464 / 832, "logo": True}),
+    ("split", at("our first order") - 0.04, at("someone who") - 0.03, Z + "14.mp4", {"ss": 1.0, "speed": 4.0, "blur": 7, "pos": "30% 50%"}),
+    ("box", at("someone who") - 0.03, at("and suddenly") - 0.05, Z + "15.mp4", {"ss": 3.6, "w": 700, "ar": 464 / 832}),
     ("full", at("and suddenly") - 0.05, at("adding up", end=True) + 0.2, Z + "16.mp4", {"ss": 1.5, "speed": 1.5}),
     ("polrow", at("sleepless") - 0.12, at("everyone") - 0.05, None,
      {"items": [(Z + "17.jpeg", 90, 22, -5, 0.0), (Z + "18.jpeg", 620, 40, 5, at("the tears") - at("sleepless") + 0.05)], "w": 360}),
@@ -48,17 +48,17 @@ ZOOMS = [(at("I was literally") - 0.1, at("one was the little") - 0.05), (at("an
          (at("things hardly") - 0.1, at("my baby's first") - 0.05), (at("one year of") - 0.06, SPK_END)]
 
 os.makedirs(os.path.join(PROJECT, "media", "ev3"), exist_ok=True)
-def fit(k, src, d, ss=0.0, speed=None):
+def fit(k, src, d, ss=0.0, speed=None, blur=0):
     """Cut a clip to its slot: optional speed-up, else gentle slow-mo (<=2x) then hold the last frame."""
     out = f"media/ev3/e{k}.mp4"; path = os.path.join(PROJECT, out)
     sd = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0",
                                os.path.join(PROJECT, src)], capture_output=True, text=True).stdout) - ss
     f = 1 / speed if speed else min(2.0, max(1.0, d / sd))
-    key = f"{src}|{d:.3f}|{ss}|{f:.3f}"
+    key = f"{src}|{d:.3f}|{ss}|{f:.3f}|{blur}"
     if not (os.path.exists(path) and os.path.exists(path + ".key") and open(path + ".key").read() == key):
         mi = ",minterpolate=fps=30:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1" if f > 1.15 else ",fps=30"
         subprocess.run(["ffmpeg", "-nostdin", "-y", "-v", "error", "-ss", str(ss), "-i", os.path.join(PROJECT, src), "-an", "-vf",
-                        f"setpts={f:.4f}*(PTS-STARTPTS){mi},hqdn3d=1.5:1.5:3:3,eq=saturation=1.04,"
+                        f"setpts={f:.4f}*(PTS-STARTPTS){mi},hqdn3d=1.5:1.5:3:3,eq=saturation=1.04,{f'gblur=sigma={blur},' if blur else ''}"
                         f"tpad=stop_mode=clone:stop_duration={d + 1:.2f}", "-t", f"{d + 0.2:.3f}",
                         "-c:v", "libx264", "-crf", "14", "-preset", "fast", path], check=True)
         open(path + ".key", "w").write(key)
@@ -71,7 +71,7 @@ EV = [(m, a, min(b, a + 2.0) if (m in COVER and not is_vid(s)) else b, s, x) for
 for k in range(len(EV) - 1):
     m, a, b, s, x = EV[k]; n = EV[k + 1]
     if m in COVER and n[0] in COVER and 0 < n[1] - b < 0.7: EV[k] = (m, a, n[1], s, x)
-EV = [(m, round(a, 3), round(b, 3), fit(k, s, b - a, x.get("ss", 0.0), x.get("speed")) if is_vid(s) else s, x)
+EV = [(m, round(a, 3), round(b, 3), fit(k, s, b - a, x.get("ss", 0.0), x.get("speed"), x.get("blur", 0)) if is_vid(s) else s, x)
       for k, (m, a, b, s, x) in enumerate(EV)]
 els, tl, cues = [], [], []
 cue = lambda n, t, g: cues.append((n, round(max(0.0, t), 3), g))
@@ -126,7 +126,7 @@ for k, (mode, a, b, src, x) in enumerate(EV):
             parts.append(f'<div class="pol" id="{cid}-p{j}" style="left:{px}px;top:{py}px;width:{w}px"><div class="pol-img" style="background-image:url(\'{img}\')"></div></div>')
             tl.append(f'tl.fromTo("#{cid}-p{j}",{{opacity:0,scale:0.55,rotation:{rot * 3},y:70}},{{opacity:1,scale:1,rotation:{rot},y:0,duration:0.5,ease:"back.out(1.6)"}},{a + dl:.3f});')
             tl.append(f'tl.to("#{cid}-p{j}",{{opacity:0,y:-60,duration:0.24,ease:"power2.in"}},{b - 0.24 - 0.05 * (len(items) - 1 - j):.3f});')
-            cue("shutter", a + dl, 0.3)
+            if not x.get("silent"): cue("shutter", a + dl, 0.3)
         els.append(f'<div class="clip ev" id="{cid}" {wrap}>{"".join(parts)}</div>')
     elif mode == "logo":
         els.append(f'<div class="clip ev" id="{cid}" {wrap}><img class="logo" id="{cid}-l" src="{src}" /></div>')
@@ -154,16 +154,9 @@ for k, c in enumerate(chunks):
     els.append(f'<div class="clip subc" data-start="{a:.3f}" data-duration="{b - a:.3f}" data-track-index="6"><div class="sub{" dark" if any(da - 0.05 <= (a + b) / 2 <= db for da, db in DARK) else ""}" id="c{k}">{txt}</div></div>')
     tl.append(f'tl.fromTo("#c{k}",{{opacity:0,y:14}},{{opacity:1,y:0,duration:0.18,ease:"power2.out"}},{a:.3f});')
 
-a = SPK_END - 0.15
-els.append(f'<div class="clip" id="end" data-start="{a:.3f}" data-duration="{DUR - a:.3f}" data-track-index="7"><div class="end">'
-           '<div class="end-k" id="end-k">happy first birthday</div><div class="end-n" id="end-n">1</div>'
-           '<div class="end-s" id="end-s">year &amp; just getting started</div><img class="end-logo" id="end-logo" src="media/logo_dark.png" /></div></div>')
-tl.append(f'tl.fromTo("#end .end",{{opacity:0}},{{opacity:1,duration:0.4}},{a:.3f});')
-for i, (sel, d) in enumerate([("#end-k", 0.1), ("#end-n", 0.3), ("#end-s", 0.6), ("#end-logo", 0.9)]):
-    tl.append(f'tl.fromTo("{sel}",{{opacity:0,y:30}},{{opacity:1,y:0,duration:0.5,ease:"power2.out"}},{a + d:.3f});')
-cue("sparkle", a + 0.25, 0.3); cue("ding", a + 0.35, 0.3)
-for t_logo in (9.0 + 0.26, 47.9 + 0.19): cue("sparkle", t_logo, 0.2)   # 3D logo rising behind her (baked into founder_baked.mp4)
-
+a = SPK_END - 0.15   # plain white end slide, left blank on purpose (brand content added later)
+els.append(f'<div class="clip" id="end" data-start="{a:.3f}" data-duration="{DUR - a:.3f}" data-track-index="7"><div class="end"></div></div>')
+tl.append(f'tl.fromTo("#end .end",{{opacity:0}},{{opacity:1,duration:0.35}},{a:.3f});')
 CSS = open(os.path.join(HERE, "style3.css")).read()
 page = f"""<!doctype html>
 <html lang="en">
