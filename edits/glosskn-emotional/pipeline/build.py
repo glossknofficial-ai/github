@@ -5,11 +5,11 @@
 - picture: her original video, copied untouched"""
 import os, subprocess
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); M = os.path.join(P, "media")
-SRC, MUSIC = os.path.join(M, "voice_only.mp4"), os.path.join(M, "music.mp3")     # clean voice (no music) for the audio
-PICTURE = os.path.join(M, "original_hq.mov")   # her full-quality 1080x1920 original: picture copied untouched
+SRC, MUSIC = os.path.join(M, "original_hq2.mov"), os.path.join(M, "music.mp3")   # final cut (voice only, closing clip sped up)
+PICTURE = os.path.join(M, "original_hq2.mov")   # her full-quality 1080x1920 original: picture copied untouched
 DUR = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", PICTURE],
                            capture_output=True, text=True).stdout)
-SPEECH = [(0.40, 6.02), (17.30, 20.62)]   # her two lines (from silence detection)
+SPEECH = [(0.40, 6.02), (17.25, 20.02)]   # her two lines (from silence detection)
 MUSIC_OFFSET = 3.0                          # start a little into the track's soft intro
 FADE_IN, FADE_OUT = 1.5, 2.5
 
