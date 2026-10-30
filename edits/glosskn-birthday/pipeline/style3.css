@@ -1,0 +1,48 @@
+      @font-face { font-family: "Playfair Display"; font-weight: 600; src: url(fonts/playfair-display-latin-600-normal.woff2) format("woff2"); }
+      @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 600; src: url(fonts/playfair-display-latin-600-italic.woff2) format("woff2"); }
+      @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 700; src: url(fonts/playfair-display-latin-700-italic.woff2) format("woff2"); }
+      @font-face { font-family: "Inter"; font-weight: 600; src: url(fonts/inter-latin-600-normal.woff2) format("woff2"); }
+      :root { --purple: #d7b6e2; --plum: #4a2a5a; }
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ffffff; }
+      #root { position: relative; width: 100%; height: 100%; overflow: hidden; background: #ffffff; }
+
+      /* founder footage */
+      #spkw { position: absolute; inset: 0; }
+      #spk { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 50% 32%; }
+
+      /* B-roll layouts */
+      .ev { position: absolute; inset: 0; }
+      .ev.full video, .ev.full img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+      .ev.split { bottom: auto; height: 860px; overflow: hidden; background: #fff; border-bottom: 10px solid #fff;
+                  box-shadow: 0 10px 30px rgba(40, 20, 50, .18); }
+      .ev.split video, .ev.split img { width: 100%; height: 100%; object-fit: cover; }
+
+      /* polaroid element */
+      .pol { position: absolute; width: 400px; z-index: 5; background: #fbf9f6; padding: 18px 18px 70px; border-radius: 4px;
+             box-shadow: 0 18px 44px rgba(20, 10, 26, .35); }
+      .pol-img { width: 100%; aspect-ratio: 4 / 5; background-size: cover; background-position: center; }
+      .pol-cap { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; color: var(--plum);
+                 font: italic 600 34px/1 "Playfair Display", serif; }
+
+      /* GLOSSKN logo above her head (like the KAZOOM logo in the reference) */
+      .logo { position: absolute; left: 160px; width: 760px; top: 270px; filter: drop-shadow(0 4px 14px rgba(255, 255, 255, .7)); }
+
+      /* subtitles: small serif like the reference, one purple word */
+      .subc { position: absolute; inset: 0; z-index: 20; }
+      .sub { position: absolute; left: 60px; right: 60px; top: 1570px; text-align: center; color: #fff;
+             font: 600 58px/1.15 "Playfair Display", serif; letter-spacing: -.3px;
+             text-shadow: 0 2px 4px rgba(20, 10, 26, .75), 0 4px 18px rgba(20, 10, 26, .5); }
+      .sub .hl { color: var(--purple); font-style: italic; }
+      .sub.dark { color: var(--plum); text-shadow: none; }
+      .sub.dark .hl { color: #9a6fb0; }
+
+      /* end card (white) */
+      #end { position: absolute; inset: 0; z-index: 30; }
+      .end { position: absolute; inset: 0; background: #fff; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+      .end-k { color: var(--plum); font: italic 600 70px/1 "Playfair Display", serif; }
+      .end-n { color: var(--purple); font: italic 700 480px/1 "Playfair Display", serif; margin: 0 0 -10px; }
+      .end-s { color: var(--plum); font: 600 30px/1 "Inter", sans-serif; letter-spacing: 8px; text-transform: uppercase; }
+      .end-logo { width: 460px; margin-top: 80px; }
+      .ev.full img, .ev.split img { object-fit: cover; }
+      .ev.split { z-index: 4; }

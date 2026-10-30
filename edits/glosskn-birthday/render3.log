@@ -1,0 +1,42 @@
+
+◆  Rendering glosskn-birthday → /home/user/github/edits/glosskn-birthday/renders/GLOSSKN-1st-Birthday-v3-raw.mp4
+   30fps · standard · auto workers (4 cores detected)
+   GPU: browser GPU (auto-detect)
+
+
+  Lint: 0 error(s), 119 warning(s) — run with --lint-verbose for full output.
+  Continuing render despite lint issues. Use --strict to block errors.
+
+Checking browser...
+Browser: env
+[INFO] [Render] Pipeline started {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","platform":"linux","arch":"x64","nodeVersion":"v22.22.0","fps":{"num":30,"den":1},"format":"mp4","quality":"standard","browserGpuMode":"auto","forceScreenshot":false,"protocolTimeout":300000,"browserTimeout":120000,"pageNavigationTimeout":60000,"playerReadyTimeout":45000}
+[INFO] [Render:trace] {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","phase":"pipeline","status":"checkpoint","elapsedMs":5,"message":"started","format":"mp4","quality":"standard","browserGpuMode":"auto","forceScreenshot":false,"protocolTimeoutMs":300000,"pageNavigationTimeoutMs":60000,"playerReadyTimeoutMs":45000,"requestedWorkers":"auto"}
+[INFO] [Render:trace] {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","phase":"compile","status":"start","elapsedMs":9,"needsAlpha":false}
+  █░░░░░░░░░░░░░░░░░░░░░░░░  5%  Compiling composition
+@hf-progress {"code":"compile","pct":5}
+[INFO] [Compiler] Embedded local font file: fonts/playfair-display-latin-600-normal.woff2 (23 KB → data URI)
+[INFO] [Compiler] Embedded local font file: fonts/playfair-display-latin-600-italic.woff2 (23 KB → data URI)
+[INFO] [Compiler] Embedded local font file: fonts/playfair-display-latin-700-italic.woff2 (23 KB → data URI)
+[INFO] [Compiler] Embedded local font file: fonts/inter-latin-600-normal.woff2 (24 KB → data URI)
+[INFO] Compiled composition metadata {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","entryFile":"index.html","staticDuration":54.2,"width":1080,"height":1920,"videoCount":8,"audioCount":2,"renderModeHints":{"recommendScreenshot":false,"reasons":[]}}
+[INFO] [Render:trace] {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","phase":"compile","status":"end","elapsedMs":538,"durationMs":528,"needsAlpha":false}
+[INFO] [Render:trace] {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","phase":"compile","status":"checkpoint","elapsedMs":539,"message":"composition metadata resolved","width":1080,"height":1920,"videoCount":8,"audioCount":2,"imageCount":8,"deviceScaleFactor":1,"forceScreenshot":false,"compositionHash":"37ffd8294b2eaf63"}
+[INFO] [Render:trace] {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","phase":"browser_probe","status":"start","elapsedMs":544,"forceScreenshot":false,"stagePhase":"calibrating"}
+[WARN] [Compiler] WARNING: Video "e12-v" has sparse keyframes (max interval: 3.07s). Long GOPs can make preview seeking slower; rendering is unaffected. If preview seeking is slow, re-encode with: ffmpeg -i "media/ev3/e12.mp4" -c:v libx264 -r 30 -g 30 -keyint_min 30 -movflags +faststart -c:a copy output.mp4
+[WARN] [Compiler] WARNING: Video "e13-v" has sparse keyframes (max interval: 3.6s). Long GOPs can make preview seeking slower; rendering is unaffected. If preview seeking is slow, re-encode with: ffmpeg -i "media/ev3/e13.mp4" -c:v libx264 -r 30 -g 30 -keyint_min 30 -movflags +faststart -c:a copy output.mp4
+[WARN] [Compiler] WARNING: Video "e15-v" has sparse keyframes (max interval: 2.6s). Long GOPs can make preview seeking slower; rendering is unaffected. If preview seeking is slow, re-encode with: ffmpeg -i "media/ev3/e15.mp4" -c:v libx264 -r 30 -g 30 -keyint_min 30 -movflags +faststart -c:a copy output.mp4
+[WARN] [Compiler] WARNING: Video "spk" has sparse keyframes (max interval: 8.33s). Long GOPs can make preview seeking slower; rendering is unaffected. If preview seeking is slow, re-encode with: ffmpeg -i "media/v3/founder.mp4" -c:v libx264 -r 30 -g 30 -keyint_min 30 -movflags +faststart -c:a copy output.mp4
+[INFO] [Render:trace] {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","phase":"browser_probe","status":"end","elapsedMs":989,"durationMs":445,"forceScreenshot":false,"stagePhase":"calibrating"}
+[INFO] [Render:trace] {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","phase":"browser_probe","status":"checkpoint","elapsedMs":990,"message":"duration resolved","durationSeconds":54.2,"totalFrames":1626,"compositionHash":"37ffd8294b2eaf63","beginFrameStalled":false}
+[INFO] [Render:trace] {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","phase":"video_extract","status":"start","elapsedMs":990,"videoCount":8}
+[INFO] Probing video color spaces... {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","videoCount":8}
+  ██░░░░░░░░░░░░░░░░░░░░░░░  10%  Extracting video frames
+@hf-progress {"code":"extract_video","pct":10}
+[INFO] Extracting frames from video 1/8 {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","sourceType":"local"}
+[INFO] Extracting frames from video 2/8 {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","sourceType":"local"}
+[INFO] Extracting frames from video 3/8 {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","sourceType":"local"}
+[INFO] Extracting frames from video 4/8 {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","sourceType":"local"}
+[INFO] Extracting frames from video 5/8 {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","sourceType":"local"}
+[INFO] Extracting frames from video 6/8 {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","sourceType":"local"}
+[INFO] Extracting frames from video 7/8 {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","sourceType":"local"}
+[INFO] Extracting frames from video 8/8 {"renderJobId":"77002b19-11f5-4689-8582-ab16b358daf8","sourceType":"local"}
