@@ -6,9 +6,14 @@
 import os, subprocess
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); M = os.path.join(P, "media")
 SRC, MUSIC = os.path.join(M, "original_hq2.mov"), os.path.join(M, "music.mp3")   # final cut (voice only, closing clip sped up)
-PICTURE = os.path.join(M, "original_hq2.mov")   # her full-quality 1080x1920 original: picture copied untouched
-DUR = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", PICTURE],
-                           capture_output=True, text=True).stdout)
+PICTURE = os.path.join(M, "original_hq2.mov")   # her full-quality 1080x1920 original
+OUTRO = os.path.join(M, "happy_diwali.mp4")       # Happy Diwali slide replaces the GLOSSKN logo card
+CUT_FRAME = 603        # her clip ends here (20.1 s), just after her last word and before her blur-out to the old logo card
+OUTRO_SKIP = 2         # the slide opens with two white frames
+XF = 0.25              # short dissolve into the slide
+OUTRO_DUR = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", OUTRO],
+                                 capture_output=True, text=True).stdout)
+DUR = CUT_FRAME / 30 - XF + OUTRO_DUR - OUTRO_SKIP / 30
 SPEECH = [(0.40, 6.02), (17.25, 20.02)]   # her two lines (from silence detection)
 MUSIC_OFFSET = 3.0                          # start a little into the track's soft intro
 FADE_IN, FADE_OUT = 1.5, 2.5
@@ -30,9 +35,15 @@ voice = (f"[0:a]apad,aresample=48000,volume='{gate}':eval=frame,highpass=f=80,ac
 mix = (f"[v][m]amix=inputs=2:normalize=0:duration=longest,atrim=0:{DUR},volume=7dB,alimiter=limit=0.89:attack=3:release=60:level=false,"
        f"afade=t=out:st={DUR - 0.6}:d=0.6[a]")
 
-# picture: her original video stream is copied bit-for-bit (no re-encode, no resize, no zoom)
+# picture: her video untouched up to the logo card, then the Happy Diwali slide (4K, scaled to 1080x1920);
+# encoded near-lossless (CRF 10) with the original's BT.709 colour tags
+vid = ("[2:v]trim=end_frame=%d,setpts=PTS-STARTPTS,settb=1/30,setsar=1[a1];"
+       "[3:v]trim=start_frame=%d,setpts=PTS-STARTPTS,scale=1080:1920:flags=lanczos+accurate_rnd+full_chroma_int,fps=30,settb=1/30,setsar=1,format=yuv420p[a2];"
+       "[a1][a2]xfade=transition=fade:duration=%s:offset=%.4f[vid]" % (CUT_FRAME, OUTRO_SKIP, XF, CUT_FRAME / 30 - XF))
 out = os.path.join(P, "renders", "GLOSSKN-Festive-Gift-Emotional.mp4")
-subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", SRC, "-i", MUSIC, "-i", PICTURE, "-filter_complex", f"{voice};{music};{mix}",
-                "-map", "2:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "256k",
-                "-movflags", "+faststart", "-t", f"{DUR}", out], check=True)
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", SRC, "-i", MUSIC, "-i", PICTURE, "-i", OUTRO,
+                "-filter_complex", f"{voice};{music};{mix};{vid}", "-map", "[vid]", "-map", "[a]",
+                "-c:v", "libx264", "-preset", "slow", "-crf", "10", "-profile:v", "high", "-pix_fmt", "yuv420p",
+                "-color_primaries", "bt709", "-color_trc", "bt709", "-colorspace", "bt709",
+                "-c:a", "aac", "-b:a", "256k", "-movflags", "+faststart", "-t", f"{DUR}", out], check=True)
 print("done", out, round(DUR, 2))
