@@ -20,7 +20,7 @@
 
       /* polaroid element */
       .pol { position: absolute; width: 400px; z-index: 5; background: #fbf9f6; padding: 18px 18px 70px; border-radius: 4px;
-             box-shadow: 0 18px 44px rgba(20, 10, 26, .35); }
+             box-shadow: 0 6px 18px rgba(74, 42, 90, .14); }
       .pol-img { width: 100%; aspect-ratio: 4 / 5; background-size: cover; background-position: center; }
       .pol-cap { position: absolute; left: 0; right: 0; bottom: 18px; text-align: center; color: var(--plum);
                  font: italic 600 34px/1 "Playfair Display", serif; }
@@ -46,3 +46,8 @@
       .end-logo { width: 460px; margin-top: 80px; }
       .ev.full img, .ev.split img { object-fit: cover; }
       .ev.split { z-index: 4; }
+      .ev.boxp { background: radial-gradient(120% 90% at 50% 40%, #fdfafc 0%, #f4ecf3 60%, #ebdfea 100%); z-index: 4; }
+      .card { position: absolute; border-radius: 46px; overflow: hidden; background: #f4ecf3;
+              box-shadow: 0 14px 34px rgba(74, 42, 90, .16); }
+      .card video, .card img { width: 100%; height: 100%; object-fit: cover; display: block; }
+      .box-logo { position: absolute; left: 230px; width: 620px; top: 70px; }

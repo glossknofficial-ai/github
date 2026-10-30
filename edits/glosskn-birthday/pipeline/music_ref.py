@@ -9,7 +9,7 @@ WORDS = json.load(open(os.path.join(P, "data", "words_v3.json")))
 t_word = lambda w: next(x["s"] for x in WORDS if x["w"].lower().startswith(w))
 SR = 48000; HIT_REF = 12.72                       # first downbeat in the reference music
 START = t_word("literally") - 0.30; HIT = t_word("raising")
-r = subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(M, "ref_music.wav"), "-ar", str(SR), "-ac", "2", "-f", "f32le", "-"],
+r = subprocess.run(["ffmpeg", "-v", "error", "-i", os.path.join(M, "ref_music.wav"), "-af", "highpass=f=200,highpass=f=200,afftdn=nf=-40", "-ar", str(SR), "-ac", "2", "-f", "f32le", "-"],
                    capture_output=True).stdout
 ref = np.frombuffer(r, np.float32).reshape(-1, 2).astype(np.float64)
 src0 = HIT_REF - (HIT - START)                     # reference time that plays at START
