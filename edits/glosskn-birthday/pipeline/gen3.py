@@ -150,8 +150,13 @@ for k, c in enumerate(chunks):
     a = c[0]["s"] - 0.05
     b = min(c[-1]["e"] + 0.25, chunks[k + 1][0]["s"] - 0.05) if k + 1 < len(chunks) else SPK_END - 0.1
     hl = next((j for j, w in enumerate(c) if norm(w["w"]) in HL), -1)
+    mid = (a + b) / 2; lay = next((m for m, ea, eb, *_ in EV if m in COVER and ea - 0.05 <= mid <= eb), None)
+    dark = any(da - 0.05 <= mid <= db for da, db in DARK)
+    # reference-style placement: on the B-roll just above the seam in a half frame, under the card on a box page,
+    # and a little below centre (clear of Instagram's caption area) on full-frame shots
+    top = 700 if lay == "split" else 1570 if dark else 1300
     txt = " ".join(f'<span class="{"hl" if j == hl else ""}">{html.escape("I" if w["w"] == "i" else w["w"].rstrip(",."))}</span>' for j, w in enumerate(c))
-    els.append(f'<div class="clip subc" data-start="{a:.3f}" data-duration="{b - a:.3f}" data-track-index="6"><div class="sub{" dark" if any(da - 0.05 <= (a + b) / 2 <= db for da, db in DARK) else ""}" id="c{k}">{txt}</div></div>')
+    els.append(f'<div class="clip subc" data-start="{a:.3f}" data-duration="{b - a:.3f}" data-track-index="6"><div class="sub{" dark" if dark else ""}" id="c{k}" style="top:{top}px">{txt}</div></div>')
     tl.append(f'tl.fromTo("#c{k}",{{opacity:0,y:14}},{{opacity:1,y:0,duration:0.18,ease:"power2.out"}},{a:.3f});')
 
 a = SPK_END - 0.15   # plain white end slide, left blank on purpose (brand content added later)
