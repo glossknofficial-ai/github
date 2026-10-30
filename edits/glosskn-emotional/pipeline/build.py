@@ -5,8 +5,9 @@
 - picture: her original video, copied untouched"""
 import os, subprocess
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); M = os.path.join(P, "media")
-SRC, MUSIC = os.path.join(M, "voice_only.mp4"), os.path.join(M, "music.mp3")
-DUR = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", SRC],
+SRC, MUSIC = os.path.join(M, "voice_only.mp4"), os.path.join(M, "music.mp3")     # clean voice (no music) for the audio
+PICTURE = os.path.join(M, "original_hq.mov")   # her full-quality 1080x1920 original: picture copied untouched
+DUR = float(subprocess.run(["ffprobe", "-v", "error", "-show_entries", "format=duration", "-of", "csv=p=0", PICTURE],
                            capture_output=True, text=True).stdout)
 SPEECH = [(0.40, 6.02), (17.30, 20.62)]   # her two lines (from silence detection)
 MUSIC_OFFSET = 3.0                          # start a little into the track's soft intro
@@ -23,15 +24,15 @@ music = (f"[1:a]atrim=start={MUSIC_OFFSET},asetpts=PTS-STARTPTS,aresample=48000,
 # only her spoken lines are kept: the clips' own sound (box handling, rustle, room noise) is muted in between
 R = 0.08
 gate = "+".join(f"clip((t-{a - R})/{R},0,1)*clip(({b + R}-t)/{R},0,1)" for a, b in SPEECH)
-voice = (f"[0:a]aresample=48000,volume='{gate}':eval=frame,highpass=f=80,acompressor=threshold=-34dB:ratio=2.2:attack=8:release=180:makeup=1,"
+voice = (f"[0:a]apad,aresample=48000,volume='{gate}':eval=frame,highpass=f=80,acompressor=threshold=-34dB:ratio=2.2:attack=8:release=180:makeup=1,"
          "volume=20dB,alimiter=limit=0.89:level=false,afade=t=in:d=0.15[v]")
 # whole mix lifted to Instagram loudness (about -15 LUFS) with a peak limiter so nothing clips
-mix = (f"[v][m]amix=inputs=2:normalize=0:duration=first,volume=7dB,alimiter=limit=0.89:attack=3:release=60:level=false,"
+mix = (f"[v][m]amix=inputs=2:normalize=0:duration=longest,atrim=0:{DUR},volume=7dB,alimiter=limit=0.89:attack=3:release=60:level=false,"
        f"afade=t=out:st={DUR - 0.6}:d=0.6[a]")
 
 # picture: her original video stream is copied bit-for-bit (no re-encode, no resize, no zoom)
 out = os.path.join(P, "renders", "GLOSSKN-Festive-Gift-Emotional.mp4")
-subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", SRC, "-i", MUSIC, "-filter_complex", f"{voice};{music};{mix}",
-                "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "256k",
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", SRC, "-i", MUSIC, "-i", PICTURE, "-filter_complex", f"{voice};{music};{mix}",
+                "-map", "2:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "256k",
                 "-movflags", "+faststart", "-t", f"{DUR}", out], check=True)
 print("done", out, round(DUR, 2))
