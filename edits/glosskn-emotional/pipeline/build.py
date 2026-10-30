@@ -2,7 +2,7 @@
 - voice: raised and gently levelled so every word is clear (no other processing)
 - music: soft intro under her first line, opens up for the product shots, dips under her closing line,
   swells on the logo card and fades out; smooth fades everywhere
-- picture: untouched except two subtle frame changes (punch-ins) on her pauses, like the reference"""
+- picture: her original video, copied untouched"""
 import os, subprocess
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); M = os.path.join(P, "media")
 SRC, MUSIC = os.path.join(M, "voice_only.mp4"), os.path.join(M, "music.mp3")
@@ -29,19 +29,9 @@ voice = (f"[0:a]aresample=48000,volume='{gate}':eval=frame,highpass=f=80,acompre
 mix = (f"[v][m]amix=inputs=2:normalize=0:duration=first,volume=7dB,alimiter=limit=0.89:attack=3:release=60:level=false,"
        f"afade=t=out:st={DUR - 0.6}:d=0.6[a]")
 
-# picture: wide as shot, two gentle punch-ins on her pauses (frame change only, no effects)
-PUNCH = [(2.93, 6.0, 1.10), (19.94, 20.62, 1.10)]
-segs, t, cut = [], 0.0, []
-for a, b, z in PUNCH:
-    cut += [(t, a, 1.0), (a, b, z)]; t = b
-cut.append((t, DUR, 1.0))
-v = f"[0:v]split={len(cut)}" + "".join(f"[s{i}]" for i in range(len(cut))) + ";"
-for i, (a, b, z) in enumerate(cut):
-    crop = f",crop=iw/{z}:ih/{z}:(iw-iw/{z})/2:(ih-ih/{z})*0.28" if z != 1.0 else ""
-    v += f"[s{i}]trim={a}:{b},setpts=PTS-STARTPTS{crop},scale=1080:1920:flags=lanczos,setsar=1[c{i}];"
-v += "".join(f"[c{i}]" for i in range(len(cut))) + f"concat=n={len(cut)}:v=1:a=0,format=yuv420p[vid]"
+# picture: her original video stream is copied bit-for-bit (no re-encode, no resize, no zoom)
 out = os.path.join(P, "renders", "GLOSSKN-Festive-Gift-Emotional.mp4")
-subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", SRC, "-i", MUSIC, "-filter_complex", f"{voice};{music};{mix};{v}",
-                "-map", "[vid]", "-map", "[a]", "-c:v", "libx264", "-preset", "slow", "-crf", "14", "-c:a", "aac", "-b:a", "256k",
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", SRC, "-i", MUSIC, "-filter_complex", f"{voice};{music};{mix}",
+                "-map", "0:v", "-map", "[a]", "-c:v", "copy", "-c:a", "aac", "-b:a", "256k",
                 "-movflags", "+faststart", "-t", f"{DUR}", out], check=True)
 print("done", out, round(DUR, 2))
