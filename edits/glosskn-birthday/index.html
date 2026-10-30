@@ -84,8 +84,8 @@
       <div class="ev full" id="e12" ><video id="e12-v" class="clip" src="media/ev3/e12.mp4" muted playsinline data-start="33.770" data-duration="1.600" data-track-index="2" style="object-position:50% 50%"></video></div>
       <div class="clip ev split" id="e13" data-start="35.370" data-duration="1.060" data-track-index="4"><img id="e13-v" src="media/zip2/Birthday video files/p.jpeg" style="object-position:50% 50%" /></div>
       <div class="ev full" id="e14" ><video id="e14-v" class="clip" src="media/ev3/e14.mp4" muted playsinline data-start="36.430" data-duration="1.080" data-track-index="2" style="object-position:50% 50%"></video></div>
-      <div class="ev full" id="e15" ><video id="e15-v" class="clip" src="media/ev3/e15.mp4" muted playsinline data-start="37.510" data-duration="0.510" data-track-index="2" style="object-position:50% 50%"></video></div>
-      <div class="clip ev full" id="e16" data-start="38.020" data-duration="1.260" data-track-index="3"><img id="e16-v" src="media/zip2/Birthday video files/s.jpeg" style="object-position:50% 50%" /></div>
+      <div class="clip ev full" id="e15" data-start="37.510" data-duration="0.510" data-track-index="4"><img id="e15-v" src="media/zip2/Birthday video files/s.jpeg" style="object-position:50% 50%" /></div>
+      <div class="ev full" id="e16" ><video id="e16-v" class="clip" src="media/ev3/e16.mp4" muted playsinline data-start="38.020" data-duration="1.260" data-track-index="2" style="object-position:50% 50%"></video></div>
       <div class="ev boxp" id="e17"><div class="card scard" id="e17-s0" style="left:110px;top:346px;width:620px;height:827px;z-index:1"><img id="e17-s0-v" src="media/zip2/Birthday video files/t.jpeg" /></div><div class="card scard" id="e17-s1" style="left:360px;top:406px;width:620px;height:827px;z-index:2"><img id="e17-s1-v" src="media/zip2/Birthday video files/u.jpeg" /></div><div class="card scard" id="e17-s2" style="left:170px;top:382px;width:560px;height:996px;z-index:3"><video id="e17-s2-v" class="clip" src="media/ev3/e17_2.mp4" muted playsinline data-start="40.730" data-duration="1.990" data-track-index="10"></video></div><div class="card scard" id="e17-s3" style="left:350px;top:334px;width:580px;height:1031px;z-index:4"><video id="e17-s3-v" class="clip" src="media/ev3/e17_3.mp4" muted playsinline data-start="41.480" data-duration="1.240" data-track-index="11"></video></div></div>
       <div class="clip ev" id="e18" data-start="43.000" data-duration="2.590" data-track-index="3"><div class="pol" id="e18-p0" style="left:90px;top:22px;width:360px"><div class="pol-img" style="background-image:url('media/zip2/Birthday video files/x.jpeg')"></div></div><div class="pol" id="e18-p1" style="left:620px;top:40px;width:360px"><div class="pol-img" style="background-image:url('media/zip2/Birthday video files/y.jpeg')"></div></div></div>
       <div class="clip ev splitb" id="e19" data-start="45.590" data-duration="1.430" data-track-index="4"><img id="e19-v" src="media/zip2/Birthday video files/z.jpeg" style="object-position:50% 50%" /></div>
@@ -188,11 +188,11 @@
       tl.fromTo("#e14",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},36.430);
       
       tl.set("#spkw",{y:0},36.430);
-      tl.set("#e15",{opacity:0},0);tl.set("#e15",{opacity:1},37.510);tl.set("#e15",{opacity:0},38.020);
       tl.fromTo("#e15",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},37.510);
-      
+      tl.fromTo("#e15-v",{scale:1.0},{scale:1.07,duration:0.510,ease:"none"},37.510);
+      tl.set("#e16",{opacity:0},0);tl.set("#e16",{opacity:1},38.020);tl.set("#e16",{opacity:0},39.280);
       tl.fromTo("#e16",{scale:1.05},{scale:1,duration:0.4,ease:"power2.out"},38.020);
-      tl.fromTo("#e16-v",{scale:1.0},{scale:1.07,duration:1.260,ease:"none"},38.020);
+      
       tl.set("#e17-s0",{opacity:0},0);
       tl.fromTo("#e17-s0",{opacity:1,scale:1.18,rotation:-12.5,y:40},{opacity:1,scale:1,rotation:-5,y:0,duration:0.42,ease:"power3.out"},39.280);
       tl.set("#e17-s1",{opacity:0},0);

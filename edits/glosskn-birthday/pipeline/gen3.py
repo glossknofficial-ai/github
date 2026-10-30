@@ -42,8 +42,8 @@ EV = [
     ("full", at("our first launch") - 0.02, at("our first order") - 0.04, Z2 + "o.mp4", {"ss": 12.2}),
     ("split", at("our first order") - 0.04, at("someone who") - 0.03, Z2 + "p.jpeg", {}),
     ("full", at("someone who") - 0.03, at("believed in") - 0.02, Z2 + "q.mp4", {"ss": 3.6}),
-    ("full", at("believed in") - 0.02, at("what we had") - 0.02, Z2 + "r.mp4", {"ss": 1.7}),
-    ("full", at("what we had") - 0.02, at("and suddenly") - 0.05, Z2 + "s.jpeg", {}),
+    ("full", at("believed in") - 0.02, at("what we had") - 0.02, Z2 + "s.jpeg", {}),
+    ("full", at("what we had") - 0.02, at("and suddenly") - 0.05, Z2 + "r.mp4", {"ss": 1.7}),
     # "all those little things started adding up": cards pile up on the page
     ("stack", at("and suddenly") - 0.05, at("adding up", end=True) + 0.25, None,
      {"items": [(Z2 + "t.jpeg", 0.0, -5, 620, 0.75, -120, -80, {}), (Z2 + "u.jpeg", 0.7, 4, 620, 0.75, 130, -20, {}),
