@@ -44,10 +44,10 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ece4e
 </style></head>
 <body><div id="root" data-composition-id="main" data-start="0" data-duration="10.0" data-width="1080" data-height="1920">
 <div id="post"><div id="beams"></div><div id="floor"></div></div>
-<img class="cart" id="cart0" src="media/v2/cart0.png" style="top:615px" />
-<img class="cart" id="cart1" src="media/v2/cart1.png" style="top:615px" />
-<img class="cart" id="cart2" src="media/v2/cart2.png" style="top:615px" />
-<img class="cart" id="cart3" src="media/v2/cart3.png" style="top:615px" />
+<img class="cart" id="cart0" src="media/v2/cartF0.png" style="top:615px" />
+<img class="cart" id="cart1" src="media/v2/cartF1.png" style="top:615px" />
+<img class="cart" id="cart2" src="media/v2/cartF2.png" style="top:615px" />
+<img class="cart" id="cart3" src="media/v2/cartF3.png" style="top:615px" />
 <img id="panel" src="media/v2/panel.png" />
 <div class="story" id="st0" style="left:267px;top:180px"><img class="sc" id="st0c" src="media/v2/circle_cleanse.png" /><img class="sl" id="st0l" src="media/v2/label_cleanse.png" /></div>
 <div class="story" id="st1" style="left:530px;top:180px"><img class="sc" id="st1c" src="media/v2/circle_melt.png" /><img class="sl" id="st1l" src="media/v2/label_melt.png" /></div>
@@ -64,7 +64,6 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ece4e
 </div>
 <script>
 const tl = gsap.timeline({ paused: true });
-tl.fromTo("#beams",{x:-30},{x:40,duration:10.0,ease:"none"},0);
 tl.set("#cart0",{opacity:1},0);
 tl.set("#cart1",{opacity:0},0);
 tl.set("#cart2",{opacity:0},0);
@@ -106,7 +105,7 @@ tl.set("#badge",{opacity:0},0);tl.set("#badge",{opacity:1},4.46);
 tl.fromTo("#shine",{backgroundPosition:"-140% 0"},{backgroundPosition:"240% 0",duration:1.1,ease:"power2.inOut"},4.51);
 tl.fromTo("#badge",{scale:1},{scale:1.12,duration:0.22,ease:"power2.out",yoyo:true,repeat:1},4.51);
 tl.fromTo("#badge",{scale:1},{scale:1.12,duration:0.22,ease:"power2.out",yoyo:true,repeat:1},5.16);
-tl.to(["#panel",".cart",".story","#badge","#shine"],{opacity:0,y:-40,duration:0.28,ease:"power2.in"},6.75);
+tl.to(["#panel",".cart",".story","#badge","#shine","#post"],{opacity:0,duration:0.3,ease:"power1.in"},6.75);
 tl.set("#sceneB",{opacity:0},0);
 tl.fromTo("#sceneB",{opacity:0},{opacity:1,duration:0.35,ease:"power1.out"},6.93);
 tl.set({}, {}, 10.0);

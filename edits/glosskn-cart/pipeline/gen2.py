@@ -10,10 +10,9 @@ HOLD_END = 6.75
 els, tl, pops, ticks = [], [], [], []
 # set: lilac backdrop with drifting window light + soft floor shadow
 els.append('<div id="post"><div id="beams"></div><div id="floor"></div></div>')
-tl.append(f'tl.fromTo("#beams",{{x:-30}},{{x:40,duration:{DUR},ease:"none"}},0);')
 # cart, filling up stage by stage
 for k in range(4):
-    els.append(f'<img class="cart" id="cart{k}" src="{V}/cart{k}.png" style="top:{PANEL}px" />')
+    els.append(f'<img class="cart" id="cart{k}" src="{V}/cartF{k}.png" style="top:{PANEL}px" />')
     tl.append(f'tl.set("#cart{k}",{{opacity:{1 if k == 0 else 0}}},0);')
 els.append(f'<img id="panel" src="{V}/panel.png" />')
 # story circles (exact crops) sitting in the story bar
@@ -50,7 +49,7 @@ tl.append(f'tl.fromTo("#shine",{{backgroundPosition:"-140% 0"}},{{backgroundPosi
 for t in (LAST + 0.2, LAST + 0.85):
     tl.append(f'tl.fromTo("#badge",{{scale:1}},{{scale:1.12,duration:0.22,ease:"power2.out",yoyo:true,repeat:1}},{t:.2f});')
 # scene A out, cake screen in
-tl.append(f'tl.to(["#panel",".cart",".story","#badge","#shine"],{{opacity:0,y:-40,duration:0.28,ease:"power2.in"}},{HOLD_END:.2f});')
+tl.append(f'tl.to(["#panel",".cart",".story","#badge","#shine","#post"],{{opacity:0,duration:0.3,ease:"power1.in"}},{HOLD_END:.2f});')   # no movement, just a fade
 B = HOLD_END
 els.append('<div id="sceneB"><img class="full" src="media/v2/cake_original.png" /></div>')   # her original design, untouched
 tl.append(f'tl.set("#sceneB",{{opacity:0}},0);')
