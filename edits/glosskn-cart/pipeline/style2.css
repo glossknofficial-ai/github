@@ -1,0 +1,36 @@
+@font-face { font-family: "PF"; src: url(fonts/PlayfairDisplay.ttf); font-weight: 400 900; }
+@font-face { font-family: "PFI"; src: url(fonts/PlayfairDisplay-Italic.ttf); font-weight: 400 900; font-style: italic; }
+@font-face { font-family: "OS"; src: url(fonts/Oswald.ttf); font-weight: 200 700; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ece4ed; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; background: #ece4ed; }
+/* lilac set lit by a window: soft diagonal light and mullion shadows, like the reference */
+#post { position: absolute; inset: 0; overflow: hidden;
+        background: linear-gradient(180deg, #f3ebf5 0%, #ece0f0 45%, #ddc8e6 100%); }
+#beams { position: absolute; left: -500px; top: 300px; width: 2200px; height: 1900px; transform-origin: 0 0;
+         background: repeating-linear-gradient(118deg, rgba(255,255,255,0) 0 70px, rgba(255,255,255,.55) 70px 300px, rgba(255,255,255,0) 300px 360px,
+                                                     rgba(170,130,190,.16) 360px 390px, rgba(255,255,255,0) 390px 470px);
+         filter: blur(16px); -webkit-mask-image: radial-gradient(70% 60% at 60% 45%, #000 40%, transparent 85%); }
+#floor { position: absolute; left: 70px; top: 1790px; width: 780px; height: 140px; border-radius: 50%;
+         background: radial-gradient(closest-side, rgba(110,70,130,.28), transparent); filter: blur(8px); }
+.cart { position: absolute; left: 0; width: 1080px; }
+#panel { position: absolute; left: 0; top: 0; width: 1080px; }
+.story { position: absolute; width: 250px; height: 290px; transform-origin: 125px 126px; z-index: 5; }
+.story img { width: 250px; height: 290px; display: block; }
+.burst { position: absolute; width: 0; height: 0; z-index: 6; }
+.burst i { position: absolute; left: -6px; top: -6px; width: 12px; height: 12px; border-radius: 50%; background: #c9a3d9;
+           transform: rotate(var(--a)) translateX(var(--d, 0px)); box-shadow: 0 0 10px rgba(255,255,255,.9); }
+.burst i:nth-child(odd) { background: #d4b06a; }
+#badge { position: absolute; transform-origin: 50% 50%; }
+#shine { position: absolute; -webkit-mask-image: url(media/title_mask.png); -webkit-mask-size: 100% 100%;
+         background: linear-gradient(105deg, transparent 35%, rgba(215,182,226,.95) 47%, rgba(255,255,255,.95) 50%, rgba(215,182,226,.95) 53%, transparent 65%);
+         background-size: 60% 100%; background-repeat: no-repeat; }
+#sceneB { position: absolute; inset: 0; }
+.full { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+#glow { position: absolute; left: 470px; top: 980px; width: 140px; height: 180px; border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(255,214,140,.85), rgba(255,190,120,.35) 55%, transparent); filter: blur(10px); }
+#h1 { position: absolute; left: 0; right: 0; top: 440px; text-align: center; font: 700 168px/1 "OS", sans-serif; letter-spacing: 3px; color: #0d0b0e; }
+#h1 .ch { display: inline-block; text-shadow: -1px 1px 0 #d7b6e2, -2px 2px 0 #d7b6e2, -3px 3px 0 #d7b6e2, -4px 4px 0 #d7b6e2, -5px 5px 0 #d7b6e2, -6px 6px 0 #d7b6e2, -7px 7px 0 #d7b6e2; }
+#h2 { position: absolute; left: 0; right: 0; top: 615px; text-align: center; font: italic 600 132px/1 "PFI", serif; color: #4a2a5a; }
+#h2 span { display: inline-block; padding: 0 20px 18px; }
+#h3 { position: absolute; left: 0; right: 0; top: 792px; text-align: center; font: italic 500 50px/1 "PFI", serif; color: #4a2a5a; }
