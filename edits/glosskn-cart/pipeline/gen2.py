@@ -18,12 +18,20 @@ for k in range(4):
 els.append(f'<img id="panel" src="{V}/panel.png" />')
 # story circles (exact crops) sitting in the story bar
 for i, (name, cx, _) in enumerate(DROPS):
-    els.append(f'<div class="story" id="st{i}" style="left:{cx - 125}px;top:180px"><img src="{V}/story_{name}.png" /></div>')
+    els.append(f'<div class="story" id="st{i}" style="left:{cx - 125}px;top:180px"><img class="sc" id="st{i}c" src="{V}/circle_{name}.png" />'
+               f'<img class="sl" id="st{i}l" src="{V}/label_{name}.png" /></div>')
 for i, (name, cx, (tx, ty)) in enumerate(DROPS):
     t = T0[i]; land = t + LIFT + FLY
+    # like the reference: label fades, the circle lifts, spins one full turn while it falls with gravity
+    tl.append(f'tl.to("#st{i}l",{{opacity:0,duration:0.12}},{t:.2f});')
     tl.append(f'tl.to("#st{i}",{{scale:1.06,y:-10,duration:{LIFT},ease:"power2.out"}},{t:.2f});')
-    tl.append(f'tl.to("#st{i}",{{x:{tx - cx},y:{ty - 306},scale:0.82,rotation:{-6 + 6 * i},duration:{FLY},ease:"power2.in"}},{t + LIFT:.2f});')
-    tl.append(f'tl.to("#st{i}",{{y:"+=60",opacity:0,scale:0.7,duration:0.12,ease:"none"}},{land:.2f});')
+    tl.append(f'tl.to("#st{i}",{{x:{tx - cx},y:{ty - 306},scale:0.82,duration:{FLY},ease:"power2.in"}},{t + LIFT:.2f});')
+    tl.append(f'tl.fromTo("#st{i}c",{{rotation:0}},{{rotation:{-360 if i % 2 == 0 else 360},duration:{LIFT + FLY},ease:"power1.inOut"}},{t:.2f});')
+    # landing: picture melts into the product while the story ring ripples out and fades, with tiny spark lines
+    tl.append(f'tl.to("#st{i}",{{opacity:0,duration:0.16,ease:"none"}},{land - 0.02:.2f});')
+    els.append(f'<div class="ring" id="rg{i}" style="left:{tx - 95}px;top:{ty - 95}px"></div>')
+    tl.append(f'tl.set("#rg{i}",{{opacity:0}},0);')
+    tl.append(f'tl.fromTo("#rg{i}",{{opacity:1,scale:1}},{{opacity:0,scale:1.6,duration:0.42,ease:"power2.out"}},{land - 0.04:.2f});')
     land = land + 0.06
     ticks.append(round(t, 3))
     tl.append(f'tl.to("#cart{i + 1}",{{opacity:1,duration:0.18}},{land - 0.06:.2f});tl.set("#cart{i}",{{opacity:0}},{land + 0.14:.2f});')
