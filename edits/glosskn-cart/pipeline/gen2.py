@@ -60,7 +60,6 @@ html = f"""<!doctype html>
 <html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width={W}, height={H}" />
 <script src="vendor/gsap.min.js"></script><style>{CSS}</style></head>
 <body><div id="root" data-composition-id="main" data-start="0" data-duration="{DUR}" data-width="{W}" data-height="{H}">
-<audio id="bed" src="media/v2/sfx.wav" data-start="0" data-duration="{DUR}" data-track-index="1"></audio>
 {chr(10).join(els)}
 </div>
 <script>
