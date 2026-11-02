@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=1080, height=1920" />
+<script src="vendor/gsap.min.js"></script><style>
+@font-face { font-family: "PF"; src: url(fonts/PlayfairDisplay.ttf); font-weight: 400 900; }
+@font-face { font-family: "PFI"; src: url(fonts/PlayfairDisplay-Italic.ttf); font-weight: 400 900; font-style: italic; }
+@font-face { font-family: "OS"; src: url(fonts/Oswald.ttf); font-weight: 200 700; }
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ece4ed; }
+#root { position: relative; width: 1080px; height: 1920px; overflow: hidden; }
+#bg { position: absolute; inset: 0; background: radial-gradient(120% 75% at 50% 45%, #f6eff8 0%, #ece4ed 48%, #dcc8e6 100%); }
+.bokeh { position: absolute; border-radius: 50%; filter: blur(60px); }
+.cf { position: absolute; top: 0; opacity: .85; }
+.full { position: absolute; inset: 0; width: 1080px; height: 1920px; }
+#hold img, #sceneB img { position: absolute; }
+#badge { position: absolute; transform-origin: 50% 50%; }
+#shine { position: absolute; -webkit-mask-image: url(media/title_mask.png); -webkit-mask-size: 100% 100%; mask-image: url(media/title_mask.png); mask-size: 100% 100%;
+         background: linear-gradient(105deg, transparent 35%, rgba(215,182,226,.95) 47%, rgba(255,255,255,.95) 50%, rgba(215,182,226,.95) 53%, transparent 65%);
+         background-size: 60% 100%; background-repeat: no-repeat; }
+#glow { position: absolute; left: 470px; top: 980px; width: 140px; height: 180px; border-radius: 50%;
+        background: radial-gradient(closest-side, rgba(255,214,140,.85), rgba(255,190,120,.35) 55%, transparent); filter: blur(10px); }
+#h1 { position: absolute; left: 0; right: 0; top: 440px; text-align: center; font: 700 168px/1 "OS", sans-serif; letter-spacing: 3px; color: #0d0b0e; }
+#h1 .ch { display: inline-block; text-shadow: -1px 1px 0 #d7b6e2, -2px 2px 0 #d7b6e2, -3px 3px 0 #d7b6e2, -4px 4px 0 #d7b6e2, -5px 5px 0 #d7b6e2, -6px 6px 0 #d7b6e2, -7px 7px 0 #d7b6e2; }
+#h2 { position: absolute; left: 0; right: 0; top: 615px; text-align: center; font: italic 600 132px/1 "PFI", serif; color: #4a2a5a; }
+#h2 span { display: inline-block; padding: 0 20px 18px; }
+#h3 { position: absolute; left: 0; right: 0; top: 792px; text-align: center; font: italic 500 50px/1 "PFI", serif; color: #4a2a5a; }
+</style></head>
+<body><div id="root" data-composition-id="main" data-start="0" data-duration="10.0" data-width="1080" data-height="1920">
+<div id="bg"></div>
+<div class="bokeh" id="bk0" style="width:425px;height:425px;left:158px;top:1308px;background:rgba(255,255,255,.4)"></div>
+<div class="bokeh" id="bk1" style="width:308px;height:308px;left:598px;top:1693px;background:rgba(255,255,255,.55)"></div>
+<div class="bokeh" id="bk2" style="width:279px;height:279px;left:26px;top:1388px;background:rgba(215,182,226,.45)"></div>
+<div class="bokeh" id="bk3" style="width:306px;height:306px;left:719px;top:621px;background:rgba(255,255,255,.4)"></div>
+<div class="bokeh" id="bk4" style="width:291px;height:291px;left:662px;top:601px;background:rgba(255,255,255,.55)"></div>
+<div class="bokeh" id="bk5" style="width:328px;height:328px;left:443px;top:1358px;background:rgba(255,255,255,.55)"></div>
+<div class="bokeh" id="bk6" style="width:417px;height:417px;left:220px;top:711px;background:rgba(255,255,255,.4)"></div>
+<div class="cf" id="cf0" style="left:199px;width:13px;height:23px;border-radius:50%;background:#ffffff"></div>
+<div class="cf" id="cf1" style="left:643px;width:18px;height:32px;border-radius:3px;background:#d7b6e2"></div>
+<div class="cf" id="cf2" style="left:614px;width:13px;height:13px;border-radius:3px;background:#d7b6e2"></div>
+<div class="cf" id="cf3" style="left:337px;width:18px;height:32px;border-radius:3px;background:#d4b06a"></div>
+<div class="cf" id="cf4" style="left:696px;width:18px;height:32px;border-radius:3px;background:#4a2a5a"></div>
+<div class="cf" id="cf5" style="left:634px;width:11px;height:11px;border-radius:3px;background:#d7b6e2"></div>
+<div class="cf" id="cf6" style="left:344px;width:17px;height:30px;border-radius:50%;background:#d7b6e2"></div>
+<div class="cf" id="cf7" style="left:165px;width:16px;height:28px;border-radius:3px;background:#b48ac6"></div>
+<div class="cf" id="cf8" style="left:779px;width:16px;height:28px;border-radius:50%;background:#b48ac6"></div>
+<div class="cf" id="cf9" style="left:538px;width:17px;height:17px;border-radius:3px;background:#ffffff"></div>
+<div class="cf" id="cf10" style="left:935px;width:18px;height:18px;border-radius:3px;background:#d4b06a"></div>
+<div class="cf" id="cf11" style="left:127px;width:17px;height:30px;border-radius:3px;background:#b48ac6"></div>
+<div class="cf" id="cf12" style="left:0px;width:10px;height:10px;border-radius:3px;background:#ffffff"></div>
+<div class="cf" id="cf13" style="left:304px;width:13px;height:23px;border-radius:3px;background:#d4b06a"></div>
+<div class="cf" id="cf14" style="left:983px;width:17px;height:30px;border-radius:50%;background:#8e5fa3"></div>
+<div class="cf" id="cf15" style="left:420px;width:12px;height:12px;border-radius:50%;background:#8e5fa3"></div>
+<div class="cf" id="cf16" style="left:186px;width:18px;height:32px;border-radius:3px;background:#b48ac6"></div>
+<div class="cf" id="cf17" style="left:456px;width:18px;height:32px;border-radius:50%;background:#b48ac6"></div>
+<div class="cf" id="cf18" style="left:728px;width:18px;height:32px;border-radius:3px;background:#d4b06a"></div>
+<div class="cf" id="cf19" style="left:715px;width:15px;height:27px;border-radius:50%;background:#4a2a5a"></div>
+<div class="cf" id="cf20" style="left:988px;width:15px;height:15px;border-radius:50%;background:#d4b06a"></div>
+<div class="cf" id="cf21" style="left:795px;width:11px;height:11px;border-radius:3px;background:#b48ac6"></div>
+<div class="cf" id="cf22" style="left:822px;width:16px;height:28px;border-radius:50%;background:#b48ac6"></div>
+<div class="cf" id="cf23" style="left:971px;width:17px;height:17px;border-radius:50%;background:#4a2a5a"></div>
+<div class="cf" id="cf24" style="left:398px;width:12px;height:21px;border-radius:3px;background:#b48ac6"></div>
+<div class="cf" id="cf25" style="left:858px;width:15px;height:27px;border-radius:3px;background:#d4b06a"></div>
+<div class="cf" id="cf26" style="left:310px;width:18px;height:18px;border-radius:3px;background:#b48ac6"></div>
+<div class="cf" id="cf27" style="left:289px;width:12px;height:12px;border-radius:50%;background:#d7b6e2"></div>
+<div class="cf" id="cf28" style="left:217px;width:18px;height:32px;border-radius:50%;background:#d7b6e2"></div>
+<div class="cf" id="cf29" style="left:129px;width:17px;height:17px;border-radius:50%;background:#8e5fa3"></div>
+<div class="cf" id="cf30" style="left:1039px;width:18px;height:32px;border-radius:3px;background:#ffffff"></div>
+<div class="cf" id="cf31" style="left:803px;width:16px;height:16px;border-radius:50%;background:#d4b06a"></div>
+<div class="cf" id="cf32" style="left:316px;width:14px;height:14px;border-radius:3px;background:#b48ac6"></div>
+<div class="cf" id="cf33" style="left:815px;width:13px;height:13px;border-radius:50%;background:#b48ac6"></div>
+<div class="cf" id="cf34" style="left:862px;width:16px;height:28px;border-radius:3px;background:#4a2a5a"></div>
+<div class="cf" id="cf35" style="left:678px;width:10px;height:18px;border-radius:50%;background:#4a2a5a"></div>
+<div class="cf" id="cf36" style="left:81px;width:14px;height:25px;border-radius:50%;background:#d4b06a"></div>
+<div class="cf" id="cf37" style="left:669px;width:12px;height:21px;border-radius:50%;background:#d4b06a"></div>
+<div class="cf" id="cf38" style="left:533px;width:10px;height:10px;border-radius:50%;background:#d7b6e2"></div>
+<div class="cf" id="cf39" style="left:548px;width:15px;height:27px;border-radius:50%;background:#4a2a5a"></div>
+<div class="cf" id="cf40" style="left:638px;width:12px;height:12px;border-radius:50%;background:#d7b6e2"></div>
+<div class="cf" id="cf41" style="left:710px;width:12px;height:21px;border-radius:50%;background:#4a2a5a"></div>
+<div class="cf" id="cf42" style="left:503px;width:13px;height:23px;border-radius:3px;background:#8e5fa3"></div>
+<div class="cf" id="cf43" style="left:470px;width:14px;height:14px;border-radius:50%;background:#d4b06a"></div>
+<div class="cf" id="cf44" style="left:144px;width:12px;height:12px;border-radius:3px;background:#b48ac6"></div>
+<div class="cf" id="cf45" style="left:496px;width:16px;height:28px;border-radius:50%;background:#b48ac6"></div>
+<video id="fgA" class="clip full" src="media/fgA.webm" muted playsinline data-start="0" data-duration="5.433" data-track-index="2"></video>
+<div class="clip full" id="hold" data-start="5.393" data-duration="1.807" data-track-index="3"><img class="full" src="media/holdA.png" /><div id="shine" style="left:40px;top:650px;width:520px;height:350px"></div><img id="badge" src="media/badge.png" style="left:655px;top:1286px;width:300px;height:300px" /></div>
+<div class="clip full" id="sceneB" data-start="6.750" data-duration="3.250" data-track-index="4"><div id="glow"></div><img class="full" src="media/fgB.png" /><div id="h1"><span class="ch">L</span><span class="ch">A</span><span class="ch">S</span><span class="ch">T</span><span class="ch">&nbsp;</span><span class="ch">F</span><span class="ch">E</span><span class="ch">W</span></div><div id="h2"><span>hours left</span></div><div id="h3">Grab your favourites now!!!</div></div>
+</div>
+<script>
+const tl = gsap.timeline({ paused: true });
+tl.fromTo("#bk0",{x:0,y:0},{x:-78,y:-151,duration:10.0,ease:"sine.inOut"},0);
+tl.fromTo("#bk1",{x:0,y:0},{x:39,y:-133,duration:10.0,ease:"sine.inOut"},0);
+tl.fromTo("#bk2",{x:0,y:0},{x:-73,y:-130,duration:10.0,ease:"sine.inOut"},0);
+tl.fromTo("#bk3",{x:0,y:0},{x:-59,y:-132,duration:10.0,ease:"sine.inOut"},0);
+tl.fromTo("#bk4",{x:0,y:0},{x:-79,y:-89,duration:10.0,ease:"sine.inOut"},0);
+tl.fromTo("#bk5",{x:0,y:0},{x:48,y:-145,duration:10.0,ease:"sine.inOut"},0);
+tl.fromTo("#bk6",{x:0,y:0},{x:56,y:-79,duration:10.0,ease:"sine.inOut"},0);
+tl.fromTo("#cf0",{y:-60,rotation:52,x:0},{y:1980,rotation:868,x:54,duration:6.69,ease:"none"},2.22);
+tl.fromTo("#cf1",{y:-60,rotation:63,x:0},{y:1980,rotation:544,x:58,duration:9.27,ease:"none"},0.98);
+tl.fromTo("#cf2",{y:-60,rotation:155,x:0},{y:1980,rotation:434,x:-90,duration:9.13,ease:"none"},1.88);
+tl.fromTo("#cf3",{y:-60,rotation:10,x:0},{y:1980,rotation:439,x:75,duration:6.96,ease:"none"},5.36);
+tl.fromTo("#cf4",{y:-60,rotation:23,x:0},{y:1980,rotation:636,x:1,duration:8.28,ease:"none"},4.43);
+tl.fromTo("#cf5",{y:-60,rotation:98,x:0},{y:1980,rotation:715,x:-115,duration:9.48,ease:"none"},3.71);
+tl.fromTo("#cf6",{y:-60,rotation:33,x:0},{y:1980,rotation:613,x:-19,duration:7.98,ease:"none"},3.16);
+tl.fromTo("#cf7",{y:-60,rotation:110,x:0},{y:1980,rotation:645,x:60,duration:7.70,ease:"none"},-3.50);
+tl.fromTo("#cf8",{y:-60,rotation:59,x:0},{y:1980,rotation:598,x:-117,duration:6.95,ease:"none"},8.37);
+tl.fromTo("#cf9",{y:-60,rotation:144,x:0},{y:1980,rotation:686,x:-88,duration:6.94,ease:"none"},-1.77);
+tl.fromTo("#cf10",{y:-60,rotation:102,x:0},{y:1980,rotation:763,x:-94,duration:8.84,ease:"none"},7.49);
+tl.fromTo("#cf11",{y:-60,rotation:28,x:0},{y:1980,rotation:708,x:33,duration:9.45,ease:"none"},-3.14);
+tl.fromTo("#cf12",{y:-60,rotation:6,x:0},{y:1980,rotation:432,x:103,duration:8.11,ease:"none"},2.50);
+tl.fromTo("#cf13",{y:-60,rotation:31,x:0},{y:1980,rotation:478,x:97,duration:9.37,ease:"none"},3.52);
+tl.fromTo("#cf14",{y:-60,rotation:87,x:0},{y:1980,rotation:631,x:2,duration:6.76,ease:"none"},1.26);
+tl.fromTo("#cf15",{y:-60,rotation:139,x:0},{y:1980,rotation:387,x:74,duration:8.08,ease:"none"},8.26);
+tl.fromTo("#cf16",{y:-60,rotation:91,x:0},{y:1980,rotation:588,x:16,duration:7.28,ease:"none"},4.44);
+tl.fromTo("#cf17",{y:-60,rotation:102,x:0},{y:1980,rotation:592,x:-69,duration:8.87,ease:"none"},3.20);
+tl.fromTo("#cf18",{y:-60,rotation:66,x:0},{y:1980,rotation:558,x:57,duration:9.47,ease:"none"},4.97);
+tl.fromTo("#cf19",{y:-60,rotation:58,x:0},{y:1980,rotation:841,x:-70,duration:7.59,ease:"none"},8.33);
+tl.fromTo("#cf20",{y:-60,rotation:167,x:0},{y:1980,rotation:712,x:84,duration:9.20,ease:"none"},3.36);
+tl.fromTo("#cf21",{y:-60,rotation:111,x:0},{y:1980,rotation:700,x:-98,duration:8.75,ease:"none"},5.73);
+tl.fromTo("#cf22",{y:-60,rotation:32,x:0},{y:1980,rotation:388,x:-82,duration:6.75,ease:"none"},5.15);
+tl.fromTo("#cf23",{y:-60,rotation:3,x:0},{y:1980,rotation:465,x:14,duration:7.55,ease:"none"},3.86);
+tl.fromTo("#cf24",{y:-60,rotation:74,x:0},{y:1980,rotation:873,x:-59,duration:7.13,ease:"none"},6.39);
+tl.fromTo("#cf25",{y:-60,rotation:169,x:0},{y:1980,rotation:889,x:-13,duration:6.68,ease:"none"},6.51);
+tl.fromTo("#cf26",{y:-60,rotation:155,x:0},{y:1980,rotation:364,x:78,duration:6.56,ease:"none"},1.85);
+tl.fromTo("#cf27",{y:-60,rotation:174,x:0},{y:1980,rotation:890,x:15,duration:8.68,ease:"none"},1.10);
+tl.fromTo("#cf28",{y:-60,rotation:10,x:0},{y:1980,rotation:460,x:9,duration:6.67,ease:"none"},7.25);
+tl.fromTo("#cf29",{y:-60,rotation:70,x:0},{y:1980,rotation:823,x:10,duration:8.34,ease:"none"},0.65);
+tl.fromTo("#cf30",{y:-60,rotation:51,x:0},{y:1980,rotation:818,x:-85,duration:8.60,ease:"none"},8.12);
+tl.fromTo("#cf31",{y:-60,rotation:18,x:0},{y:1980,rotation:577,x:51,duration:6.72,ease:"none"},0.63);
+tl.fromTo("#cf32",{y:-60,rotation:64,x:0},{y:1980,rotation:500,x:-1,duration:8.43,ease:"none"},8.09);
+tl.fromTo("#cf33",{y:-60,rotation:180,x:0},{y:1980,rotation:801,x:11,duration:6.99,ease:"none"},7.27);
+tl.fromTo("#cf34",{y:-60,rotation:86,x:0},{y:1980,rotation:829,x:-8,duration:7.46,ease:"none"},-3.06);
+tl.fromTo("#cf35",{y:-60,rotation:58,x:0},{y:1980,rotation:467,x:-99,duration:7.39,ease:"none"},1.76);
+tl.fromTo("#cf36",{y:-60,rotation:173,x:0},{y:1980,rotation:624,x:-17,duration:7.04,ease:"none"},7.59);
+tl.fromTo("#cf37",{y:-60,rotation:18,x:0},{y:1980,rotation:635,x:120,duration:6.67,ease:"none"},-4.66);
+tl.fromTo("#cf38",{y:-60,rotation:31,x:0},{y:1980,rotation:824,x:-118,duration:9.07,ease:"none"},-4.74);
+tl.fromTo("#cf39",{y:-60,rotation:41,x:0},{y:1980,rotation:628,x:-108,duration:6.63,ease:"none"},3.33);
+tl.fromTo("#cf40",{y:-60,rotation:114,x:0},{y:1980,rotation:872,x:52,duration:8.09,ease:"none"},3.43);
+tl.fromTo("#cf41",{y:-60,rotation:4,x:0},{y:1980,rotation:877,x:21,duration:9.48,ease:"none"},6.06);
+tl.fromTo("#cf42",{y:-60,rotation:126,x:0},{y:1980,rotation:762,x:9,duration:6.82,ease:"none"},8.02);
+tl.fromTo("#cf43",{y:-60,rotation:88,x:0},{y:1980,rotation:415,x:94,duration:9.00,ease:"none"},-0.86);
+tl.fromTo("#cf44",{y:-60,rotation:14,x:0},{y:1980,rotation:446,x:50,duration:9.14,ease:"none"},3.38);
+tl.fromTo("#cf45",{y:-60,rotation:68,x:0},{y:1980,rotation:816,x:-120,duration:6.64,ease:"none"},4.39);
+tl.fromTo("#shine",{backgroundPosition:"-140% 0"},{backgroundPosition:"240% 0",duration:1.1,ease:"power2.inOut"},5.53);
+tl.fromTo("#badge",{scale:1},{scale:1.12,duration:0.22,ease:"power2.out",yoyo:true,repeat:1},5.48);
+tl.fromTo("#badge",{scale:1},{scale:1.12,duration:0.22,ease:"power2.out",yoyo:true,repeat:1},6.18);
+tl.to("#hold",{opacity:0,y:-40,duration:0.28,ease:"power2.in"},6.75);
+tl.fromTo("#sceneB",{opacity:0,y:50},{opacity:1,y:0,duration:0.4,ease:"power2.out"},6.97);
+tl.fromTo("#h1 .ch",{y:70,opacity:0,rotation:-6},{y:0,opacity:1,rotation:0,duration:0.5,ease:"back.out(2)",stagger:0.05},7.10);
+tl.fromTo("#h2 span",{clipPath:"inset(0 100% 0 0)"},{clipPath:"inset(0 0% 0 0)",duration:0.7,ease:"power2.inOut"},7.70);
+tl.fromTo("#h3",{y:20,opacity:0},{y:0,opacity:1,duration:0.5,ease:"power2.out"},8.30);
+tl.to("#h1",{scale:1.04,duration:0.35,ease:"power1.inOut",yoyo:true,repeat:3},8.75);
+tl.fromTo("#glow",{opacity:0.55,scale:0.92},{opacity:0.95,scale:1.08,duration:0.45,ease:"sine.inOut",yoyo:true,repeat:6},6.75);
+tl.set({}, {}, 10.0);
+window.__timelines["main"] = tl;
+</script></body></html>
