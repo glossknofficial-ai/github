@@ -11,8 +11,8 @@ ALIGN1 = "scale=iw*1.09:ih*1.09,rotate=3*PI/180:ow=iw:oh=ih,crop=720:1280:(iw-72
 SHOTS = [(3, 3.5, 5.0, None),       # lid opens
          (3, 9.2, 10.2, "cut"),     # bottle 1
          (3, 14.15, 15.1, "cut"),   # bottle 2
-         (1, 13.6, 15.3, 0.35),   # headband roll   (soft dissolve)
-         (1, 17.45, 19.3, 0.35),   # bow             (soft dissolve)
+         (3, 19.4, 21.3, 0.35),   # headband roll   (soft dissolve; clip 3, native framing = sharpest)
+         (3, 24.3, 25.8, 0.35),   # bow             (soft dissolve; clip 3)
          (1, 21.5, 22.65, "cut"),   # sachet
          (1, 24.3, 25.75, "cut"),   # thank-you card
          (1, 26.2, 27.6, "cut"),    # lid closes
