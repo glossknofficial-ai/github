@@ -51,9 +51,11 @@ for t in (LAST + 0.2, LAST + 0.85):
 # scene A out, cake screen in
 tl.append(f'tl.to(["#panel",".cart",".story","#badge","#shine","#post"],{{opacity:0,duration:0.3,ease:"power1.in"}},{HOLD_END:.2f});')   # no movement, just a fade
 B = HOLD_END
-els.append('<div id="sceneB"><img class="full" src="media/v2/cake_original.png" /></div>')   # her original design, untouched
+els.append('<div id="sceneB"><img class="full" src="media/v2/cake_original.png" />'
+           '<div id="offer"><span>ADD 2 PRODUCTS TO AVAIL THE OFFER</span></div></div>')   # her design + the offer line
 tl.append(f'tl.set("#sceneB",{{opacity:0}},0);')
 tl.append(f'tl.fromTo("#sceneB",{{opacity:0}},{{opacity:1,duration:0.35,ease:"power1.out"}},{B + 0.18:.2f});')
+tl.append(f'tl.fromTo("#offer span",{{opacity:0,y:18}},{{opacity:1,y:0,duration:0.4,ease:"power2.out"}},{B + 0.7:.2f});')
 CSS = open(os.path.join(P, "pipeline", "style2.css")).read()
 html = f"""<!doctype html>
 <html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width={W}, height={H}" />

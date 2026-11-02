@@ -39,3 +39,7 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #ece4e
 #h2 { position: absolute; left: 0; right: 0; top: 615px; text-align: center; font: italic 600 132px/1 "PFI", serif; color: #4a2a5a; }
 #h2 span { display: inline-block; padding: 0 20px 18px; }
 #h3 { position: absolute; left: 0; right: 0; top: 792px; text-align: center; font: italic 500 50px/1 "PFI", serif; color: #4a2a5a; }
+/* offer line on the end slide, styled like the poster's 'BUY 1 GET 1 FREE' box */
+#offer { position: absolute; left: 0; right: 0; top: 846px; text-align: center; }
+#offer span { display: inline-block; background: #0d0b0e; color: #fff; font: 600 44px/1 "OS", sans-serif; letter-spacing: 2px;
+              padding: 12px 26px 13px; }
