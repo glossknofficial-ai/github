@@ -3,7 +3,7 @@ and B-roll from earlier GLOSSKN content only where it helps: both products, the 
 import html, json, os, re
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 W, H = 1080, 1920
-WORDS = json.load(open(os.path.join(P, "data", "words.json"))); DUR = json.load(open(os.path.join(P, "data", "edit.json")))["duration"]
+WORDS = json.load(open(os.path.join(P, "data", "words_tight.json"))); DUR = json.load(open(os.path.join(P, "data", "edit_tight.json")))["duration"]
 norm = lambda s: re.sub(r"[^a-z0-9']", "", s.lower()); TOK = [norm(w["w"]) for w in WORDS]
 def at(phrase, end=False):
     p = [norm(x) for x in phrase.split()]
@@ -11,12 +11,17 @@ def at(phrase, end=False):
         if TOK[i:i + len(p)] == p: return WORDS[i + len(p) - 1]["e"] if end else WORDS[i]["s"]
     raise ValueError(phrase)
 # (mode, start, end, src, extra)  photo: hands holding both products (576x1024); x/y/z = Ken Burns focus
-# B-roll from the GLOSSKN journey reel, only where it adds meaning
-EV = [("video", at("loves to do") - 0.05, at("but hates"), "media/br/makeup.mp4", {}),          # loves to do makeup
-      ("video", at("but hates"), at("then this box") - 0.05, "media/br/remove.mp4", {}),    # hates to remove it
-      ("video", at("doesn't burn") - 0.05, at("formula", end=True) + 0.1, "media/br/eyes.mp4", {})]   # no burn, no sting, tear free
+# three full-screen B-rolls, exactly where the founder asked for them
+def at_after(phrase, after, end=False):
+    p = [norm(x) for x in phrase.split()]
+    for i in range(len(TOK) - len(p) + 1):
+        if WORDS[i]["s"] >= after and TOK[i:i + len(p)] == p: return WORDS[i + len(p) - 1]["e"] if end else WORDS[i]["s"]
+    raise ValueError(phrase)
+EV = [("video", at("super gentle on") - 0.08, at("sting the eyes", end=True) + 0.1, "media/br/eyes.mp4", {}),        # gentle on the eyes, no burn
+      ("video", at_after("super gentle", 15) - 0.08, at("nongreasy") - 0.05, "media/br/gentle.mp4", {}),              # the melt: super gentle
+      ("video", at("power bands") - 0.08, at("wristbands", end=True) + 0.08, "media/br/bands.mp4", {})]               # power bands / wristbands
 els, tl = [], []
-els.append(f'<div id="spkw"><video id="spk" class="clip" src="media/founder.mp4" playsinline data-start="0" data-duration="{DUR}" data-track-index="0" data-has-audio="true"></video></div>')
+els.append(f'<div id="spkw"><video id="spk" class="clip" src="media/founder_tight.mp4" playsinline data-start="0" data-duration="{DUR}" data-track-index="0" data-has-audio="true"></video></div>')
 SPLIT_Y = 250
 for k, (m, a, b, src, x) in enumerate(EV):
     a, b = round(a, 3), round(b, 3); cid = f"e{k}"
