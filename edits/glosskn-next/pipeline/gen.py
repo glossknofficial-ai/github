@@ -4,9 +4,9 @@ import html, json, os, re
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 W, H = 1080, 1920
 WORDS = json.load(open(os.path.join(P, "data", "words_tight.json"))); TIGHT = 26.3                                                                        # founder_tight.mp4 length
-for w in json.load(open(os.path.join(P, "data", "cta.json"))):                       # closing line from the full take
+for w in json.load(open(os.path.join(P, "data", "cta_fixed.json"))):                       # closing line from the full take
     WORDS.append(dict(w=w["w"], s=round(w["s"] + TIGHT, 3), e=round(w["e"] + TIGHT, 3)))
-SPK = TIGHT + 6.82
+SPK = TIGHT + 6.646000
 END_IN, DUR = SPK - 0.35, SPK + 1.8                                                  # soft white GLOSSKN end card
 norm = lambda s: re.sub(r"[^a-z0-9']", "", s.lower()); TOK = [norm(w["w"]) for w in WORDS]
 def at(phrase, end=False):

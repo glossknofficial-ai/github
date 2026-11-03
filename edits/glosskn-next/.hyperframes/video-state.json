@@ -1,7 +1,7 @@
 {
   "version": 1,
   "historyId": "2ec4c642-4a52-4afb-9bdc-547c265990ad",
-  "currentRevision": "9d548f9c-ed50-4a39-9af1-d5460078d603",
+  "currentRevision": "562df168-5d85-4007-b443-7a1b0d5f05cb",
   "pendingChanges": false,
   "files": {
     "data/p1.json": {
@@ -89,8 +89,8 @@
       "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/5b/5b0ad3256879d51b809e156ecfb71fa770509be4df84a2c2261b62b0bbb7fe10"
     },
     "index.html": {
-      "hash": "e5bd1def2d68378e27269eb28b54ec9f3fea9ca1ce5229984982e36a4fc5b9b2",
-      "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/e5/e5bd1def2d68378e27269eb28b54ec9f3fea9ca1ce5229984982e36a4fc5b9b2"
+      "hash": "6c8212a68f059a8ec08492a551673b6481c838fdc4a2b93eac8fb1bea7a11a45",
+      "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/6c/6c8212a68f059a8ec08492a551673b6481c838fdc4a2b93eac8fb1bea7a11a45"
     },
     "media/br/hands.png": {
       "hash": "1e099c1d216d6808aa6840b9b94a013558c369e1ca2f65b6f47f6da7724f7a35",
@@ -109,8 +109,8 @@
       "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/3a/3a26d23a034592d7402212b8b552081a935f90256d9eeb507d5647f8e8aca154"
     },
     "pipeline/gen.py": {
-      "hash": "5d401288e6611239cd9f79e69c228f55fd8d1c9a05960f79e93fadce1b4f5cbc",
-      "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/5d/5d401288e6611239cd9f79e69c228f55fd8d1c9a05960f79e93fadce1b4f5cbc"
+      "hash": "473777362434ac5758106f16ed11cb5f0982eb9d74b4f1dade8fa74fe02ba863",
+      "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/47/473777362434ac5758106f16ed11cb5f0982eb9d74b4f1dade8fa74fe02ba863"
     },
     "vendor/gsap.min.js": {
       "hash": "c174bfce53a729418d57a8ad8625e7247c793a22fef8e2851e3cfa3de9cd8280",
@@ -221,8 +221,8 @@
       "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/d2/d2220c1ae45a356c50c247f41c443f0b19135ea52b86112d74e560002e6fe0bd"
     },
     "media/founder_final.mp4": {
-      "hash": "d83543ecfc02aaa22e731a50bf1817df87bfb9b4716226a60a523f590c958eb5",
-      "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/d8/d83543ecfc02aaa22e731a50bf1817df87bfb9b4716226a60a523f590c958eb5"
+      "hash": "e13c9e3534c2da5df9bf6e677df49521f4302bd6f82c96d24faa34212b9b676e",
+      "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/e1/e13c9e3534c2da5df9bf6e677df49521f4302bd6f82c96d24faa34212b9b676e"
     },
     "media/logo_dark.png": {
       "hash": "4028875d2ccca152827d564f40d06062b6814fbbb4a777bdd3cb740043bab155",
@@ -251,6 +251,14 @@
     "media/endref.mp4": {
       "hash": "e0b8beb3c0681bbeea1f4eba753f0280451b066d9471fa2abbff87028e6c8dc7",
       "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/e0/e0b8beb3c0681bbeea1f4eba753f0280451b066d9471fa2abbff87028e6c8dc7"
+    },
+    "media/cta_fixed.mp4": {
+      "hash": "26435ff064b9a390e935ca26c66d2ea8370d3c57389246a7e947ebc9b18f0f93",
+      "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/26/26435ff064b9a390e935ca26c66d2ea8370d3c57389246a7e947ebc9b18f0f93"
+    },
+    "data/cta_fixed.json": {
+      "hash": "54a7850c5ac00401ffdc37bb71afca5a5ad361322e1ad21d20ac1c8c8acbac67",
+      "content": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/54/54a7850c5ac00401ffdc37bb71afca5a5ad361322e1ad21d20ac1c8c8acbac67"
     }
   },
   "revisions": {
@@ -593,6 +601,37 @@
         "render.log": {
           "before": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/a1/a1562e8711971abd2ae78a2fbf3f180ec9657f415ce27ba156f0e49551b12f10",
           "after": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/11/116cc483b22afb3dc618236ff1d362dce0687ed9be0a85e7e7177be78be30c21"
+        }
+      }
+    },
+    "562df168-5d85-4007-b443-7a1b0d5f05cb": {
+      "actor": {
+        "kind": "outside",
+        "name": "Outside"
+      },
+      "label": "Changed outside the app",
+      "startedAt": 1793690178377,
+      "endedAt": 1793690178459,
+      "files": {
+        "data/cta_fixed.json": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/54/54a7850c5ac00401ffdc37bb71afca5a5ad361322e1ad21d20ac1c8c8acbac67"
+        },
+        "index.html": {
+          "before": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/e5/e5bd1def2d68378e27269eb28b54ec9f3fea9ca1ce5229984982e36a4fc5b9b2",
+          "after": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/6c/6c8212a68f059a8ec08492a551673b6481c838fdc4a2b93eac8fb1bea7a11a45"
+        },
+        "media/cta_fixed.mp4": {
+          "before": null,
+          "after": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/26/26435ff064b9a390e935ca26c66d2ea8370d3c57389246a7e947ebc9b18f0f93"
+        },
+        "media/founder_final.mp4": {
+          "before": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/d8/d83543ecfc02aaa22e731a50bf1817df87bfb9b4716226a60a523f590c958eb5",
+          "after": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/e1/e13c9e3534c2da5df9bf6e677df49521f4302bd6f82c96d24faa34212b9b676e"
+        },
+        "pipeline/gen.py": {
+          "before": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/5d/5d401288e6611239cd9f79e69c228f55fd8d1c9a05960f79e93fadce1b4f5cbc",
+          "after": "/root/.cache/hyperframes/history/2ec4c642-4a52-4afb-9bdc-547c265990ad/blobs/47/473777362434ac5758106f16ed11cb5f0982eb9d74b4f1dade8fa74fe02ba863"
         }
       }
     }
@@ -1182,8 +1221,8 @@
   },
   "renders": {
     "latest": {
-      "id": "0221db4c-dcaf-4b58-bd7c-f469b5785a20",
-      "completedAt": 1793688137978,
+      "id": "ada07a68-35dc-4c58-9dc4-a568dc5002e0",
+      "completedAt": 1793690298023,
       "output": "/home/user/github/edits/glosskn-next/renders/raw.mp4",
       "status": "completed",
       "revision": null
