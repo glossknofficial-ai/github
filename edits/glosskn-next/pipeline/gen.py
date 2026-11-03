@@ -3,7 +3,10 @@ and B-roll from earlier GLOSSKN content only where it helps: both products, the 
 import html, json, os, re
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 W, H = 1080, 1920
-WORDS = json.load(open(os.path.join(P, "data", "words_tight.json"))); SPK = json.load(open(os.path.join(P, "data", "edit_tight.json")))["duration"] + 0.78   # + calm tail of her last shot
+WORDS = json.load(open(os.path.join(P, "data", "words_tight.json"))); TIGHT = 26.3                                                                        # founder_tight.mp4 length
+for w in json.load(open(os.path.join(P, "data", "cta.json"))):                       # closing line from the full take
+    WORDS.append(dict(w=w["w"], s=round(w["s"] + TIGHT, 3), e=round(w["e"] + TIGHT, 3)))
+SPK = TIGHT + 6.82
 END_IN, DUR = SPK - 0.35, SPK + 1.8                                                  # soft white GLOSSKN end card
 norm = lambda s: re.sub(r"[^a-z0-9']", "", s.lower()); TOK = [norm(w["w"]) for w in WORDS]
 def at(phrase, end=False):
@@ -43,7 +46,7 @@ for k, (m, a, b, src, x) in enumerate(EV):
         tl.append(f'tl.fromTo("#{cid}",{{opacity:0}},{{opacity:1,duration:0.2}},{a});tl.to("#{cid}",{{opacity:0,duration:0.2}},{b - 0.2:.3f});')
 # subtitles: 2-4 words, one lilac word, positioned per layout
 HL = {"makeup", "remove", "box", "two", "unique", "gentle", "burn", "sting", "tear", "free", "balm", "nongreasy", "soft",
-      "best", "power", "bands", "wristbands", "clothes", "wet", "face", "wash"}
+      "best", "power", "bands", "wristbands", "clothes", "wet", "face", "wash", "junkie", "tag", "thank"}
 chunks, cur = [], []
 for i, w in enumerate(WORDS):
     cur.append(w); nxt = WORDS[i + 1] if i + 1 < len(WORDS) else None
