@@ -3,7 +3,7 @@ and B-roll from earlier GLOSSKN content only where it helps: both products, the 
 import html, json, os, re
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 W, H = 1080, 1920
-WORDS = json.load(open(os.path.join(P, "data", "words.json"))); DUR = 29.84
+WORDS = json.load(open(os.path.join(P, "data", "words.json"))); DUR = json.load(open(os.path.join(P, "data", "edit.json")))["duration"]
 norm = lambda s: re.sub(r"[^a-z0-9']", "", s.lower()); TOK = [norm(w["w"]) for w in WORDS]
 def at(phrase, end=False):
     p = [norm(x) for x in phrase.split()]
