@@ -6,7 +6,7 @@ W, H = 1080, 1920
 WORDS = json.load(open(os.path.join(P, "data", "words_tight.json"))); TIGHT = 26.3                                                                        # founder_tight.mp4 length
 for w in json.load(open(os.path.join(P, "data", "cta_fixed.json"))):                       # closing line from the full take
     WORDS.append(dict(w=w["w"], s=round(w["s"] + TIGHT, 3), e=round(w["e"] + TIGHT, 3)))
-SPK = TIGHT + 5.403
+SPK = TIGHT + 6.386000
 END_IN, DUR = SPK - 0.35, SPK + 1.8                                                  # soft white GLOSSKN end card
 norm = lambda s: re.sub(r"[^a-z0-9']", "", s.lower()); TOK = [norm(w["w"]) for w in WORDS]
 def at(phrase, end=False):
@@ -64,9 +64,6 @@ for k, c in enumerate(chunks):
 els.append(f'<div class="clip" id="endc" data-start="{END_IN:.3f}" data-duration="{DUR - END_IN:.3f}" data-track-index="7"><img id="endl" src="media/logo_dark.png" /></div>')
 tl.append(f'tl.fromTo("#endc",{{opacity:0}},{{opacity:1,duration:0.5,ease:"power1.inOut"}},{END_IN:.3f});')
 tl.append(f'tl.fromTo("#endl",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.6,ease:"power2.out"}},{END_IN + 0.35:.3f});')
-TAG_AT = TIGHT + 3.5   # on-screen call to action where the stumbling words were cut
-els.append(f'<div class="clip" id="tagw" data-start="{TAG_AT:.3f}" data-duration="{SPK - TAG_AT:.3f}" data-track-index="8"><div id="tagst">Tag them in the video</div></div>')
-tl.append(f'tl.fromTo("#tagst",{{opacity:0,scale:0.7,rotation:-4}},{{opacity:1,scale:1,rotation:-3,duration:0.45,ease:"back.out(2)"}},{TAG_AT:.3f});')
 CSS = """
 @font-face { font-family: "Playfair Display"; font-weight: 600; src: url(fonts/playfair-display-latin-600-normal.woff2) format("woff2"); }
 @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 600; src: url(fonts/playfair-display-latin-600-italic.woff2) format("woff2"); }
