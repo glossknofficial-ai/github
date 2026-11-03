@@ -11,10 +11,10 @@ def at(phrase, end=False):
         if TOK[i:i + len(p)] == p: return WORDS[i + len(p) - 1]["e"] if end else WORDS[i]["s"]
     raise ValueError(phrase)
 # (mode, start, end, src, extra)  photo: hands holding both products (576x1024); x/y/z = Ken Burns focus
-EV = [("photo", at("this box has") - 0.05, at("a face wash") - 0.05, "media/br/hands.png", {"z0": 1.0, "z1": 1.08, "fx": 50, "fy": 50}),
-      ("split", at("a face wash") - 0.05, at("is super gentle") - 0.05, "media/br/hands.png", {"z0": 1.7, "z1": 1.85, "fx": 60, "fy": 34}),
-      ("split", at("the cleansing balm") - 0.05, at("nongreasy") - 0.05, "media/br/hands.png", {"z0": 1.7, "z1": 1.85, "fx": 34, "fy": 68}),
-      ("video", at("power bands") - 0.1, at("wristbands", end=True) + 0.05, "media/br/bands.mp4", {})]
+# B-roll from the GLOSSKN journey reel, only where it adds meaning
+EV = [("video", at("loves to do") - 0.05, at("but hates"), "media/br/makeup.mp4", {}),          # loves to do makeup
+      ("video", at("but hates"), at("then this box") - 0.05, "media/br/remove.mp4", {}),    # hates to remove it
+      ("video", at("doesn't burn") - 0.05, at("formula", end=True) + 0.1, "media/br/eyes.mp4", {})]   # no burn, no sting, tear free
 els, tl = [], []
 els.append(f'<div id="spkw"><video id="spk" class="clip" src="media/founder.mp4" playsinline data-start="0" data-duration="{DUR}" data-track-index="0" data-has-audio="true"></video></div>')
 SPLIT_Y = 250
