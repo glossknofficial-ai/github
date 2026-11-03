@@ -14,9 +14,11 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fff; 
 .sub { position: absolute; left: 60px; right: 60px; text-align: center; color: #fff; font: 600 62px/1.15 "Playfair Display", serif;
        letter-spacing: -.3px; text-shadow: 0 2px 4px rgba(20,10,26,.75), 0 4px 18px rgba(20,10,26,.5); }
 .sub .hl { color: #d7b6e2; font-style: italic; }
+#endc { position: absolute; inset: 0; z-index: 30; background: #fff; display: flex; align-items: center; justify-content: center; }
+#endl { width: 560px; }
 </style></head><body>
-<div id="root" data-composition-id="main" data-start="0" data-duration="26.283" data-width="1080" data-height="1920">
-<div id="spkw"><video id="spk" class="clip" src="media/founder_tight.mp4" playsinline data-start="0" data-duration="26.283" data-track-index="0" data-has-audio="true"></video></div>
+<div id="root" data-composition-id="main" data-start="0" data-duration="28.863000000000003" data-width="1080" data-height="1920">
+<div id="spkw"><video id="spk" class="clip" src="media/founder_final.mp4" playsinline data-start="0" data-duration="27.063" data-track-index="0" data-has-audio="true"></video></div>
 <div class="ev full" id="e0"><video id="e0-v" class="clip" src="media/br/eyes.mp4" muted playsinline data-start="9.14" data-duration="3.400" data-track-index="2"></video></div>
 <div class="ev full" id="e1"><video id="e1-v" class="clip" src="media/br/gentle.mp4" muted playsinline data-start="16.11" data-duration="1.750" data-track-index="2"></video></div>
 <div class="ev full" id="e2"><video id="e2-v" class="clip" src="media/br/bands.mp4" muted playsinline data-start="21.66" data-duration="2.550" data-track-index="2"></video></div>
@@ -46,7 +48,8 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fff; 
 <div class="clip subc" data-start="20.860" data-duration="1.130" data-track-index="6"><div class="sub" id="c23" style="top:1300px"><span class="">this</span> <span class="">comes</span> <span class="">with</span> <span class="hl">power</span></div></div>
 <div class="clip subc" data-start="21.990" data-duration="2.280" data-track-index="6"><div class="sub" id="c24" style="top:1300px"><span class="hl">bands</span> <span class="">which</span> <span class="">are</span> <span class="">wristbands</span></div></div>
 <div class="clip subc" data-start="24.270" data-duration="1.060" data-track-index="6"><div class="sub" id="c25" style="top:1300px"><span class="">which</span> <span class="">helps</span> <span class="">your</span> <span class="hl">clothes</span></div></div>
-<div class="clip subc" data-start="25.330" data-duration="0.953" data-track-index="6"><div class="sub" id="c26" style="top:1300px"><span class="">from</span> <span class="">getting</span></div></div>
+<div class="clip subc" data-start="25.330" data-duration="1.383" data-track-index="6"><div class="sub" id="c26" style="top:1300px"><span class="">from</span> <span class="">getting</span> <span class="hl">wet</span></div></div>
+<div class="clip" id="endc" data-start="26.713" data-duration="2.150" data-track-index="7"><img id="endl" src="media/logo_dark.png" /></div>
 </div><script>
 const tl = gsap.timeline({ paused: true });
 tl.set("#e0",{opacity:0},0);tl.set("#e0",{opacity:1},9.14);tl.set("#e0",{opacity:0},12.54);
@@ -79,6 +82,8 @@ tl.fromTo("#c23",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"
 tl.fromTo("#c24",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},21.990);
 tl.fromTo("#c25",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},24.270);
 tl.fromTo("#c26",{opacity:0,y:14},{opacity:1,y:0,duration:0.18,ease:"power2.out"},25.330);
-tl.set({}, {}, 26.283);
+tl.fromTo("#endc",{opacity:0},{opacity:1,duration:0.5,ease:"power1.inOut"},26.713);
+tl.fromTo("#endl",{opacity:0,y:20},{opacity:1,y:0,duration:0.6,ease:"power2.out"},27.063);
+tl.set({}, {}, 28.863000000000003);
 window.__timelines["main"] = tl;
 </script></body></html>

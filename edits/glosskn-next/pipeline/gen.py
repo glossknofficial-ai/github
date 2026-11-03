@@ -3,7 +3,8 @@ and B-roll from earlier GLOSSKN content only where it helps: both products, the 
 import html, json, os, re
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 W, H = 1080, 1920
-WORDS = json.load(open(os.path.join(P, "data", "words_tight.json"))); DUR = json.load(open(os.path.join(P, "data", "edit_tight.json")))["duration"]
+WORDS = json.load(open(os.path.join(P, "data", "words_tight.json"))); SPK = json.load(open(os.path.join(P, "data", "edit_tight.json")))["duration"] + 0.78   # + calm tail of her last shot
+END_IN, DUR = SPK - 0.35, SPK + 1.8                                                  # soft white GLOSSKN end card
 norm = lambda s: re.sub(r"[^a-z0-9']", "", s.lower()); TOK = [norm(w["w"]) for w in WORDS]
 def at(phrase, end=False):
     p = [norm(x) for x in phrase.split()]
@@ -21,7 +22,7 @@ EV = [("video", at("super gentle on") - 0.08, at("sting the eyes", end=True) + 0
       ("video", at_after("super gentle", 15) - 0.08, at("nongreasy") - 0.05, "media/br/gentle.mp4", {}),              # the melt: super gentle
       ("video", at("power bands") - 0.08, at("wristbands", end=True) + 0.08, "media/br/bands.mp4", {})]               # power bands / wristbands
 els, tl = [], []
-els.append(f'<div id="spkw"><video id="spk" class="clip" src="media/founder_tight.mp4" playsinline data-start="0" data-duration="{DUR}" data-track-index="0" data-has-audio="true"></video></div>')
+els.append(f'<div id="spkw"><video id="spk" class="clip" src="media/founder_final.mp4" playsinline data-start="0" data-duration="{SPK:.3f}" data-track-index="0" data-has-audio="true"></video></div>')
 SPLIT_Y = 250
 for k, (m, a, b, src, x) in enumerate(EV):
     a, b = round(a, 3), round(b, 3); cid = f"e{k}"
@@ -50,13 +51,16 @@ for i, w in enumerate(WORDS):
         chunks.append(cur); cur = []
 for k, c in enumerate(chunks):
     a = c[0]["s"] - 0.05
-    b = min(c[-1]["e"] + 0.25, chunks[k + 1][0]["s"] - 0.05) if k + 1 < len(chunks) else DUR
+    b = min(c[-1]["e"] + 0.25, chunks[k + 1][0]["s"] - 0.05) if k + 1 < len(chunks) else END_IN
     mid = (a + b) / 2; lay = next((m for m, ea, eb, *_ in EV if ea <= mid <= eb), None)
     top = 700 if lay == "split" else 1300
     hl = next((j for j, w in enumerate(c) if norm(w["w"]) in HL), -1)
     txt = " ".join(f'<span class="{"hl" if j == hl else ""}">{html.escape("non-greasy" if norm(w["w"]) == "nongreasy" else w["w"].rstrip(",."))}</span>' for j, w in enumerate(c))
     els.append(f'<div class="clip subc" data-start="{a:.3f}" data-duration="{b - a:.3f}" data-track-index="6"><div class="sub" id="c{k}" style="top:{top}px">{txt}</div></div>')
     tl.append(f'tl.fromTo("#c{k}",{{opacity:0,y:14}},{{opacity:1,y:0,duration:0.18,ease:"power2.out"}},{a:.3f});')
+els.append(f'<div class="clip" id="endc" data-start="{END_IN:.3f}" data-duration="{DUR - END_IN:.3f}" data-track-index="7"><img id="endl" src="media/logo_dark.png" /></div>')
+tl.append(f'tl.fromTo("#endc",{{opacity:0}},{{opacity:1,duration:0.5,ease:"power1.inOut"}},{END_IN:.3f});')
+tl.append(f'tl.fromTo("#endl",{{opacity:0,y:20}},{{opacity:1,y:0,duration:0.6,ease:"power2.out"}},{END_IN + 0.35:.3f});')
 CSS = """
 @font-face { font-family: "Playfair Display"; font-weight: 600; src: url(fonts/playfair-display-latin-600-normal.woff2) format("woff2"); }
 @font-face { font-family: "Playfair Display"; font-style: italic; font-weight: 600; src: url(fonts/playfair-display-latin-600-italic.woff2) format("woff2"); }
@@ -72,6 +76,8 @@ html, body { width: 1080px; height: 1920px; overflow: hidden; background: #fff; 
 .sub { position: absolute; left: 60px; right: 60px; text-align: center; color: #fff; font: 600 62px/1.15 "Playfair Display", serif;
        letter-spacing: -.3px; text-shadow: 0 2px 4px rgba(20,10,26,.75), 0 4px 18px rgba(20,10,26,.5); }
 .sub .hl { color: #d7b6e2; font-style: italic; }
+#endc { position: absolute; inset: 0; z-index: 30; background: #fff; display: flex; align-items: center; justify-content: center; }
+#endl { width: 560px; }
 """
 page = f"""<!doctype html><html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width={W}, height={H}" />
 <script src="vendor/gsap.min.js"></script><style>{CSS}</style></head><body>
