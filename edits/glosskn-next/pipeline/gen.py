@@ -6,7 +6,7 @@ W, H = 1080, 1920
 WORDS = json.load(open(os.path.join(P, "data", "words_tight.json"))); TIGHT = 26.3                                                                        # founder_tight.mp4 length
 for w in json.load(open(os.path.join(P, "data", "cta_fixed.json"))):                       # closing line from the full take
     WORDS.append(dict(w=w["w"], s=round(w["s"] + TIGHT, 3), e=round(w["e"] + TIGHT, 3)))
-SPK = TIGHT + 6.386000
+SPK = TIGHT + 6.386
 END_IN, DUR = SPK - 0.35, SPK + 1.8                                                  # soft white GLOSSKN end card
 norm = lambda s: re.sub(r"[^a-z0-9']", "", s.lower()); TOK = [norm(w["w"]) for w in WORDS]
 def at(phrase, end=False):
@@ -21,9 +21,9 @@ def at_after(phrase, after, end=False):
     for i in range(len(TOK) - len(p) + 1):
         if WORDS[i]["s"] >= after and TOK[i:i + len(p)] == p: return WORDS[i + len(p) - 1]["e"] if end else WORDS[i]["s"]
     raise ValueError(phrase)
-EV = [("video", at("super gentle on") - 0.08, at("sting the eyes", end=True) + 0.1, "media/br/eyes.mp4", {}),        # gentle on the eyes, no burn
-      ("video", at_after("super gentle", 15) - 0.08, at("nongreasy") - 0.05, "media/br/gentle.mp4", {}),              # the melt: super gentle
-      ("video", at("power bands") - 0.08, at("wristbands", end=True) + 0.08, "media/br/bands.mp4", {})]               # power bands / wristbands
+EV = [("video", at("super gentle on") - 0.08, at("sting the eyes", end=True) + 0.1, "media/br/robe_eyes_hq.mp4", {}),        # gentle on the eyes, no burn
+      ("video", at_after("super gentle", 15) - 0.08, at("nongreasy") - 0.05, "media/br/floral_melt_hq.mp4", {}),              # the melt: super gentle
+      ("video", at("power bands") - 0.08, at("wristbands", end=True) + 0.08, "media/br/bands_hq.mp4", {})]               # power bands / wristbands
 els, tl = [], []
 els.append(f'<div id="spkw"><video id="spk" class="clip" src="media/founder_final.mp4" playsinline data-start="0" data-duration="{SPK:.3f}" data-track-index="0" data-has-audio="true"></video></div>')
 SPLIT_Y = 250

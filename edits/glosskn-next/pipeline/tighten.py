@@ -2,7 +2,7 @@
 Writes media/founder_tight.mp4 and data/words_tight.json (from the clean-audio word alignment)."""
 import os, subprocess, json
 P = os.path.dirname(os.path.dirname(os.path.abspath(__file__))); M = os.path.join(P, "media")
-SRC = os.path.join(M, "founder.mp4")
+SRC = os.path.join(M, "founder.mov")
 CUT = [(4.82, 6.10),    # "...for you." -> "So this box"
        (8.52, 8.78),    # "products," -> "a face wash"
        (10.58, 10.65),  # "makeup," -> "is super gentle"
@@ -19,8 +19,8 @@ for i, (a, b) in enumerate(keep):
            f"afade=t=in:d=0.015,afade=t=out:st={b - a - 0.02:.3f}:d=0.02[a{i}];")
     lab += f"[v{i}][a{i}]"
 fc += f"{lab}concat=n={len(keep)}:v=1:a=1[v][a]"
-subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", SRC, "-filter_complex", fc, "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "12",
-                "-preset", "slow", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "256k", os.path.join(M, "founder_tight.mp4")], check=True)
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", SRC, "-filter_complex", fc, "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-qp", "0",
+                "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", os.path.join(M, "founder_tight.mov")], check=True)
 def remap(t):
     off = 0.0
     for a, b in keep:

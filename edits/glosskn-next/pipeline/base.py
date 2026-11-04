@@ -39,9 +39,9 @@ for i, (v, s, e, _) in enumerate(keep):
            f"[{idx[v] + 1}:a]atrim={s}:{e},asetpts=PTS-STARTPTS,aresample=48000,aformat=channel_layouts=stereo,afade=t=in:d=0.02,afade=t=out:st={e - s - 0.03:.3f}:d=0.03[a{i}];")
     lab += f"[v{i}][a{i}]"
 fc += (f"{lab}concat=n={len(keep)}:v=1:a=1[v][a0];"
-       "[a0]highpass=f=90,lowpass=f=12000,acompressor=threshold=-30dB:ratio=2.5:attack=8:release=200:makeup=1,volume=24dB,alimiter=limit=0.89:level=false[a]")
-subprocess.run(["ffmpeg", "-v", "error", "-y", *ins, "-filter_complex", fc, "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-crf", "12",
-                "-preset", "slow", "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "256k", os.path.join(M, "founder.mp4")], check=True)
+       "[a0]highpass=f=90,lowpass=f=9000,afftdn=nr=24:nf=-40:tn=1,acompressor=threshold=-30dB:ratio=2.5:attack=8:release=200:makeup=1,volume=24dB,alimiter=limit=0.89:level=false[a]")
+subprocess.run(["ffmpeg", "-v", "error", "-y", *ins, "-filter_complex", fc, "-map", "[v]", "-map", "[a]", "-c:v", "libx264", "-qp", "0",
+                "-preset", "veryfast", "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", os.path.join(M, "founder.mov")], check=True)
 # remap word timings onto the new timeline
 words, off = [], 0.0
 for v, s, e, n in keep:
