@@ -1,0 +1,70 @@
+{
+  "version": 1,
+  "historyId": "011fe7a0-4145-4cb3-a7cf-7e2039fed768",
+  "currentRevision": null,
+  "pendingChanges": false,
+  "files": {
+    "fonts/inter-latin-500-normal.woff2": {
+      "hash": "f3779f1efccc4bdcdf9c0a02ab95bf6bd092ed09c48c08cedc725889edd1d19f",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/f3/f3779f1efccc4bdcdf9c0a02ab95bf6bd092ed09c48c08cedc725889edd1d19f"
+    },
+    "fonts/inter-latin-600-normal.woff2": {
+      "hash": "f9a06e79cd3a2a20951c0f0e28f66dd0e6d3fda73911d640a2125c8fcb78f21a",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/f9/f9a06e79cd3a2a20951c0f0e28f66dd0e6d3fda73911d640a2125c8fcb78f21a"
+    },
+    "fonts/inter-latin-700-normal.woff2": {
+      "hash": "6f56409fd3d64bb85f7d070bce20749db2d66b6d63cec586cc22d1c761be2491",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/6f/6f56409fd3d64bb85f7d070bce20749db2d66b6d63cec586cc22d1c761be2491"
+    },
+    "fonts/playfair-display-latin-500-normal.woff2": {
+      "hash": "1e3429a2122b4171bf393c8de5c501820e17ca2074c498d7080e2326975d825c",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/1e/1e3429a2122b4171bf393c8de5c501820e17ca2074c498d7080e2326975d825c"
+    },
+    "fonts/playfair-display-latin-600-italic.woff2": {
+      "hash": "8176ed854ef40b2cdebbdb7a1fd9283b3dada1e87c8e89d003f3485fc3c7435b",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/81/8176ed854ef40b2cdebbdb7a1fd9283b3dada1e87c8e89d003f3485fc3c7435b"
+    },
+    "fonts/playfair-display-latin-600-normal.woff2": {
+      "hash": "5d2286941a6b02a29387efa94809a064f8917598eafa67b938261cf13bb887cd",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/5d/5d2286941a6b02a29387efa94809a064f8917598eafa67b938261cf13bb887cd"
+    },
+    "fonts/playfair-display-latin-700-italic.woff2": {
+      "hash": "de2f4041e7ef84f418bd0144484e521e8df849aff47762230c981704b9661877",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/de/de2f4041e7ef84f418bd0144484e521e8df849aff47762230c981704b9661877"
+    },
+    "hyperframes.json": {
+      "hash": "feb906671a2f78b0c2cdba2ce0e4c8ffa74e875432e7bf812015b75dfc2bed1f",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/fe/feb906671a2f78b0c2cdba2ce0e4c8ffa74e875432e7bf812015b75dfc2bed1f"
+    },
+    "index.html": {
+      "hash": "1ad4d445559f25ecf961c6358612c97a8f12ef81f97752e5784a97726a3905d7",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/1a/1ad4d445559f25ecf961c6358612c97a8f12ef81f97752e5784a97726a3905d7"
+    },
+    "vendor/gsap.min.js": {
+      "hash": "c174bfce53a729418d57a8ad8625e7247c793a22fef8e2851e3cfa3de9cd8280",
+      "content": "/root/.cache/hyperframes/history/011fe7a0-4145-4cb3-a7cf-7e2039fed768/blobs/c1/c174bfce53a729418d57a8ad8625e7247c793a22fef8e2851e3cfa3de9cd8280"
+    }
+  },
+  "revisions": {},
+  "checks": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "snapshots": {
+    "latest": null,
+    "revisions": {},
+    "unversioned": []
+  },
+  "renders": {
+    "latest": {
+      "id": "02033ff1-d3c2-483e-9376-b858c875e510",
+      "completedAt": 1793765394020,
+      "output": "/home/user/github/edits/glosskn-next/media/subs.mov",
+      "status": "completed",
+      "revision": null
+    },
+    "retainedRevisions": []
+  },
+  "pendingArtifactCleanup": []
+}
